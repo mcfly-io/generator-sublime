@@ -1,0 +1,10 @@
+{
+    "excludeFiles": ["node_modules/**", "coverage"],
+    "preset": "google",
+    "requireParenthesesAroundIIFE": true,
+    "maximumLineLength": 400,
+    "validateIndentation": 4,
+    "disallowKeywords": ["with"],
+    "disallowSpacesInsideObjectBrackets": null,
+    "disallowImplicitTypeConversion": ["string"]
+}

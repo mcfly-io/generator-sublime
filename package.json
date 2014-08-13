@@ -1,0 +1,40 @@
+{
+    "name": "generator-sublime",
+    "version": "0.0.1",
+    "description": "Yeoman generator for scaffolfding the standard configuration root files like .gitignore, .jshintrc, .jscs etc...",
+    "license": "MIT",
+    "main": "app/index.js",
+    "repository": "thaiat/generator-sublime",
+    "author": {
+        "name": "Avi Haiat",
+        "email": "thaiat@ipelia.com",
+        "url": "https://github.com/thaiat"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "files": [
+        "app"
+    ],
+    "keywords": [
+        "yeoman-generator",
+        "editor",
+        "lint",
+        "jshint"
+    ],
+    "dependencies": {
+        "chalk": "~0.4.0",
+        "lodash": "^2.4.1",
+        "yeoman-generator": "~0.16.0",
+        "yosay": "^0.1.0"
+    },
+    "devDependencies": {
+        "mocha": "*"
+    },
+    "peerDependencies": {
+        "yo": ">=1.0.0"
+    }
+}
