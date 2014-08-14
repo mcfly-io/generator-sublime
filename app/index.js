@@ -4,8 +4,20 @@ var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var _ = require('lodash');
 //var chalk = require('chalk');
- 
+
 var SublimeGenerator = yeoman.generators.Base.extend({
+
+    constructor: function() {
+        yeoman.generators.Base.apply(this, arguments);
+
+        this.option('hideWelcome', {
+            desc: 'Hide the welcome message',
+            type: 'Boolean',
+            defaults: false
+        });
+
+    },
+
     init: function() {
         this.pkg = require('../package.json');
         this.allFiles = [
@@ -20,7 +32,9 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
     welcome: function() {
         // Have Yeoman greet the user.
-        this.log(yosay('Welcome to the marvelous Sublime generator!'));
+        if(!this.options.hideWelcome) {
+            this.log(yosay('Welcome to the marvelous Sublime generator!'));
+        }
 
     },
 
@@ -50,7 +64,12 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             },
             validate: function(input) {
                 var value = parseInt(input, 10);
-                return value !== undefined && value >= 0;
+                var isValid = value !== undefined && value >= 0 && value <= 10;
+                if(!isValid) {
+                    return 'You must choose an integer value yo sublime --hideWelcomebetween 0 and 10';
+                }
+
+                return true;
             },
             default: 4
         }];
