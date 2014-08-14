@@ -23,11 +23,13 @@
     "keywords": [
         "yeoman-generator",
         "editor",
+        "app",
+        "sublime",
         "lint",
         "jshint",
         "jsbeautify",
         "tern",
-        "scaffolfd"
+        "scaffold"
     ],
     "dependencies": {
         "chalk": "~0.4.0",
