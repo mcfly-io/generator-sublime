@@ -19,6 +19,11 @@ Run `yo sublime`:
 ```
 yo sublime
 ```
+
+## Options
+You can use the `--hideWelcome` option to hide the welcome message. 
+This is usefull when you compose this generator with your own so you don't get twice welcome messages.
+
 ## License
 
 MIT
