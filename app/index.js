@@ -2,8 +2,9 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
+var _ = require('lodash');
 //var chalk = require('chalk');
-
+ 
 var SublimeGenerator = yeoman.generators.Base.extend({
     init: function() {
         this.pkg = require('../package.json');
@@ -37,13 +38,25 @@ var SublimeGenerator = yeoman.generators.Base.extend({
         var prompts = [{
             type: 'checkbox',
             name: 'files',
-            message: 'Choose the configuration files you need',
+            message: 'What files do you need ?',
             choices: choices
 
+        }, {
+            type: 'input',
+            name: 'indent',
+            message: 'What indentation value would you like ?',
+            when: function(answers) {
+                return _.contains(answers.files, 'jshintrc') || _.contains(answers.files, 'jsbeautifyrc' || _.contains(answers.files, 'jscsrc'));
+            },
+            validate: function(input) {
+                var value = parseInt(input, 10);
+                return value !== undefined && value >= 0;
+            },
+            default: 4
         }];
 
         this.prompt(prompts, function(answers) {
-            
+
             var hasListOption = function(list, option) {
                 return answers[list].indexOf(option) !== -1;
             };
@@ -51,6 +64,8 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             choices.forEach(function(choice) {
                 this[choice.value] = hasListOption('files', choice.value);
             }.bind(this));
+
+            this.indent = answers.indent;
 
             done();
         }.bind(this));
