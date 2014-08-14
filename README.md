@@ -1,5 +1,5 @@
 # Sublime Generator 
-[![NPM version](https://badge.fury.io/js/gulp-iconfont.png)](https://npmjs.org/package/gulp-iconfont) [![Build Status](https://travis-ci.org/DaftMonk/generator-angular-fullstack.svg?branch=master)](http://travis-ci.org/DaftMonk/generator-angular-fullstack) [![Dependency Status](https://david-dm.org/thaiat/generator-sublime.png)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.png)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies)
+[![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime) [![Build Status](https://travis-ci.org/DaftMonk/generator-angular-fullstack.svg?branch=master)](http://travis-ci.org/DaftMonk/generator-angular-fullstack) [![Dependency Status](https://david-dm.org/thaiat/generator-sublime.png)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.png)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies)
 
 > Yeoman generator for scaffolding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...
 
