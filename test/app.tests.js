@@ -1,7 +1,9 @@
 'use strict';
 var path = require('path');
+var fs = require('fs');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
+var stripJsonComments = require('strip-json-comments');
 //var _ = require('lodash');
 
 var allFiles = [
@@ -12,16 +14,26 @@ var allFiles = [
     '.gitignore'
 ];
 
-var projectFiles = function(done, expectedFiles) {
-    // always tranform the argument into an array
-    expectedFiles = [].concat(expectedFiles);
-
-    // deducte the options to pass to the generator from the file name
-    var options = expectedFiles.map(function(file) {
+var createOptionsFromFiles = function(files) {
+    var options = files.map(function(file) {
         return file
             .replace('.', '')
             .replace('-', '');
     });
+    return options;
+};
+
+var readJsonFile = function(filename) {
+    var body = fs.readFileSync(filename, 'utf8');
+    return JSON.parse(stripJsonComments(body));
+};
+
+var projectFiles = function(done, expectedFiles) {
+    // always tranform the argument into an array
+    expectedFiles = [].concat(expectedFiles);
+
+    // deduce the options to pass to the generator from the file name
+    var options = createOptionsFromFiles(expectedFiles);
 
     // pass the options to the generator
     helpers.mockPrompt(this.app, {
@@ -78,5 +90,32 @@ describe('sublime generator', function() {
 
     it('projectFiles with all options should create all files', function(done) {
         projectFiles.call(this, done, allFiles);
+    });
+
+    it('projectFiles with indent value should succeed', function(done) {
+
+        var indent = 12;
+        var options = createOptionsFromFiles(allFiles);
+
+        // pass the options to the generator
+        helpers.mockPrompt(this.app, {
+            'files': options,
+            'indent': indent
+        });
+
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            var jshintrc = readJsonFile('.jshintrc');
+            var jscsrc = readJsonFile('.jscsrc');
+            var jsbeautifyrc = readJsonFile('.jsbeautifyrc')
+
+            assert.equal(jshintrc.indent, indent);
+            assert.equal(jscsrc.validateIndentation, indent);
+            assert.equal(jsbeautifyrc.html.indent_size, indent);
+            assert.equal(jsbeautifyrc.css.indent_size, indent);
+            assert.equal(jsbeautifyrc.js.indent_size, indent);
+
+            done();
+        });
     });
 });

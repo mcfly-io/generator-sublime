@@ -1,14 +1,12 @@
 {
-  // Details: https://github.com/victorporof/Sublime-HTMLPrettify#using-your-own-jsbeautifyrc-options
-  // Documentation: https://github.com/einars/js-beautify/
-  "html": {
+   "html": {
     "allowed_file_extensions": ["htm", "html", "xhtml", "shtml", "xml", "svg"],
     "brace_style": "collapse", // "expand", "end-expand", "expand-strict"
     "indent_char": " ",
     "indent_handlebars": false, // e.g. {{#foo}}, {{/foo}}
     "indent_inner_html": false,
     "indent_scripts": "keep", // "separate", "normal"
-    "indent_size": 4,
+    "indent_size": <%=indent%>,
     "max_preserve_newlines": 1,
     "preserve_newlines": true,
     "unformatted": ["a", "sub", "sup", "b", "i", "u", "pre"],
@@ -18,7 +16,7 @@
     "allowed_file_extensions": ["css", "scss", "sass", "less"],
     "end_with_newline": false,
     "indent_char": " ",
-    "indent_size": 4,
+    "indent_size": <%=indent%>,
     "selector_separator": " ",
     "selector_separator_newline": false
   },
@@ -30,7 +28,7 @@
     "eval_code": false,
     "indent_char": " ",
     "indent_level": 0,
-    "indent_size": 4,
+    "indent_size": <%=indent%>,
     "indent_with_tabs": false,
     "jslint_happy": false,
     "keep_array_indentation": false,

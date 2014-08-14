@@ -3,7 +3,7 @@
     "preset": "google",
     "requireParenthesesAroundIIFE": true,
     "maximumLineLength": 400,
-    "validateIndentation": 4,
+    "validateIndentation": <%=indent%>,
     "disallowKeywords": ["with"],
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"]
