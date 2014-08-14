@@ -24,6 +24,14 @@ yo sublime
 You can use the `--hideWelcome` option to hide the welcome message. 
 This is usefull when you compose this generator with your own so you don't get twice welcome messages.
 
+## Results
+This generator will scaffold the following files:
+* .jshintrc
+* .jscsrc
+* .tern-project
+* .jsbeautifyrc
+* .gitignore
+
 ## License
 
 MIT
