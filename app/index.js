@@ -66,7 +66,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 var value = parseInt(input, 10);
                 var isValid = value !== undefined && value >= 0 && value <= 10;
                 if(!isValid) {
-                    return 'You must choose an integer value yo sublime --hideWelcomebetween 0 and 10';
+                    return 'You must choose an integer value between 0 and 10';
                 }
 
                 return true;
