@@ -23,8 +23,13 @@ var createOptionsFromFiles = function(files) {
     return options;
 };
 
-var readJsonFile = function(filename) {
+var readTextFile = function(filename) {
     var body = fs.readFileSync(filename, 'utf8');
+    return body;
+};
+
+var readJsonFile = function(filename) {
+    var body = readTextFile(filename);
     return JSON.parse(stripJsonComments(body));
 };
 
@@ -57,7 +62,7 @@ describe('sublime generator', function() {
     beforeEach(function(done) {
 
         helpers.testDirectory(path.join(__dirname, 'temp'), function(err) {
-            if(err) {
+            if (err) {
                 return done(err);
             }
 
@@ -107,7 +112,7 @@ describe('sublime generator', function() {
         this.app.run({}, function() {
             var jshintrc = readJsonFile('.jshintrc');
             var jscsrc = readJsonFile('.jscsrc');
-            var jsbeautifyrc = readJsonFile('.jsbeautifyrc')
+            var jsbeautifyrc = readJsonFile('.jsbeautifyrc');
 
             assert.equal(jshintrc.indent, indent);
             assert.equal(jscsrc.validateIndentation, indent);
@@ -118,4 +123,5 @@ describe('sublime generator', function() {
             done();
         });
     });
+
 });
