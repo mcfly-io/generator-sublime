@@ -1,5 +1,5 @@
 # Sublime Generator 
-[![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime) [![Build Status](https://travis-ci.org/thaiat/generator-sublime.svg?branch=master)](https://travis-ci.org/thaiat/generator-sublime) [![Dependency Status](https://david-dm.org/thaiat/generator-sublime.png)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.png)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies)
+[![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime) [![Build Status](https://travis-ci.org/thaiat/generator-sublime.svg?branch=master)](https://travis-ci.org/thaiat/generator-sublime) [![Dependency Status](https://david-dm.org/thaiat/generator-sublime.png)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.png)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies) [![Coverage Status](https://img.shields.io/coveralls/thaiat/generator-sublime.svg)](https://coveralls.io/r/thaiat/generator-sublime)
 
 > Yeoman generator for scaffolding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...
 
