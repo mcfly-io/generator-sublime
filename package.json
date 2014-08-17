@@ -15,8 +15,8 @@
   },
   "scripts": {
     "prepublish": "bash ./deploy/prepublish.sh",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha  && istanbul report cobertura",
-    "test": "mocha"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura",
+    "test": "mocha ./test"
   },
   "files": [
     "app",
