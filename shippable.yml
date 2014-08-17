@@ -5,9 +5,25 @@ language: node_js
 node_js:
   - 0.10.30
 
+# Create directories for test and coverage reports
 before_script:
-  - npm link
-  - mkdir -p shippable/codecoverage
+
+
+script:
+  - cd ..
+  - rm -rf generator-sublime
+  - rm -rf code/generator-sublime
+  - mkdir generator-sublime
+  - mv code/* generator-sublime
+  - mv generator-sublime code/generator-sublime
+  - cd code/generator-sublime
+  - npm test
+  
 after_success:
+  - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
+  - cd generator-sublime
   - npm run coverage
-  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
+  - mocha -R xunit >> coverage/result.xml
+  - mv coverage/cobertura-coverage.xml ../shippable/codecoverage/coverage.xml
+  - mv coverage/result.xml ../shippable/testresults/result.xml
