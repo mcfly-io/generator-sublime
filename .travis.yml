@@ -1,24 +1,20 @@
-# language setting
 language: node_js
-
-# version numbers, testing against multiple versions of node
 node_js:
-  - 0.10.30
-
+- 0.10.30
 before_script:
-  - npm link
-  - mkdir -p shippable/codecoverage
-
+- npm link
+- mkdir -p shippable/codecoverage
 after_success:
-  - npm run coverage
-  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
-  - mocha test -R mocha-lcov-reporter  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
-
-  
+- npm run coverage
+- mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
+- mocha test -R mocha-lcov-reporter  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  --verbose
 deploy:
   provider: npm
   email: thaiat@ipelia.com
   api_key:
-    secure: GncTPx6wN9iJpiq8osfB5LbWQHcuAWX+lhhnfd9r3pFnPL1GoshtW2qo5a1ndETQw3Lm2iWrnkT+BepGEtgcMhcN2PwOPlsC9CvwRP0WmP5ZblM+GG8OQC3AhOLfMSzVS0TxUFd3QAG47KqOIMiEl095cTLumhEic3BuOkcqT48=
+    secure: XX8AMRtoc128BcYtJ+Dm5gCWxh01Uj90a3JJebZvUiiXVEHgHFIh7rQxhugzxNBg5pNNWa+l+GptPOP8RXVSd9rSyRfo7f8Ei9AiFPLV1MtMnBs9PwZBBJS6F1LOYfQ3WJI+kIVQPn6Bs8GSvJL8bYXZYFZLTmJrCRoP7LMfBYk=
   on:
+    tags: true
     branch: master
+    repo: thaiat/generator-sublime
