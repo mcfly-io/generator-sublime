@@ -11,4 +11,5 @@ node --version
 curl -L http://install.ohmyz.sh | sh
 cd ~/.oh-my-zsh/custom/plugins
 git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+gem install travis -v 1.7.1 --no-rdoc --no-ri
 
