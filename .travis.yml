@@ -16,5 +16,5 @@ deploy:
     secure: XX8AMRtoc128BcYtJ+Dm5gCWxh01Uj90a3JJebZvUiiXVEHgHFIh7rQxhugzxNBg5pNNWa+l+GptPOP8RXVSd9rSyRfo7f8Ei9AiFPLV1MtMnBs9PwZBBJS6F1LOYfQ3WJI+kIVQPn6Bs8GSvJL8bYXZYFZLTmJrCRoP7LMfBYk=
   on:
     tags: true
-    branch: master
+    all_branches: true
     repo: thaiat/generator-sublime
