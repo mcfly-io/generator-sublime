@@ -5,9 +5,6 @@ language: node_js
 node_js:
   - 0.10.30
 
-# Create directories for test and coverage reports
-before_script:
-
 
 script:
   - cd ..
