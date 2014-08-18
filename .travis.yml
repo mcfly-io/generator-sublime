@@ -14,8 +14,6 @@ after_success:
   - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
   - mocha test -R mocha-lcov-reporter  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 
-before_deploy:
-  - npm version patch
   
 deploy:
   provider: npm
