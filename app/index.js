@@ -72,9 +72,20 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 return true;
             },
             default: 4
+        }, {
+            type: 'confirm',
+            name: 'codio_startup',
+            message: 'Do you need a codio startup.sh file ?',
+            default: false
+        }, {
+            type: 'confirm',
+            name: 'gitconfig',
+            message: 'Do you need a git-config.sh file ?',
+            default: false
         }];
 
         this.prompt(prompts, function(answers) {
+            answers.files = [].concat(answers.files);
 
             var hasListOption = function(list, option) {
                 return answers[list].indexOf(option) !== -1;
@@ -85,6 +96,8 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             }.bind(this));
 
             this.indent = answers.indent;
+            this.codio_startup = answers.codio_startup;
+            this.gitconfig = answers.gitconfig;
 
             done();
         }.bind(this));
@@ -108,6 +121,12 @@ var SublimeGenerator = yeoman.generators.Base.extend({
         }
         if(this.gitignore) {
             this.copy('_gitignore', '.gitignore');
+        }
+        if(this.codio_startup) {
+            this.copy('startup.sh', 'startup.sh');
+        }
+        if(this.gitconfig) {
+            this.copy('deploy/git-config.sh', 'deploy/git-config.sh');
         }
     }
 });
