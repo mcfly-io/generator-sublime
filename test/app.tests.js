@@ -113,4 +113,79 @@ describe('sublime generator', function() {
         });
     });
 
+    it('projectFiles with codio_startup should create startup.sh file', function(done) {
+        helpers.mockPrompt(this.app, {
+            'codio_startup': true
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            helpers.assertFile('startup.sh');
+            done();
+        });
+
+    });
+
+     it('projectFiles with no codio_startup should not create startup.sh file', function(done) {
+        helpers.mockPrompt(this.app, {
+            'codio_startup': false
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            assert.noFile('startup.sh');
+            done();
+        });
+
+    });
+
+    
+    it('projectFiles with gitconfig should create git-config.sh file', function(done) {
+        helpers.mockPrompt(this.app, {
+            'gitconfig': true
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            helpers.assertFile('deploy/git-config.sh');
+            done();
+        });
+    });
+
+    it('projectFiles with no gitconfig should create git-config.sh file', function(done) {
+        helpers.mockPrompt(this.app, {
+            'gitconfig': false
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            assert.noFile('deploy/git-config.sh');
+            done();
+        });
+    });
+    
+    it('projectFiles with codio_startup and gitconfig should reference git-config.sh from startup.sh', function(done) {
+        helpers.mockPrompt(this.app, {
+            'codio_startup': true,
+            'gitconfig': true,
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            var body = testHelper.readTextFile('startup.sh');
+            assert.equal(body.indexOf('git-config.sh') > 0, true);
+            done();
+        });
+
+    });
+    
+    it('projectFiles with codio_startup and no gitconfig should not reference git-config.sh from startup.sh', function(done) {
+        helpers.mockPrompt(this.app, {
+            'codio_startup': true,
+            'gitconfig': false,
+        });
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            var body = testHelper.readTextFile('startup.sh');
+            console.log(body);
+            assert.equal(body.indexOf('git-config.sh') < 0, true);
+            done();
+        });
+
+    });
 });

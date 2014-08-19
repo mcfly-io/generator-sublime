@@ -34,7 +34,8 @@ This generator will scaffold the following files:
 * .tern-project
 * .jsbeautifyrc
 * .gitignore
-
+* startup.sh (codio startup file)
+* deploy/git-config.sh (configure git with common aliases and options)
 
 ### sublime:bash
 ```
