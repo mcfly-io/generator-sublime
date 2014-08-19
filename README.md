@@ -7,6 +7,7 @@
 
 ## Usage
 
+### sublime:app
 Install `generator-sublime`:
 ```
 npm install -g generator-sublime
@@ -22,17 +23,31 @@ Run `yo sublime`:
 yo sublime
 ```
 
-## Options
+#### Options
 You can use the `--hideWelcome` option to hide the welcome message. 
 This is usefull when you compose this generator with your own so you don't get twice welcome messages.
 
-## Results
+#### Results
 This generator will scaffold the following files:
 * .jshintrc
 * .jscsrc
 * .tern-project
 * .jsbeautifyrc
 * .gitignore
+
+
+### sublime:bash
+```
+yo sublime:bash ./path/to/your/bashfile.sh
+```
+
+#### Results
+This will scaffold a basic bash file with correct header and chmod options.
+You should then be able to run it
+```
+./path/to/your/bashfile.sh
+```
+
 
 ## License
 

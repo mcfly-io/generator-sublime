@@ -92,7 +92,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
     projectFiles: function() {
 
-        this.sourceRoot(path.join(__dirname, '../templates'));
+        this.sourceRoot(path.join(__dirname, '../templates/root'));
 
         if(this.jshintrc) {
             this.copy('_jshintrc', '.jshintrc');

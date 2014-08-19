@@ -1,9 +1,8 @@
 'use strict';
 var path = require('path');
-var fs = require('fs');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
-var stripJsonComments = require('strip-json-comments');
+var testHelper = require('./testHelper')();
 //var _ = require('lodash');
 
 var allFiles = [
@@ -21,16 +20,6 @@ var createOptionsFromFiles = function(files) {
             .replace('-', '');
     });
     return options;
-};
-
-var readTextFile = function(filename) {
-    var body = fs.readFileSync(filename, 'utf8');
-    return body;
-};
-
-var readJsonFile = function(filename) {
-    var body = readTextFile(filename);
-    return JSON.parse(stripJsonComments(body));
 };
 
 var projectFiles = function(done, expectedFiles) {
@@ -62,7 +51,7 @@ describe('sublime generator', function() {
     beforeEach(function(done) {
 
         helpers.testDirectory(path.join(__dirname, 'temp'), function(err) {
-            if (err) {
+            if(err) {
                 return done(err);
             }
 
@@ -110,9 +99,9 @@ describe('sublime generator', function() {
 
         // run the generator and check the resulting files
         this.app.run({}, function() {
-            var jshintrc = readJsonFile('.jshintrc');
-            var jscsrc = readJsonFile('.jscsrc');
-            var jsbeautifyrc = readJsonFile('.jsbeautifyrc');
+            var jshintrc = testHelper.readJsonFile('.jshintrc');
+            var jscsrc = testHelper.readJsonFile('.jscsrc');
+            var jsbeautifyrc = testHelper.readJsonFile('.jsbeautifyrc');
 
             assert.equal(jshintrc.indent, indent);
             assert.equal(jscsrc.validateIndentation, indent);
