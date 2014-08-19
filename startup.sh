@@ -20,5 +20,8 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 # install travis
 gem install travis -v $TRAVIS_VERSION --no-rdoc --no-ri
 
+# configure git
+./deploy/git-config.sh
+
 
 
