@@ -16,7 +16,7 @@
   "scripts": {
     "prepublish": "bash ./deploy/prepublish.sh",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura",
-    "test": "mocha ./test"
+    "test": "gulp lint && mocha ./test"
   },
   "files": [
     "app",
@@ -36,15 +36,27 @@
   ],
   "dependencies": {
     "chalk": "~0.4.0",
-    "coveralls": "^2.11.1",
+    "github": "^0.2.1",
     "lodash": "^2.4.1",
-    "mocha-lcov-reporter": "0.0.1",
     "strip-json-comments": "^1.0.1",
     "yeoman-generator": "~0.16.0",
     "yosay": "^0.1.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "coveralls": "^2.11.1",
+    "growly": "*",
+    "gulp": "*",
+    "gulp-jscs": "*",
+    "gulp-jshint": "*",
+    "gulp-load-plugins": "*",
+    "jshint-stylish": "*",
+    "karma-growl-reporter": "*",
+    "map-stream": "*",
+    "mocha": "*",
+    "mocha-lcov-reporter": "0.0.1",
+    "mockery": "^1.4.0",
+    "require-dir": "*",
+    "stream-combiner": "*"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"

@@ -27,6 +27,13 @@ yo sublime
 You can use the `--hideWelcome` option to hide the welcome message. 
 This is usefull when you compose this generator with your own so you don't get twice welcome messages.
 
+You can use the `--nodeVersion` option to set the version of node.js for continuous delivery.
+
+You can use the `--githubUser` option to pass your github username. It is usefull when scaffolding .travis.yml so that travis knows how to publish your npm package
+```bash
+yo sublime --githubUser=toto
+```
+
 #### Results
 This generator will scaffold the following files:
 * .jshintrc
@@ -36,6 +43,11 @@ This generator will scaffold the following files:
 * .gitignore
 * startup.sh (codio startup file)
 * deploy/git-config.sh (configure git with common aliases and options)
+* .travis.yml (travis-ci config file)
+* shippable.yml (shippable.com config file)
+
+In addition `generator-sublime` will configure `.travis.yml` file for npm publishing your package if the build succeeds.
+
 
 ### sublime:bash
 ```

@@ -13,16 +13,24 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage/
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
+# Build
 build/
+dist/
+.tmp
 
-# Dependency directory
-# Deployed apps should consider commenting this line out:
-# see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
+# Vendor files
 node_modules/
+bower_components
+vendor
 
-# Yeoman temp directory
+# Temp directories
 temp/
+test/tmp
+test/temp
+
+# Other temp
+.sass-cache
+.grunt
 
 # Shippable directory
 shippable/

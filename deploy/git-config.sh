@@ -4,6 +4,8 @@
 # CONFIG
 #########
 git config --global push.default current
+git config --global credential.helper 'cache --timeout=3600'
+
 
 #########
 # ALIAS
@@ -26,11 +28,12 @@ git config --global alias.wip '!git add . && git commit -m "WIP"'
 
 # cm : quick commit
 git config --global alias.cm '!git add . && git commit -m '
+
 # up : sync master
 git config --global alias.up '!git pull --rebase --prune $@ && git submodule update --init --recursive'
 
 # undo : save a commit point and undo last change
-git config --global alias.undo '!git add -A && git commit -qm "UNDO SAVEPOINT"" && git reset HEAD~1 --hard' 
+git config --global alias.undo '!git add -A && git commit -qm "UNDO SAVEPOINT" && git reset HEAD~1 --hard' 
 
 # bclean : used by bdone
 git config --global alias.bclean '!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f'
