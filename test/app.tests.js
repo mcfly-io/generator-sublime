@@ -57,6 +57,7 @@ describe('sublime generator', function() {
         testHelper.startMock(mockery);
         mockery.registerMock('github', testHelper.githubMock);
         mockery.registerMock('child_process', testHelper.childProcessMock);
+        mockery.registerMock('npm', testHelper.npmMock);
     });
 
     beforeEach(function(done) {

@@ -49,6 +49,15 @@ module.exports = function() {
 
     };
 
+    var npmMock = {
+        load: function(cb) {
+            cb(null, this);
+        },
+        login: function(cb) {
+            cb();
+        }
+    };
+
     var startMock = function(mockery) {
         mockery.enable({
             warnOnUnregistered: false,
@@ -66,6 +75,7 @@ module.exports = function() {
         githubUserMock: githubUserMock,
         githubMock: githubMock,
         childProcessMock: childProcessMock,
+        npmMock: npmMock,
         startMock: startMock,
         endMock: endMock
     };
