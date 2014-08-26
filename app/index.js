@@ -6,8 +6,8 @@ var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
 
-var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
+var npm = require('npm');
 
 var githubOptions = {
     version: '3.0.0'
@@ -193,21 +193,37 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             that.log(chalk.yellow.bold('\n' + 'npm login : ') + chalk.gray('Enter your npm credentials...'));
 
             // npm login, this creates the file '~/.npmrc'
-            var cmd = spawn('npm', ['login'], {
-                cwd: __dirname,
-                stdio: 'inherit'
-            });
+            // we cannot use here spawn as it does not work on windows platform
+            // we have to require npm
+            npm.load(function(err, npm) {
+                if(err) {
+                    throw err;
+                }
 
-            var cmdTextEmail = 'cat ~/.npmrc | grep \'email\' | awk -F \'=\' \'{print $2}\'';
-
-            cmd.on('exit', function() {
-
-                // parse '~/.npmrc' to retreive npm email
-                exec(cmdTextEmail, function(err, stdout) {
-                    that.email = stdout;
-                    done();
+                npm.login(function() {
+                    var cmdTextEmail = 'cat ~/.npmrc | grep \'email\' | awk -F \'=\' \'{print $2}\'';
+                    // parse '~/.npmrc' to retreive npm email
+                    exec(cmdTextEmail, function(err, stdout) {
+                        that.email = stdout;
+                        done();
+                    });
                 });
+
             });
+
+            //             var cmd = spawn('npm', ['login'], {
+            //                 cwd: __dirname,
+            //                 stdio: 'inherit'
+            //             });
+
+            //             cmd.on('exit', function() {
+
+            //                 // parse '~/.npmrc' to retreive npm email
+            //                 exec(cmdTextEmail, function(err, stdout) {
+            //                     that.email = stdout;
+            //                     done();
+            //                 });
+            //             });
 
         }
     },
