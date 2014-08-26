@@ -267,7 +267,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
             var that = this;
             var done = this.async();
-            this.appnameFolder = 'generator-sublime';
+
             var cmdTextApiKey = 'cat ~/.npmrc | grep \'_auth\' | awk -F \'=\' \'{print $2}\' | travis encrypt --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder;
 
             exec(cmdTextApiKey, function(err) {
