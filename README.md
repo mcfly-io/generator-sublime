@@ -63,6 +63,13 @@ You should then be able to run it
 ./path/to/your/bashfile.sh
 ```
 
+## Testing
+
+Running `npm test` will run the unit tests with mocha.
+
+## Changelog
+
+Recent changes can be viewed on Github on the [Releases Page](https://github.com/thaiat/generator-sublime/releases)
 
 ## License
 
