@@ -2,6 +2,9 @@
     "globals": {
         "angular": false,
         "beforeEach": false,
+		"before": false,
+		"after": false,
+		"afterEach": false,
         "console": false,
         "describe": false,
         "expect": false,
@@ -19,6 +22,9 @@
     "predef": [
         "angular",
         "beforeEach",
+		"before",
+		"afterEach",
+		"after",
         "console",
         "describe",
         "expect",
@@ -41,7 +47,7 @@
     "devel": true,
     "dojo": true,
     "forin": true,
-    "indent": <%=indent%>,
+    "indent": <%=Indent%>,
     "latedef": true,
     "maxdepth": 4,
     "maxparams": 5,

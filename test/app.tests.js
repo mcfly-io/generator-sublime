@@ -2,37 +2,42 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
+var mockery = require('mockery');
 var testHelper = require('./testHelper')();
-//var _ = require('lodash');
+var _ = require('lodash');
 
 var allFiles = [
     '.jshintrc',
     '.jscsrc',
     '.tern-project',
     '.jsbeautifyrc',
-    '.gitignore'
+    '.gitignore',
+    '.travis.yml',
+    'shippable.yml'
 ];
 
-var createOptionsFromFiles = function(files) {
+var createOptionsFromFiles = function(_, files) {
     var options = files.map(function(file) {
-        return file
-            .replace('.', '')
-            .replace('-', '');
+        return _.classify(file);
     });
     return options;
 };
 
-var projectFiles = function(done, expectedFiles) {
+var projectFiles = function(done, expectedFiles, prompts) {
     // always tranform the argument into an array
-    expectedFiles = [].concat(expectedFiles);
+    expectedFiles = expectedFiles ? [].concat(expectedFiles) : [];
 
     // deduce the options to pass to the generator from the file name
-    var options = createOptionsFromFiles(expectedFiles);
+    var options = createOptionsFromFiles(this.app._, expectedFiles);
+
+    prompts = prompts || {};
+    _.extend(prompts, {
+        'Files': options,
+        githubUser: testHelper.githubUserMock.user
+    });
 
     // pass the options to the generator
-    helpers.mockPrompt(this.app, {
-        'files': options
-    });
+    helpers.mockPrompt(this.app, prompts);
 
     // run the generator and check the resulting files
     this.app.run({}, function() {
@@ -48,55 +53,119 @@ var projectFiles = function(done, expectedFiles) {
 
 describe('sublime generator', function() {
 
+    before(function() {
+        testHelper.startMock(mockery);
+        mockery.registerMock('github', testHelper.githubMock);
+        mockery.registerMock('child_process', testHelper.childProcessMock);
+    });
+
     beforeEach(function(done) {
 
         helpers.testDirectory(path.join(__dirname, 'temp'), function(err) {
             if(err) {
                 return done(err);
             }
-
-            this.app = helpers.createGenerator('sublime:app', [
-                '../../app'
-            ]);
+            var deps = ['../../app'];
+            this.app = helpers.createGenerator('sublime:app', deps);
+            this.app.options.hideWelcome = true;
             done();
         }.bind(this));
     });
 
-    it('projectFiles when no option should not create any files', function(done) {
-        projectFiles.call(this, done, []);
+    after(function() {
+        testHelper.endMock(mockery);
     });
 
-    it('projectFiles with jshint should only create .jshintrc file', function(done) {
+    it('with option hideWelcome false should display welcome message', function(done) {
+
+        this.app.options.hideWelcome = false;
+        helpers.mockPrompt(this.app, {
+
+        });
+        this.app.run({}, function() {
+            // TODO : Assert that yosay was called
+            done();
+        });
+    });
+
+    it('with option hideWelcome true should not display welcome message', function(done) {
+        this.app.options.hideWelcome = true;
+        helpers.mockPrompt(this.app, {
+
+        });
+        this.app.run({}, function() {
+            // TODO : Assert that yosay was not called
+            done();
+        });
+    });
+
+    it('with Files answers null should not create any files', function(done) {
+        projectFiles.call(this, done, null);
+    });
+
+    it('with Files answer Jshint should only create .jshintrc file', function(done) {
         projectFiles.call(this, done, ['.jshintrc']);
     });
 
-    it('projectFiles with jscsrc should only create .jscsrc file', function(done) {
+    it('with Files anwser Jscsrc should only create .jscsrc file', function(done) {
         projectFiles.call(this, done, ['.jscsrc']);
     });
 
-    it('projectFiles with tern_project should only create .tern-project file', function(done) {
+    it('with Files anwser TernProject should only create .tern-project file', function(done) {
         projectFiles.call(this, done, ['.tern-project']);
     });
 
-    it('projectFiles with gitignore should only create .gitignore file', function(done) {
+    it('with Files answer Gitignore should only create .gitignore file', function(done) {
         projectFiles.call(this, done, ['.gitignore']);
     });
 
-    it('projectFiles with all options should create all files', function(done) {
+    it('with Files answer ShippableYml should only create shippable.yml file', function(done) {
+        projectFiles.call(this, done, ['shippable.yml']);
+    });
+
+    it('with Files anwser TravisYml should only create .travis.yml file', function(done) {
+        projectFiles.call(this, done, ['.travis.yml']);
+    });
+
+    it('.travis.yml with NpmPublish false does not contains github info', function(done) {
+        projectFiles.call(this, function() {
+            var body = testHelper.readTextFile('.travis.yml');
+            assert.equal(body.indexOf('provider: npm') < 0, true);
+            assert.equal(body.indexOf('email: ' + testHelper.githubUserMock.email) < 0, true);
+            assert.equal(body.indexOf('repo: ' + testHelper.githubUserMock.user + '/temp') < 0, true);
+            done();
+        }, ['.travis.yml']);
+    });
+
+    it('.travis.yml with NpmPublish true does contains github info', function(done) {
+        helpers.mockPrompt(this.app, {
+            'NpmPublish': true
+        });
+        projectFiles.call(this, function() {
+            var body = testHelper.readTextFile('.travis.yml');
+
+            assert.equal(body.indexOf('provider: npm') > 0, true);
+            assert.equal(body.indexOf('repo: ' + testHelper.githubUserMock.user + '/temp') > 0, true);
+            done();
+        }, ['.travis.yml'], {
+            NpmPublish: true
+        });
+    });
+
+    it('with Files anwser with all options should create all files', function(done) {
         projectFiles.call(this, done, allFiles);
     });
 
-    it('projectFiles with indent value should succeed', function(done) {
+    it('with Indent answer should set correct indentation in .jshintrc, .jscsrc and .jsbeautify', function(done) {
 
         var indent = 12;
-        var options = createOptionsFromFiles(allFiles);
+        var options = createOptionsFromFiles(this.app._, allFiles);
 
         // pass the options to the generator
         helpers.mockPrompt(this.app, {
-            'files': options,
-            'indent': indent
+            'Files': options,
+            'Indent': indent
         });
-
         // run the generator and check the resulting files
         this.app.run({}, function() {
             var jshintrc = testHelper.readJsonFile('.jshintrc');
@@ -113,9 +182,9 @@ describe('sublime generator', function() {
         });
     });
 
-    it('projectFiles with codio_startup should create startup.sh file', function(done) {
+    it('with CodioStartup answser true should create startup.sh file', function(done) {
         helpers.mockPrompt(this.app, {
-            'codio_startup': true
+            'CodioStartup': true
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
@@ -125,9 +194,24 @@ describe('sublime generator', function() {
 
     });
 
-     it('projectFiles with no codio_startup should not create startup.sh file', function(done) {
+    it('with CodioStartup answser true should include correct version for node in startup.sh', function(done) {
         helpers.mockPrompt(this.app, {
-            'codio_startup': false
+            'CodioStartup': true
+        });
+        var nodeVersion = 'xxx';
+        this.app.options.nodeVersion = nodeVersion;
+        // run the generator and check the resulting files
+        this.app.run({}, function() {
+            var body = testHelper.readTextFile('startup.sh');
+            assert.equal(body.indexOf('NODE_VERSION="' + nodeVersion + '"') > 0, true, 'Invalid version of node');
+            done();
+        });
+
+    });
+
+    it('with CodioStartup answser false should not create startup.sh file', function(done) {
+        helpers.mockPrompt(this.app, {
+            'CodioStartup': false
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
@@ -137,10 +221,9 @@ describe('sublime generator', function() {
 
     });
 
-    
-    it('projectFiles with gitconfig should create git-config.sh file', function(done) {
+    it('with Gitconfig answser true should create git-config.sh file', function(done) {
         helpers.mockPrompt(this.app, {
-            'gitconfig': true
+            'Gitconfig': true
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
@@ -149,9 +232,9 @@ describe('sublime generator', function() {
         });
     });
 
-    it('projectFiles with no gitconfig should create git-config.sh file', function(done) {
+    it('with Gitconfig answser false should not create git-config.sh file', function(done) {
         helpers.mockPrompt(this.app, {
-            'gitconfig': false
+            'Gitconfig': false
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
@@ -159,11 +242,11 @@ describe('sublime generator', function() {
             done();
         });
     });
-    
-    it('projectFiles with codio_startup and gitconfig should reference git-config.sh from startup.sh', function(done) {
+
+    it('with CodioStartup and Gitconfig answser true should reference git-config.sh from startup.sh', function(done) {
         helpers.mockPrompt(this.app, {
-            'codio_startup': true,
-            'gitconfig': true,
+            'CodioStartup': true,
+            'Gitconfig': true,
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
@@ -173,16 +256,15 @@ describe('sublime generator', function() {
         });
 
     });
-    
-    it('projectFiles with codio_startup and no gitconfig should not reference git-config.sh from startup.sh', function(done) {
+
+    it('with CodioStartup answser true and Gitconfig anwser false should not reference git-config.sh from startup.sh', function(done) {
         helpers.mockPrompt(this.app, {
-            'codio_startup': true,
-            'gitconfig': false,
+            'CodioStartup': true,
+            'Gitconfig': false,
         });
         // run the generator and check the resulting files
         this.app.run({}, function() {
             var body = testHelper.readTextFile('startup.sh');
-            console.log(body);
             assert.equal(body.indexOf('git-config.sh') < 0, true);
             done();
         });

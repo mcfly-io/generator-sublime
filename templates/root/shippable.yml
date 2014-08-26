@@ -1,0 +1,26 @@
+# language setting
+language: node_js
+
+# version numbers, testing against multiple versions of node
+node_js:
+  - <%=options.nodeVersion%>
+
+
+script:
+  - cd ..
+  - rm -rf <%=appnameFolder%>
+  - rm -rf code/<%=appnameFolder%>
+  - mkdir <%=appnameFolder%>
+  - mv code/* <%=appnameFolder%>
+  - mv <%=appnameFolder%> code/<%=appnameFolder%>
+  - cd code/<%=appnameFolder%>
+  - npm test
+  
+after_success:
+  - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
+  - cd <%=appnameFolder%>
+  - npm run coverage
+  - mocha -R xunit >> coverage/result.xml
+  - mv coverage/cobertura-coverage.xml ../shippable/codecoverage/coverage.xml
+  - mv coverage/result.xml ../shippable/testresults/result.xml

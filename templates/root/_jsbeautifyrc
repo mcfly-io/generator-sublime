@@ -6,7 +6,7 @@
     "indent_handlebars": false, // e.g. {{#foo}}, {{/foo}}
     "indent_inner_html": false,
     "indent_scripts": "keep", // "separate", "normal"
-    "indent_size": <%=indent%>,
+    "indent_size": <%=Indent%>,
     "max_preserve_newlines": 1,
     "preserve_newlines": true,
     "unformatted": ["a", "sub", "sup", "b", "i", "u", "pre"],
@@ -16,7 +16,7 @@
     "allowed_file_extensions": ["css", "scss", "sass", "less"],
     "end_with_newline": false,
     "indent_char": " ",
-    "indent_size": <%=indent%>,
+    "indent_size": <%=Indent%>,
     "selector_separator": " ",
     "selector_separator_newline": false
   },
@@ -28,7 +28,7 @@
     "eval_code": false,
     "indent_char": " ",
     "indent_level": 0,
-    "indent_size": <%=indent%>,
+    "indent_size": <%=Indent%>,
     "indent_with_tabs": false,
     "jslint_happy": false,
     "keep_array_indentation": false,

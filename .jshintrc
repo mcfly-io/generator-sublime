@@ -2,6 +2,9 @@
     "globals": {
         "angular": false,
         "beforeEach": false,
+		"before": false,
+		"afterEach": false,
+		"after": false,
         "console": false,
         "describe": false,
         "expect": false,
@@ -19,6 +22,9 @@
     "predef": [
         "angular",
         "beforeEach",
+		"before",
+		"afterEach",
+		"after",
         "console",
         "describe",
         "expect",
@@ -35,7 +41,7 @@
     ],
     "bitwise": true,
     "browser": true,
-    "camelcase": true,
+    "camelcase": false,
     "curly": true,
     "debug": false,
     "devel": true,

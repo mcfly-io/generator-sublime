@@ -1,13 +1,14 @@
 language: node_js
 
 node_js:
-  - 0.10.30
+  - <%=options.nodeVersion%>
 
 cache:
   directories:
     - node_modules  
-
+    
 before_script:
+  - npm link
   - mkdir -p shippable/codecoverage
 
 after_success:
@@ -15,12 +16,14 @@ after_success:
   - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
   - mocha test -R mocha-lcov-reporter  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 
+<% if (NpmPublish) { %>
 deploy:
   provider: npm
-  email: thaiat@ipelia.com
+  email: <%=email%>
   api_key:
-    secure: XX8AMRtoc128BcYtJ+Dm5gCWxh01Uj90a3JJebZvUiiXVEHgHFIh7rQxhugzxNBg5pNNWa+l+GptPOP8RXVSd9rSyRfo7f8Ei9AiFPLV1MtMnBs9PwZBBJS6F1LOYfQ3WJI+kIVQPn6Bs8GSvJL8bYXZYFZLTmJrCRoP7LMfBYk=
+    secure: 
   on:
     tags: true
     all_branches: true
-    repo: thaiat/generator-sublime
+    repo: <%=githubUser%>/<%=appnameFolder%>
+<% } %>
