@@ -24,5 +24,5 @@ gem install travis -v $TRAVIS_VERSION --no-rdoc --no-ri
 
 <% if (Gitconfig) { %>
 # configure git
-./deploy/git-config.sh
+bash ./deploy/git-config.sh
 <% }%>

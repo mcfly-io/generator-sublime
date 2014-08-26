@@ -23,7 +23,7 @@ echo "zsh && exit 0" >> ~/.bash_profile
 gem install travis -v $TRAVIS_VERSION --no-rdoc --no-ri
 
 # configure git
-./deploy/git-config.sh
+bash ./deploy/git-config.sh
 
 
 
