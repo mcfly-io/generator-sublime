@@ -62,7 +62,8 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             '.jsbeautifyrc',
             '.gitignore',
             '.travis.yml',
-            'shippable.yml'
+            'shippable.yml',
+            'readme.md'
         ];
     },
 
@@ -210,21 +211,6 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 });
 
             });
-
-            //             var cmd = spawn('npm', ['login'], {
-            //                 cwd: __dirname,
-            //                 stdio: 'inherit'
-            //             });
-
-            //             cmd.on('exit', function() {
-
-            //                 // parse '~/.npmrc' to retreive npm email
-            //                 exec(cmdTextEmail, function(err, stdout) {
-            //                     that.email = stdout;
-            //                     done();
-            //                 });
-            //             });
-
         }
     },
 
@@ -255,10 +241,12 @@ var SublimeGenerator = yeoman.generators.Base.extend({
         }
         if(this.TravisYml) {
             this.copy('_travis.yml', '.travis.yml');
-
         }
         if(this.Gitconfig) {
             this.copy('deploy/git-config.sh', 'deploy/git-config.sh');
+        }
+        if(this.ReadmeMd) {
+            this.copy('_README.md', 'readme.md');
         }
     },
 
