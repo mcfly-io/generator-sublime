@@ -13,7 +13,8 @@ var allFiles = [
     '.jsbeautifyrc',
     '.gitignore',
     '.travis.yml',
-    'shippable.yml'
+    'shippable.yml',
+    'readme.md'
 ];
 
 var createOptionsFromFiles = function(_, files) {
@@ -151,6 +152,10 @@ describe('sublime generator', function() {
         }, ['.travis.yml'], {
             NpmPublish: true
         });
+    });
+
+    it('with Files anwser ReadmeMd should only create readme.md file', function(done) {
+        projectFiles.call(this, done, ['readme.md']);
     });
 
     it('with Files anwser with all options should create all files', function(done) {

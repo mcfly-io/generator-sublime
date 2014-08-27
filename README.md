@@ -1,11 +1,12 @@
 # Sublime Generator 
-[![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime)   
+[![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime) [![Downloads](http://img.shields.io/npm/dm/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime)   
 [![Build Status](https://travis-ci.org/thaiat/generator-sublime.svg?branch=master)](https://travis-ci.org/thaiat/generator-sublime) [![Coverage Status](https://img.shields.io/coveralls/thaiat/generator-sublime.svg)](https://coveralls.io/r/thaiat/generator-sublime)   
-[![Dependency Status](https://david-dm.org/thaiat/generator-sublime.svg)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies) [![peerDependency Status](https://david-dm.org/thaiat/generator-sublime/peer-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=peerDependencies) 
+[![Dependency Status](https://david-dm.org/thaiat/generator-sublime.svg)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies) [![peerDependency Status](https://david-dm.org/thaiat/generator-sublime/peer-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=peerDependencies)    
+
 
 > Yeoman generator for scaffolding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...
 
-[![NPM](https://nodei.co/npm/generator-sublime.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-sublime/)
+[![NPM](https://nodei.co/npm/generator-sublime.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-sublime)
 
 ## Usage
 
@@ -43,6 +44,7 @@ This generator will scaffold the following files:
 * .tern-project
 * .jsbeautifyrc
 * .gitignore
+* readme.md (comes with badges!)
 * startup.sh (codio startup file)
 * deploy/git-config.sh (configure git with common aliases and options)
 * .travis.yml (travis-ci config file)
