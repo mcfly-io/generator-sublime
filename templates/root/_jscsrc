@@ -9,7 +9,6 @@
     "disallowImplicitTypeConversion": ["string"],
     "disallowSpaceAfterKeywords": [
        "if",
-       "else",
        "for",
        "while",
        "do",

@@ -37,6 +37,8 @@ You can use the `--githubUser` option to pass your github username. It is useful
 yo sublime --githubUser=toto
 ```
 
+You can use the `--checkTravis` option to by pass checking if travis cli is installed.
+
 #### Results
 This generator will scaffold the following files:
 * .jshintrc
