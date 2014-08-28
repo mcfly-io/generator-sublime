@@ -12,6 +12,11 @@ var npm = require('npm');
 var githubOptions = {
     version: '3.0.0'
 };
+
+var travisOptions = {
+    version: '1.7.1'
+};
+
 var github = new GitHubApi(githubOptions);
 
 var githubUserInfo = function(name, cb) {
@@ -48,7 +53,14 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             type: 'String'
         });
 
+        this.option('checkTravis', {
+            desc: 'Check if travis cli is installed',
+            type: 'Boolean',
+            defaults: true
+        });
+
         this.appnameFolder = _.slugify(this.appname);
+        this.travisOptions = travisOptions;
     },
 
     init: function() {
@@ -73,6 +85,17 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             this.log(yosay('Welcome to the marvelous Sublime generator!'));
         }
 
+        // check if travis is installed
+        if(this.options.checkTravis) {
+            if(!this.shell.which('travis')) {
+                this.log(chalk.red.bold('\nCould not find travis cli... ' +
+                    '\nPlease install it manually using the following command : '
+                ) + chalk.yellow.bold('\ngem install travis -v' + this.travisOptions.version + ' --no-rdoc --no-ri'));
+                this.shell.exit(1);
+            } else {
+                this.log(chalk.gray('travis is installed, continuing...\n'));
+            }
+        }
     },
 
     askFor: function() {
@@ -174,9 +197,11 @@ var SublimeGenerator = yeoman.generators.Base.extend({
         this.prompt(prompts, function(answers) {
 
             this.githubUser = this.options.githubUser || answers.githubUser;
-
+            if(this.githubUser === undefined) {
+                done();
+                return;
+            }
             githubUserInfo(this.githubUser, function(res) {
-
                 this.realname = res.name;
                 this.email = res.email;
                 this.githubUrl = res.html_url;
@@ -202,10 +227,10 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 }
 
                 npm.login(function() {
-                    var cmdTextEmail = 'cat ~/.npmrc | grep \'email\' | awk -F \'=\' \'{print $2}\'';
+                    var cmdTextEmail = 'cat ~/.npmrc | grep \'email\'';
                     // parse '~/.npmrc' to retreive npm email
                     exec(cmdTextEmail, function(err, stdout) {
-                        that.email = stdout;
+                        that.email = stdout.split('=')[1];
                         done();
                     });
                 });
@@ -256,20 +281,29 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             var that = this;
             var done = this.async();
 
-            var cmdTextApiKey = 'cat ~/.npmrc | grep \'_auth\' | awk -F \'=\' \'{print $2}\' | travis encrypt --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder;
+            var cmdTextApiKey = 'cat ~/.npmrc | grep \'_auth\'';
 
-            exec(cmdTextApiKey, function(err) {
+            exec(cmdTextApiKey, function(err, stdout) {
+
                 if(err) {
-
-                    that.log(chalk.red('The following error occured configuring travis for npm publish :'));
-                    that.log(chalk.red('\n' + err.message));
-                    that.log(chalk.yellow.bold('\nYou need to configure manually .travis.yml deploy section'));
+                    that._errorTravis.call(that, err);
                 }
-
+                var auth = stdout.split('=')[1];
+                exec('travis encrypt ' + auth + ' --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder, function(err) {
+                    if(err) {
+                        that._errorTravis.call(that, err);
+                    }
+                });
                 done();
             });
 
         }
+    },
+
+    _errorTravis: function(err) {
+        this.log(chalk.red('The following error occured configuring travis for npm publish :'));
+        this.log(chalk.red('\n' + err.message));
+        this.log(chalk.yellow.bold('\nYou need to configure manually .travis.yml deploy section'));
     }
 
 });

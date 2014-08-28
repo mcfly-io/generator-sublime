@@ -70,6 +70,7 @@ describe('sublime generator', function() {
             var deps = ['../../app'];
             this.app = helpers.createGenerator('sublime:app', deps);
             this.app.options.hideWelcome = true;
+            this.app.options.checkTravis = false;
             done();
         }.bind(this));
     });
@@ -147,6 +148,7 @@ describe('sublime generator', function() {
             var body = testHelper.readTextFile('.travis.yml');
 
             assert.equal(body.indexOf('provider: npm') > 0, true);
+            assert.equal(body.indexOf('email: ' + testHelper.githubUserMock.email) > 0, true);
             assert.equal(body.indexOf('repo: ' + testHelper.githubUserMock.user + '/temp') > 0, true);
             done();
         }, ['.travis.yml'], {

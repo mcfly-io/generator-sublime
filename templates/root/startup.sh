@@ -2,7 +2,7 @@
 
 # constants
 NODE_VERSION="<%=options.nodeVersion%>";
-TRAVIS_VERSION="1.7.1"
+TRAVIS_VERSION="<%=travisOptions.version%>"
 
 clear
 
