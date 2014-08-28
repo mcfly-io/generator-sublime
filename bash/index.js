@@ -2,16 +2,22 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 
-var BashGenerator = yeoman.generators.NamedBase.extend({
+var BashGenerator = yeoman.generators.Base.extend({
 
     constructor: function() {
-        yeoman.generators.NamedBase.apply(this, arguments);
+        yeoman.generators.Base.apply(this, arguments);
+        this.argument('name', {
+            type: String,
+            required: true
+        });
     },
 
-    generateBash: function() {
-        this.sourceRoot(path.join(__dirname, '../templates/bash'));
+    writing: {
+        generateBash: function() {
+            this.sourceRoot(path.join(__dirname, '../templates/bash'));
+            this.copy('bash.sh', this.name);
+        }
 
-        this.copy('bash.sh', this.name);
     }
 
 });
