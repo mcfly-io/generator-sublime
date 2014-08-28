@@ -36,7 +36,13 @@ module.exports = function() {
 
         exec: function(cmd, cb) {
             console.log('exec : ' + cmd);
-            cb(null, '');
+            if(cmd == 'cat ~/.npmrc | grep \'email\'') {
+                cb(null, 'email=' + githubUserMock.email);
+            } else if(cmd == 'cat ~/.npmrc | grep \'_auth\'') {
+                cb(null, '_auth=dxxsdsdfsd');
+            } else {
+                cb(null, '');
+            }
         },
         spawn: function(cmd) {
             console.log('exec : ' + cmd);
