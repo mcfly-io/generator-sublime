@@ -76,6 +76,7 @@ module.exports = function() {
     };
 
     return {
+        tempFolder: './temp-test',
         readTextFile: readTextFile,
         readJsonFile: readJsonFile,
         githubUserMock: githubUserMock,
