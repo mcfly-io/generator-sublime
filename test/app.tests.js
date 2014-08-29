@@ -54,6 +54,7 @@ var projectFiles = function(done, expectedFiles, prompts) {
 describe('sublime generator', function() {
 
     var generator = '../app';
+    var defaultOptions;
 
     before(function() {
         testHelper.startMock(mockery);
@@ -63,13 +64,19 @@ describe('sublime generator', function() {
     });
 
     beforeEach(function(done) {
+        defaultOptions = {
+            hideWelcome: true,
+            checkTravis: false
+        };
 
         this.runGen = helpers.run(path.join(__dirname, generator))
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
-            .withOptions({
-                hideWelcome: true,
-                checkTravis: false
-            });
+            .withOptions(defaultOptions);
+
+        this.runGen.withOptions = function(options) {
+            this.options = _.extend(this.options, options);
+            return this;
+        };
         done();
 
     });
