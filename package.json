@@ -16,7 +16,8 @@
   "scripts": {
     "prepublish": "bash ./deploy/prepublish.sh",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura",
-    "test": "gulp lint && mocha ./test"
+    "test2": "gulp lint && mocha ./test",
+	"test": "gulp lint &&  istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura"
   },
   "files": [
     "app",
