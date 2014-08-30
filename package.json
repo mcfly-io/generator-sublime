@@ -1,6 +1,6 @@
 {
   "name": "generator-sublime",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yeoman generator for scaffolfding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...",
   "license": "MIT",
   "main": "app/index.js",
@@ -17,7 +17,7 @@
     "prepublish": "bash ./deploy/prepublish.sh",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura",
     "test2": "gulp lint && mocha ./test",
-	"test": "gulp lint &&  istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura"
+    "test": "gulp lint &&  istanbul cover ./node_modules/mocha/bin/_mocha ./test && istanbul report cobertura"
   },
   "files": [
     "app",
