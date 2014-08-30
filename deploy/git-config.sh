@@ -29,9 +29,6 @@ git config --global alias.wip '!git add . && git commit -m "WIP"'
 # cm : quick commit
 git config --global alias.cm '!git add . && git commit -m '
 
-# up : sync master
-git config --global alias.up '!git pull --rebase --prune $@ && git submodule update --init --recursive'
-
 # undo : save a commit point and undo last change
 git config --global alias.undo '!git add -A && git commit -qm "UNDO SAVEPOINT" && git reset HEAD~1 --hard' 
 
@@ -39,7 +36,7 @@ git config --global alias.undo '!git add -A && git commit -qm "UNDO SAVEPOINT" &
 git config --global alias.bclean '!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f'
 
 # bdone : chekout master and clean the merged branches
-git config --global alias.bdone '!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f'
+git config --global alias.bdone '!f() { git checkout ${1-master} && git sync && git bclean ${1-master}; }; f'
 
 # la : list of aliases
 git config --global alias.la '!git config -l | grep alias | cut -c 7-' 
@@ -49,3 +46,22 @@ git config --global alias.b '!git for-each-ref --sort="-authordate" --format="%(
 
 # ready : rebase interactive
 git config --global alias.ready 'rebase -i master'
+
+# sync : sync master
+git config --global alias.sync '!git pull --rebase --prune $@ && git submodule update --init --recursive'
+
+# Add a remote upstream
+git config --global alias.upstream '!f() { git remote add upstream https://github.com/$1.git; }; f'
+
+# Sync upstream
+git config --global alias.syncu '!f() { git checkout ${1-master} && git fetch upstream && git rebase upstream/master; }; f'
+
+# See object
+git config --global alias.type 'cat-file -t'
+git config --global alias.dump 'cat-file -p'
+
+# Push version
+git config --global alias.pv '!git push --tag && git push'
+
+# Remote
+git config --global alias.r 'remote -v'
