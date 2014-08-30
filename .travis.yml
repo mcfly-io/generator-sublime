@@ -14,6 +14,12 @@ after_success:
   - npm run coverage
   - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
   - mocha test -R mocha-lcov-reporter  && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
+  - cat ./coverage/lcov.info | codeclimate
+
+addons:
+  code_climate:
+    repo_token:
+      secure: "IxslrDRhtq1/u5wJW2cxcKFMLDXlyS7v4ADVGvORKED8lh1kHo1K5O2Fu2u1d4xBJTOpPxlXWkS3LiG+aAfqBfwGo+bGG0smx6DdmWucYj+c048/BLgld5WmgmSKm2V7gyH7kcrNXilO34BD7V+j7YZe/j94MjRNqxn67TM1Cxc="     
 
 deploy:
   provider: npm
