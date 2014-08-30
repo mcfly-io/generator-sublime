@@ -9,7 +9,8 @@ cache:
 
 before_script:
   - mkdir -p shippable/codecoverage
-
+  - npm install -g codeclimate-test-reporter
+  
 after_success:
   - npm run coverage
   - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
