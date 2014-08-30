@@ -21,7 +21,6 @@ after_success:
   - mkdir -p shippable/codecoverage
   - cd generator-sublime
 #  - npm run coverage
-  - rm coverage/result.xml
   - mocha -R xunit >> coverage/result.xml
   - mv coverage/cobertura-coverage.xml ../shippable/codecoverage/coverage.xml
   - mv coverage/result.xml ../shippable/testresults/result.xml

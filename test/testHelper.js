@@ -1,5 +1,7 @@
 'use strict';
 var fs = require('fs');
+var _ = require('lodash');
+var assert = require('assert');
 var stripJsonComments = require('strip-json-comments');
 
 module.exports = function() {
@@ -35,7 +37,7 @@ module.exports = function() {
     var childProcessMock = {
 
         exec: function(cmd, cb) {
-            console.log('exec : ' + cmd);
+            assert(_.isString(cmd), 'cmd should be a string');
             if(cmd == 'cat ~/.npmrc | grep \'email\'') {
                 cb(null, 'email=' + githubUserMock.email);
             } else if(cmd == 'cat ~/.npmrc | grep \'_auth\'') {
@@ -45,7 +47,7 @@ module.exports = function() {
             }
         },
         spawn: function(cmd) {
-            console.log('exec : ' + cmd);
+            assert(_.isString(cmd), 'cmd should be a string');
             return {
                 on: function(name, cb) {
                     cb();
