@@ -43,6 +43,7 @@ You can use the `--checkTravis` option to by pass checking if travis cli is inst
 This generator will scaffold the following files:
 * .jshintrc
 * .jscsrc
+* .eslintrc
 * .tern-project
 * .jsbeautifyrc
 * .gitignore
