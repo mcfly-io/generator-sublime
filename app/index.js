@@ -35,7 +35,6 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
     constructor: function() {
         yeoman.generators.Base.apply(this, arguments);
-
         this.option('hideWelcome', {
             desc: 'Hide the welcome message',
             type: 'Boolean',
@@ -77,6 +76,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
         this.allFiles = [
             '.jshintrc',
             '.jscsrc',
+            '.eslintrc',
             '.tern-project',
             '.jsbeautifyrc',
             '.gitignore',
@@ -238,6 +238,9 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                         var cmdTextEmail = 'cat ~/.npmrc | grep \'email\'';
                         // parse '~/.npmrc' to retreive npm email
                         exec(cmdTextEmail, function(err, stdout) {
+                            if(err) {
+                                throw new Error(err);
+                            }
                             that.email = stdout.split('=')[1];
                             done();
                         });
@@ -258,6 +261,9 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             }
             if(this.Jscsrc) {
                 this.template('_jscsrc', '.jscsrc');
+            }
+            if(this.Eslintrc) {
+                this.template('_eslintrc', '.eslintrc');
             }
             if(this.TernProject) {
                 this.template('_tern-project', '.tern-project');
@@ -307,7 +313,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 });
 
             }
-        },
+        }
     },
 
     _errorTravis: function(err) {
