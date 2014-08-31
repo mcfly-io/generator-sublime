@@ -5,7 +5,6 @@
 		"before": false,
 		"afterEach": false,
 		"after": false,
-        "console": false,
         "describe": false,
         "expect": false,
         "inject": false,
@@ -25,7 +24,6 @@
 		"before",
 		"afterEach",
 		"after",
-        "console",
         "describe",
         "expect",
         "inject",
@@ -44,7 +42,7 @@
     "camelcase": false,
     "curly": true,
     "debug": false,
-    "devel": true,
+    "devel": false,
     "dojo": true,
     "forin": true,
     "indent": 4,
@@ -59,5 +57,8 @@
     "sub": true,
     "trailing": true,
     "undef": true,
-    "unused": true
+    "unused": true,
+	"strict": true,
+	"trailing": true,
+    "white": true 
 }
