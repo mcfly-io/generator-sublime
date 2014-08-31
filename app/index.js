@@ -67,6 +67,13 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
         this.pkg = require('../package.json');
 
+        var pkgDest = {};
+        try {
+            pkgDest = this.dest.readJSON('package.json');
+        } catch(e) {}
+
+        this.pkgDest = pkgDest;
+
         this.allFiles = [
             '.jshintrc',
             '.jscsrc',
@@ -247,34 +254,34 @@ var SublimeGenerator = yeoman.generators.Base.extend({
             this.sourceRoot(path.join(__dirname, '../templates/root'));
 
             if(this.Jshintrc) {
-                this.copy('_jshintrc', '.jshintrc');
+                this.template('_jshintrc', '.jshintrc');
             }
             if(this.Jscsrc) {
-                this.copy('_jscsrc', '.jscsrc');
+                this.template('_jscsrc', '.jscsrc');
             }
             if(this.TernProject) {
-                this.copy('_tern-project', '.tern-project');
+                this.template('_tern-project', '.tern-project');
             }
             if(this.Jsbeautifyrc) {
-                this.copy('_jsbeautifyrc', '.jsbeautifyrc');
+                this.template('_jsbeautifyrc', '.jsbeautifyrc');
             }
             if(this.Gitignore) {
-                this.copy('_gitignore', '.gitignore');
+                this.template('_gitignore', '.gitignore');
             }
             if(this.CodioStartup) {
-                this.copy('startup.sh', 'startup.sh');
+                this.template('startup.sh', 'startup.sh');
             }
             if(this.ShippableYml) {
-                this.copy('shippable.yml', 'shippable.yml');
+                this.template('shippable.yml', 'shippable.yml');
             }
             if(this.TravisYml) {
-                this.copy('_travis.yml', '.travis.yml');
+                this.template('_travis.yml', '.travis.yml');
             }
             if(this.Gitconfig) {
-                this.copy('deploy/git-config.sh', 'deploy/git-config.sh');
+                this.template('deploy/git-config.sh', 'deploy/git-config.sh');
             }
             if(this.ReadmeMd) {
-                this.copy('_README.md', 'readme.md');
+                this.template('_README.md', 'readme.md');
             }
         },
         npmPublish: function() {

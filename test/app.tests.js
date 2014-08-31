@@ -73,6 +73,7 @@ describe('sublime generator', function() {
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
             .withOptions(defaultOptions);
 
+        // TODO : Remove with latest version of yeoman/generator - see https://github.com/yeoman/generator/pull/632
         this.runGen.withOptions = function(options) {
             this.options = _.extend(this.options, options);
             return this;
