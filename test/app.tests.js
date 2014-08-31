@@ -10,6 +10,7 @@ var os = require('os');
 var allFiles = [
     '.jshintrc',
     '.jscsrc',
+    '.eslintrc',
     '.tern-project',
     '.jsbeautifyrc',
     '.gitignore',
@@ -43,7 +44,7 @@ var projectFiles = function(done, expectedFiles, prompts) {
         .on('end', function() {
             assert.file(expectedFiles);
             var noFiles = allFiles.filter(function(file) {
-                return expectedFiles.indexOf(file) == -1;
+                return expectedFiles.indexOf(file) === -1;
             });
 
             assert.noFile(noFiles);
@@ -73,6 +74,7 @@ describe('sublime generator', function() {
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
             .withOptions(defaultOptions);
 
+        // TODO : Remove with latest version of yeoman/generator - see https://github.com/yeoman/generator/pull/632
         this.runGen.withOptions = function(options) {
             this.options = _.extend(this.options, options);
             return this;
@@ -113,6 +115,10 @@ describe('sublime generator', function() {
 
     it('with Files anwser Jscsrc should only create .jscsrc file', function(done) {
         projectFiles.call(this, done, ['.jscsrc']);
+    });
+
+    it('with Files anwser Eslintrc should only create .eslintrc file', function(done) {
+        projectFiles.call(this, done, ['.eslintrc']);
     });
 
     it('with Files anwser TernProject should only create .tern-project file', function(done) {
@@ -251,7 +257,7 @@ describe('sublime generator', function() {
 
         this.runGen.withPrompt({
             'CodioStartup': true,
-            'Gitconfig': true,
+            'Gitconfig': true
         }).on('end', function() {
             var body = testHelper.readTextFile('startup.sh');
             assert.equal(body.indexOf('git-config.sh') > 0, true);
@@ -264,7 +270,7 @@ describe('sublime generator', function() {
 
         this.runGen.withPrompt({
             'CodioStartup': true,
-            'Gitconfig': false,
+            'Gitconfig': false
         }).on('end', function() {
             var body = testHelper.readTextFile('startup.sh');
             assert.equal(body.indexOf('git-config.sh') < 0, true);
