@@ -11,6 +11,9 @@ git config --global credential.helper 'cache --timeout=3600'
 # ALIAS
 #########
 
+# amend
+git config --global alias.amend 'commit -a --amend'
+
 # co : checkout
 git config --global alias.co 'checkout'
 

@@ -24,6 +24,7 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 cd $CURRENT_DIRECTORY
 # forces terminal to use zsh
 echo "zsh && exit 0" >> ~/.bash_profile
+source ~/.bash_profile
 
 # install travis
 gem install travis -v $TRAVIS_VERSION --no-rdoc --no-ri

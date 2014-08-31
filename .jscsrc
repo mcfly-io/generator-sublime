@@ -12,9 +12,7 @@
        "for",
        "while",
        "do",
-       "switch",
-       "try",
-       "catch"
+       "switch"
    ],
    "requireSpaceAfterKeywords": [],
    "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
