@@ -21,6 +21,7 @@
   },
   "files": [
     "app",
+	"bash",
     "templates"
   ],
   "preferGlobal": true,
