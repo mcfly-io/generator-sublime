@@ -89,16 +89,14 @@ gulp.task('eslint', function() {
     gulp.src(constants.lint)
         .pipe(eslint())
         .pipe(eslint.format())
-    //.pipe(eslint.failOnError())
-    .on('data', function(file) {
+        .on('data', function(file) {
 
-        if(file.eslint.messages && file.eslint.messages.length && _.contains(file.eslint.messages, function(item) {
-            return item.severity === 2;
-        })) {
-            gutil.log(file.eslint);
-            hasError = true;
-        }
-    })
+            if(file.eslint.messages && file.eslint.messages.length && _.any(file.eslint.messages, function(item) {
+                return item.severity === 2;
+            })) {
+                hasError = true;
+            }
+        })
         .on('end', function() {
             if(!hasError && !hasShown) {
                 hasShown = true;
