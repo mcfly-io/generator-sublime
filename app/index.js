@@ -290,6 +290,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 this.template('_README.md', 'readme.md');
             }
         },
+
         npmPublish: function() {
             if(this.NpmPublish) {
 
