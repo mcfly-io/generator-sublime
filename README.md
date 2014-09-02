@@ -49,7 +49,7 @@ This generator will scaffold the following files:
 * .gitignore
 * readme.md (comes with badges!)
 * startup.sh (codio startup file)
-* deploy/git-config.sh (configure git with common aliases and options)
+* bin/git-config.sh (configure git with common aliases and options)
 * .travis.yml (travis-ci config file)
 * shippable.yml (shippable.com config file)
 
@@ -67,6 +67,14 @@ You should then be able to run it
 ```
 ./path/to/your/bashfile.sh
 ```
+
+### sublime:gulps
+```
+yo sublime:gulps
+```
+
+#### Results
+This will scaffold some common gulp tasks (serve, lint, browserify, etc...)
 
 ## Testing
 
