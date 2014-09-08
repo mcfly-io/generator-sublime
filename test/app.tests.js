@@ -6,6 +6,9 @@ var mockery = require('mockery');
 var testHelper = require('./testHelper')();
 var _ = require('lodash');
 var os = require('os');
+var sinon = require('sinon');
+
+var generator = '../app';
 
 var allFiles = [
     '.jshintrc',
@@ -54,7 +57,6 @@ var projectFiles = function(done, expectedFiles, prompts) {
 
 describe('sublime generator', function() {
 
-    var generator = '../app';
     var defaultOptions;
 
     before(function() {
@@ -62,9 +64,11 @@ describe('sublime generator', function() {
         mockery.registerMock('github', testHelper.githubMock);
         mockery.registerMock('child_process', testHelper.childProcessMock);
         mockery.registerMock('npm', testHelper.npmMock);
+        mockery.registerMock('update-notifier', testHelper.updateNotifierMock.bind(this, false));
     });
 
     beforeEach(function(done) {
+
         defaultOptions = {
             hideWelcome: true,
             checkTravis: false
@@ -83,19 +87,25 @@ describe('sublime generator', function() {
     });
 
     it('with option hideWelcome false should display welcome message', function(done) {
+        var yosay = sinon.spy();
+        mockery.registerMock('yosay', yosay);
+
         this.runGen.withOptions({
             hideWelcome: false
         }).on('end', function() {
-            // TODO : Assert that yosay was called
+            assert(yosay.calledWith('Welcome to the marvelous Sublime generator!'), 'yosay was not called with welcome message');
             done();
         });
     });
 
     it('with option hideWelcome true should not display welcome message', function(done) {
+        var yosay = sinon.spy();
+        mockery.registerMock('yosay', yosay);
+
         this.runGen.withOptions({
             hideWelcome: true
         }).on('end', function() {
-            // TODO : Assert that yosay was not called
+            assert(yosay.callCount === 0, 'yosay should not be called');
             done();
         });
     });
@@ -272,4 +282,5 @@ describe('sublime generator', function() {
             done();
         });
     });
+
 });

@@ -66,7 +66,20 @@ module.exports = function() {
         }
     };
 
+    var updateNotifierMock = function(update, callback) {
+        return {
+            update: update,
+            notify: callback
+        };
+    };
+    var shelljsMock = function(cb) {
+        return {
+            exit: cb
+        };
+    };
+
     var startMock = function(mockery) {
+        //mockery.disable();
         mockery.enable({
             warnOnUnregistered: false,
             useCleanCache: true
@@ -85,6 +98,8 @@ module.exports = function() {
         githubMock: githubMock,
         childProcessMock: childProcessMock,
         npmMock: npmMock,
+        updateNotifierMock: updateNotifierMock,
+        shelljsMock: shelljsMock,
         startMock: startMock,
         endMock: endMock
     };

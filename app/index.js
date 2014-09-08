@@ -5,9 +5,10 @@ var yosay = require('yosay');
 var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
-
+var updateNotifier = require('update-notifier');
 var exec = require('child_process').exec;
 var npm = require('npm');
+var shell = require('shelljs');
 
 var githubOptions = {
     version: '3.0.0'
@@ -65,7 +66,18 @@ var SublimeGenerator = yeoman.generators.Base.extend({
     initializing: function() {
 
         this.pkg = require('../package.json');
+        var notifier = updateNotifier({
+            packageName: this.pkg.name,
+            packageVersion: this.pkg.version,
+            updateCheckInterval: 1
+        });
 
+        if(notifier.update) {
+            if(notifier.update.latest !== this.pkg.version) {
+                notifier.notify();
+                shell.exit(1);
+            }
+        }
         var pkgDest = {};
         try {
             pkgDest = this.dest.readJSON('package.json');
