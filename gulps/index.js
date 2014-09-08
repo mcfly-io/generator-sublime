@@ -26,7 +26,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'lint',
             'serve',
             'browserify',
-            'release'
+            'release',
+            'karma'
         ];
     },
 
@@ -127,6 +128,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-bump',
                     'gulp-git',
                     'gulp-if'
+                ]);
+            }
+
+            if(this.karma) {
+                this.template('tasks/karma.js', 'gulp/tasks/karma.js');
+                npmPackages = npmPackages.concat([
+                    'chalk',
+                    'gulp-karma'
                 ]);
             }
             var cmd = 'npm install --save-dev ' + _.uniq(npmPackages).join(' ');
