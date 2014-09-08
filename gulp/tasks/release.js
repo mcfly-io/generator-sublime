@@ -6,8 +6,7 @@ var $ = require('gulp-load-plugins')();
 var spawm = require('child_process').spawn;
 var bump = $.bump;
 var git = $.git;
-var gulpif = $.
-if;
+var gulpif = $.if;
 var constants = require('../common/constants')();
 
 // TODO: Add build task
@@ -51,9 +50,9 @@ gulp.task('bump', function() {
 gulp.task('commit', ['bump'], function() {
     var pkg = require('../../package.json');
     var message = pkg.version;
-    gulp.src(constants.versionFiles, {
-        buffer: false
-    }).pipe(git.commit(message));
+    gulp.src(constants.versionFiles)
+        .pipe(git.add({args: '-A'}))
+        .pipe(git.commit(message));
 });
 
 gulp.task('tag', ['bump'], function() {
