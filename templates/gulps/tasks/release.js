@@ -65,6 +65,7 @@ gulp.task('tag', ['commit'], function() {
 
 gulp.task('push', ['tag'], function() {
     git.push('origin', 'master', '--tags');
+	git.push('origin', 'master');
 });
 
 gulp.task('npm', ['push'], function(done) {
