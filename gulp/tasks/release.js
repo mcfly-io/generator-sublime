@@ -48,31 +48,26 @@ gulp.task('bump', function() {
 
 });
 
-gulp.task('commit', function() {
+gulp.task('commit', ['bump'], function() {
     var pkg = require('../../package.json');
-
-    var v = 'v' + pkg.version;
     var message = pkg.version;
-
-    gulp.src('./*', {
+    gulp.src(constants.versionFiles, {
         buffer: false
-    })
-        .pipe(git.commit(message));
+    }).pipe(git.commit(message));
 });
 
-gulp.task('tag', /*['bump'],*/ function() {
+gulp.task('tag', ['bump'], function() {
     var pkg = require('../../package.json');
-
     var v = 'v' + pkg.version;
     var message = pkg.version;
-    return gulp.src('./')
-        .pipe(git.commit(message))
-        .pipe(git.tag(v, message))
-        .pipe(git.push('origin', 'master', '--tags'))
-        .pipe(gulp.dest('./'));
+    git.tag(v, message);
 });
 
-gulp.task('npm', ['tag'], function(done) {
+gulp.task('push', ['tag'], function() {
+    git.push('origin', 'master', '--tags');
+});
+
+gulp.task('npm', ['push'], function(done) {
     spawm('npm', ['publish'], {
         stdio: 'inherit'
     }).on('close', done);
