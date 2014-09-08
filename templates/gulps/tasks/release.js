@@ -38,7 +38,7 @@ gulp.task('bump', function() {
     }
     bumpType = process.env.BUMP || bumpType;
 
-    gulp.src(constants.versionFiles)
+    return gulp.src(constants.versionFiles)
         .pipe(gulpif(args.ver !== undefined, bump({
             version: args.ver
         }), bump({
@@ -65,7 +65,7 @@ gulp.task('tag', ['commit'], function() {
     git.tag(v, message);
 });
 
-gulp.task('push', function() {
+gulp.task('push', ['tag'], function() {
     exec('git push origin master --tags && git push origin master', function(err) {
         if(err) {
             throw new Error(err);
