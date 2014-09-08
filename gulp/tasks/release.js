@@ -55,7 +55,7 @@ gulp.task('commit', ['bump'], function() {
         .pipe(git.commit(message));
 });
 
-gulp.task('tag', ['bump'], function() {
+gulp.task('tag', ['commit'], function() {
     var pkg = require('../../package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
