@@ -79,7 +79,7 @@ gulp.task('tag', ['commit'], function() {
 });
 
 gulp.task('push', ['tag'], function() {
-    exec('git push origin master --tags && git push origin master', function(err) {
+    exec('git push origin master  && git push origin master --tags', function(err) {
         if(err) {
             throw new Error(err);
         }
