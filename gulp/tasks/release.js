@@ -6,7 +6,8 @@ var $ = require('gulp-load-plugins')();
 var spawm = require('child_process').spawn;
 var bump = $.bump;
 var git = $.git;
-var gulpif = $.if;
+var gulpif = $.
+if;
 var constants = require('../common/constants')();
 
 // TODO: Add build task
@@ -47,16 +48,16 @@ gulp.task('bump', function() {
 
 });
 
-gulp.task('tag', ['bump'], function() {
-    var pkg = require('./package.json');
+gulp.task('tag', /*['bump'],*/ function() {
+    var pkg = require('../../package.json');
+
     var v = 'v' + pkg.version;
     var message = pkg.version;
 
-    return gulp.src('./')
+    return gulp.src('./*')
         .pipe(git.commit(message))
         .pipe(git.tag(v, message))
-        .pipe(git.push('origin', 'master', '--tags'))
-        .pipe(gulp.dest('./'));
+        .pipe(git.push('origin', 'master', '--tags'));
 });
 
 gulp.task('npm', ['tag'], function(done) {
