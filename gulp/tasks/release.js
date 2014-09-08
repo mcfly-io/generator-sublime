@@ -4,10 +4,10 @@ var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')();
 var spawm = require('child_process').spawn;
+var exec = require('child_process').exec;
 var bump = $.bump;
 var git = $.git;
-var gulpif = $.
-if;
+var gulpif = $.if;
 var constants = require('../common/constants')();
 
 // TODO: Add build task
@@ -65,18 +65,11 @@ gulp.task('tag', ['commit'], function() {
     git.tag(v, message);
 });
 
-gulp.task('push-tag', ['tag'], function() {
-    git.push('origin', 'master', '--tags');
-
-});
-
-gulp.task('push',  function() {
-    git.push('origin', 'master', function(err) {
-		console.log('pushing');
+gulp.task('push', function() {
+    exec('git push origin master --tags && git push origin master', function(err) {
         if(err) {
-            throw err;
+            throw new Error(err);
         }
-		console.log('pushing');
     });
 });
 

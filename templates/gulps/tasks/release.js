@@ -4,10 +4,10 @@ var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')();
 var spawm = require('child_process').spawn;
+var exec = require('child_process').exec;
 var bump = $.bump;
 var git = $.git;
-var gulpif = $.
-if;
+var gulpif = $.if;
 var constants = require('../common/constants')();
 
 // TODO: Add build task
@@ -52,7 +52,9 @@ gulp.task('commit', ['bump'], function() {
     var pkg = require('../../package.json');
     var message = pkg.version;
     gulp.src(constants.versionFiles)
-        .pipe(git.add({args: '-A'}))
+        .pipe(git.add({
+            args: '.'
+        }))
         .pipe(git.commit(message));
 });
 
@@ -63,9 +65,12 @@ gulp.task('tag', ['commit'], function() {
     git.tag(v, message);
 });
 
-gulp.task('push', ['tag'], function() {
-    git.push('origin', 'master', '--tags');
-	git.push('origin', 'master');
+gulp.task('push', function() {
+    exec('git push origin master --tags && git push origin master', function(err) {
+        if(err) {
+            throw new Error(err);
+        }
+    });
 });
 
 gulp.task('npm', ['push'], function(done) {
