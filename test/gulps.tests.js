@@ -15,7 +15,8 @@ describe('sublime gulps subgenerator', function() {
         'lint',
         'serve',
         'browserify',
-        'release'
+        'release',
+        'karma'
     ];
 
     before(function() {
@@ -82,6 +83,10 @@ describe('sublime gulps subgenerator', function() {
 
     it('with option release should scaffold release.js', function(done) {
         projectFiles.call(this, done, ['release']);
+    });
+
+    it('with option karma should scaffold karma.js', function(done) {
+        projectFiles.call(this, done, ['karma']);
     });
 
 });
