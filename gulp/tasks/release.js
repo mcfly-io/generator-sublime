@@ -64,7 +64,7 @@ gulp.task('bump', function() {
 gulp.task('commit', ['bump'], function() {
     var pkg = readJsonFile('./package.json');
     var message = pkg.version;
-    gulp.src(constants.versionFiles)
+    return gulp.src(constants.versionFiles)
         .pipe(git.add({
             args: '.'
         }))
