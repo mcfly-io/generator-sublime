@@ -23,8 +23,6 @@ var readJsonFile = function(filename) {
     return JSON.parse(stripJsonComments(body));
 };
 
-// TODO: Add build task
-
 /**
  * Bumps any version in the constants.versionFiles
  *
