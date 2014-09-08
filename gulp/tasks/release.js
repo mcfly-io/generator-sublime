@@ -48,16 +48,28 @@ gulp.task('bump', function() {
 
 });
 
-gulp.task('tag', /*['bump'],*/ function() {
+gulp.task('commit', function() {
     var pkg = require('../../package.json');
 
     var v = 'v' + pkg.version;
     var message = pkg.version;
 
-    return gulp.src('./*')
+    gulp.src('./*', {
+        buffer: false
+    })
+        .pipe(git.commit(message));
+});
+
+gulp.task('tag', /*['bump'],*/ function() {
+    var pkg = require('../../package.json');
+
+    var v = 'v' + pkg.version;
+    var message = pkg.version;
+    return gulp.src('./')
         .pipe(git.commit(message))
         .pipe(git.tag(v, message))
-        .pipe(git.push('origin', 'master', '--tags'));
+        .pipe(git.push('origin', 'master', '--tags'))
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('npm', ['tag'], function(done) {
