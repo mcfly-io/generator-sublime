@@ -9,7 +9,7 @@ clear
 CURRENT_DIRECTORY=$(pwd)
 
 # configure git
-bash ./deploy/git-config.sh
+bash ./bin/git-config.sh
 
 # install node
 source ~/.nvm/nvm.sh

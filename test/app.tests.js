@@ -74,11 +74,6 @@ describe('sublime generator', function() {
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
             .withOptions(defaultOptions);
 
-        // TODO : Remove with latest version of yeoman/generator - see https://github.com/yeoman/generator/pull/632
-        this.runGen.withOptions = function(options) {
-            this.options = _.extend(this.options, options);
-            return this;
-        };
         done();
 
     });
@@ -238,7 +233,7 @@ describe('sublime generator', function() {
         this.runGen.withPrompt({
             'Gitconfig': true
         }).on('end', function() {
-            assert.file('deploy/git-config.sh');
+            assert.file('bin/git-config.sh');
             done();
         });
     });
@@ -248,7 +243,7 @@ describe('sublime generator', function() {
         this.runGen.withPrompt({
             'Gitconfig': false
         }).on('end', function() {
-            assert.noFile('deploy/git-config.sh');
+            assert.noFile('bin/git-config.sh');
             done();
         });
     });

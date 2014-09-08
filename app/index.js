@@ -284,7 +284,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 this.template('_travis.yml', '.travis.yml');
             }
             if(this.Gitconfig) {
-                this.template('deploy/git-config.sh', 'deploy/git-config.sh');
+                this.template('bin/git-config.sh', 'bin/git-config.sh');
             }
             if(this.ReadmeMd) {
                 this.template('_README.md', 'readme.md');
