@@ -1,5 +1,6 @@
 'use strict';
 var path = require('path');
+var chalk = require('chalk');
 var yeoman = require('yeoman-generator');
 
 var BashGenerator = yeoman.generators.Base.extend({
@@ -17,6 +18,12 @@ var BashGenerator = yeoman.generators.Base.extend({
             this.sourceRoot(path.join(__dirname, '../templates/bash'));
             this.copy('bash.sh', this.name);
         }
+
+    },
+
+    end: function() {
+        this.log('');
+        this.log(chalk.green('Woot!') + ' the file ' + this.name + ' was created successfully.');
 
     }
 

@@ -330,9 +330,20 @@ var SublimeGenerator = yeoman.generators.Base.extend({
     },
 
     _errorTravis: function(err) {
+        this.errorTravis = true;
         this.log(chalk.red('The following error occured configuring travis for npm publish :'));
         this.log(chalk.red('\n' + err.message));
         this.log(chalk.yellow.bold('\nYou need to configure manually .travis.yml deploy section'));
+    },
+
+    end: function() {
+        if(this.errTravis) {
+            return;
+        }
+        this.log('');
+        this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
+        this.log('Run the command ' + chalk.yellow('yo sublime:bash path/to/bashfile.sh') + ' to create a new bash file.');
+        this.log('Run the command ' + chalk.yellow('yo sublime:gulps') + ' to scaffold gulp tasks.');
     }
 
 });
