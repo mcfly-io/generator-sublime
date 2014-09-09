@@ -123,7 +123,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/release.js', 'gulp/tasks/release.js');
                 npmPackages = npmPackages.concat([
                     'yargs',
-                    'child_process',
                     'strip-jspon-comments',
                     'gulp-bump',
                     'gulp-git',
