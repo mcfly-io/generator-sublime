@@ -43,7 +43,7 @@
     "lodash": "^2.4.1",
     "shelljs": "^0.3.0",
     "strip-json-comments": "^1.0.1",
-    "update-notifier": "^0.2.0",
+    "update-notifier": "^0.2.1",
     "yeoman-generator": "^0.17.5",
     "yosay": "^1.0.0"
   },
