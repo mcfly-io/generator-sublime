@@ -7,6 +7,8 @@ var marked = require('marked');
 var fs = require('fs');
 var q = require('q');
 var pkg = require('../../package.json');
+var path = require('path');
+var gutil = require('gulp-util');
 
 var repository = 'https://github.com/thaiat/generator-sublime';
 if(repository.length <= 0) {
@@ -15,7 +17,7 @@ if(repository.length <= 0) {
 
 var makeChangelog = function(options) {
     var codename = pkg.codename;
-    var file = options.standalone ? '' : __dirname + '/CHANGELOG.md';
+    var file = options.standalone ? '' : path.join(__dirname, 'CHANGELOG.md');
     var subtitle = options.subtitle || '"' + codename + '"';
     var from = options.from;
     var version = options.version || pkg.version;
@@ -30,7 +32,7 @@ var makeChangelog = function(options) {
         if(err) {
             deferred.reject(err);
         } else {
-            console.log('LOG', log);
+            gutil.log('LOG', log);
             deferred.resolve(log);
         }
     });
@@ -39,7 +41,7 @@ var makeChangelog = function(options) {
 
 gulp.task('changelog', function() {
     var dest = argv.dest || 'CHANGELOG.md';
-    var toHtml = !! argv.html;
+    var toHtml = argv.html || false;
     return makeChangelog(argv).then(function(log) {
         if(toHtml) {
             log = marked(log, {
