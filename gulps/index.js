@@ -163,6 +163,37 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }.bind(this));
         }
 
+    },
+
+    end: function() {
+        this.log('');
+        this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
+        if(this.lint) {
+            this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
+
+        }
+        if(this.serve) {
+            this.log('Run the command ' + chalk.yellow('gulp serve') + ' to launch a live reload server.');
+            this.log('Run the command ' + chalk.yellow('gulp browsersync') + ' to launch a browsersync server.');
+
+        }
+        if(this.browserify) {
+            this.log('Run the command ' + chalk.yellow('gulp browserify') + ' to create a browserify bundle.');
+
+        }
+        if(this.release) {
+            this.log('Run the command ' + chalk.yellow('gulp release') + ' to increment version and publish to npm.');
+
+        }
+        if(this.karma) {
+            this.log('Run the command ' + chalk.yellow('gulp karma') + ' to run karma.');
+
+        }
+        if(this.changelog) {
+            this.log('Run the command ' + chalk.yellow('gulp changelog') + ' to create a CHANGELOG.md file.');
+
+        }
+
     }
 
 });

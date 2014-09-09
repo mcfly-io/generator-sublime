@@ -12,7 +12,7 @@ describe('sublime bash subgenerator', function() {
     var generator = '../bash';
 
     beforeEach(function(done) {
-        helpers.run(path.join(__dirname, generator))
+        this.runGen = helpers.run(path.join(__dirname, generator))
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
             .withArguments(testFile, '--force')
             .on('end', done);
