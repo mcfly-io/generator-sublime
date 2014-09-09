@@ -16,7 +16,8 @@ describe('sublime gulps subgenerator', function() {
         'serve',
         'browserify',
         'release',
-        'karma'
+        'karma',
+        'changelog'
     ];
 
     before(function() {
@@ -86,6 +87,10 @@ describe('sublime gulps subgenerator', function() {
     });
 
     it('with option karma should scaffold karma.js', function(done) {
+        projectFiles.call(this, done, ['karma']);
+    });
+
+    it('with option changelog should scaffold changelog.js', function(done) {
         projectFiles.call(this, done, ['karma']);
     });
 

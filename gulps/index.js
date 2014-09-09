@@ -27,7 +27,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'serve',
             'browserify',
             'release',
-            'karma'
+            'karma',
+            'changelog'
         ];
     },
 
@@ -137,6 +138,17 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-karma'
                 ]);
             }
+
+            if(this.changelog) {
+                this.template('tasks/changelog.js', 'gulp/tasks/changelog.js');
+                npmPackages = npmPackages.concat([
+                    'conventional-changelog',
+                    'yargs',
+                    'marked',
+                    'q'
+                ]);
+            }
+
             var cmd = 'npm install --save-dev ' + _.uniq(npmPackages).join(' ');
             this.log(chalk.bold.yellow('Please wait while we are running the following command:\n') + cmd);
             this.log(chalk.yellow('...'));
