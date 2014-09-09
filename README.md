@@ -74,7 +74,12 @@ yo sublime:gulps
 ```
 
 #### Results
-This will scaffold some common gulp tasks (serve, lint, browserify, etc...)
+This will scaffold some common gulp tasks:
+* serve (start a server using livereload or browsersync)
+* lint (linting through jshint, jscs, and eslint)
+* karma (start karma)
+* changelog (create a CHANGELOG.md file when your commit messages adhere to angular commit guidelines)
+* release (bump the version and publish to npm)
 
 ## Testing
 
