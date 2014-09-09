@@ -48,6 +48,7 @@
     "yosay": "^1.0.0"
   },
   "devDependencies": {
+    "conventional-changelog": "0.0.11",
     "coveralls": "^2.11.1",
     "growly": "^1.1.1",
     "gulp": "^3.8.8",
@@ -62,9 +63,11 @@
     "jshint-stylish": "^0.4.0",
     "karma-growl-reporter": "^0.1.1",
     "map-stream": "^0.1.0",
+    "marked": "^0.3.2",
     "mocha": "^1.21.4",
     "mocha-lcov-reporter": "0.0.1",
     "mockery": "^1.4.0",
+    "q": "^1.0.1",
     "require-dir": "^0.1.0",
     "sinon": "^1.10.3",
     "stream-combiner": "^0.2.1",
