@@ -91,7 +91,7 @@ describe('sublime gulps subgenerator', function() {
     });
 
     it('with option changelog should scaffold changelog.js', function(done) {
-        projectFiles.call(this, done, ['karma']);
+        projectFiles.call(this, done, ['changelog']);
     });
 
 });
