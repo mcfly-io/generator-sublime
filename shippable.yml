@@ -4,23 +4,10 @@ language: node_js
 # version numbers, testing against multiple versions of node
 node_js:
   - 0.10.30
-
-
-script:
-  - cd ..
-  - rm -rf generator-sublime
-  - rm -rf code/generator-sublime
-  - mkdir generator-sublime
-  - mv code/* generator-sublime
-  - mv generator-sublime code/generator-sublime
-  - cd code/generator-sublime
-  - npm test
   
 after_success:
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
-  - cd generator-sublime
-#  - npm run coverage
   - mocha -R xunit >> coverage/result.xml
-  - mv coverage/cobertura-coverage.xml ../shippable/codecoverage/coverage.xml
-  - mv coverage/result.xml ../shippable/testresults/result.xml
+  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
+  - mv coverage/result.xml shippable/testresults/result.xml
