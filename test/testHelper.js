@@ -88,6 +88,7 @@ module.exports = function() {
 
     var endMock = function(mockery) {
         mockery.disable();
+        mockery.deregisterAll();
     };
 
     return {

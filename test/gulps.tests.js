@@ -22,7 +22,7 @@ describe('sublime gulps subgenerator', function() {
 
     before(function() {
         testHelper.startMock(mockery);
-        //mockery.registerMock('child_process', testHelper.childProcessMock);
+        mockery.registerMock('child_process', testHelper.childProcessMock);
     });
 
     beforeEach(function(done) {
