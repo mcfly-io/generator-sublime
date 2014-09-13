@@ -49,6 +49,7 @@ describe('sublime gulps subgenerator', function() {
         }).on('end', function() {
 
             if(expectedTasks.length > 0) {
+                assert.file('gulpfile.js');
                 assert.file('gulp/common/constants.js');
             } else {
 

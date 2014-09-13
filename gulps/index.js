@@ -81,11 +81,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             var npmPackages = [
                 'gulp',
                 'gulp-util',
-                'gulp-load-plugins'
+                'gulp-load-plugins',
+                'require-dir'
             ];
 
             this.sourceRoot(path.join(__dirname, '../templates/gulps'));
 
+            this.template('gulpfile.js', 'gulpfile.js');
             this.template('common/constants.js', 'gulp/common/constants.js');
 
             if(this.lint) {
