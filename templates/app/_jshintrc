@@ -7,9 +7,11 @@
 		"afterEach": false,
         "console": false,
         "describe": false,
+		"xdescribe": false,
         "expect": false,
         "inject": false,
         "it": false,
+		"xit": false,
         "jasmine": false,
         "moment": false,
         "require": false,
@@ -17,7 +19,9 @@
         "runs": false,
         "spyOn": false,
         "waits": false,
-        "waitsFor": false
+        "waitsFor": false,
+		"assert": false,
+		"sinon": false
     },
     "predef": [
         "angular",
@@ -27,9 +31,11 @@
 		"after",
         "console",
         "describe",
+		"xdescribe",
         "expect",
         "inject",
         "it",
+		"xit",
         "jasmine",
         "moment",
         "require",
@@ -37,7 +43,9 @@
         "runs",
         "spyOn",
         "waits",
-        "waitsFor"
+        "waitsFor",
+		"assert",
+		"sinon"
     ],
     "bitwise": true,
     "browser": true,

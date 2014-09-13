@@ -4,6 +4,7 @@
         "node": true,
         "amd": true,
 		"mocha": true
+		
     },
     "rules": {
 	    "eol-last":0,
@@ -80,7 +81,6 @@
 		"no-with": 2,
 		"no-wrap-func": 2,
 		"yoda": "never",
-
 		"complexity": [0, 11],
 		"consistent-return": 2,
 		"consistent-this": [1, "that"],
@@ -101,6 +101,8 @@
     	"expect": true,
     	"protractor": true,
     	"xdescribe": true,
-    	"xit": true
+        "xit": true,
+        "assert": true,
+		"sinon": true
   }
 }
