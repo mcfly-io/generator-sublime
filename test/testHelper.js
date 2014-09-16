@@ -1,7 +1,6 @@
 'use strict';
 var fs = require('fs');
 var _ = require('lodash');
-var assert = require('assert');
 var stripJsonComments = require('strip-json-comments');
 
 module.exports = function() {

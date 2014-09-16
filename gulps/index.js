@@ -100,7 +100,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'lodash',
                     'gulp-jshint',
                     'gulp-jscs',
-                    'gulp-eslint'
+                    'gulp-eslint',
+                    'gulp-plumber'
                 ]);
 
             }

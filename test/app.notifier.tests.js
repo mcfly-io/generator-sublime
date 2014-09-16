@@ -1,11 +1,9 @@
 'use strict';
 var path = require('path');
 var helpers = require('yeoman-generator').test;
-var assert = require('yeoman-generator').assert;
 var mockery = require('mockery');
 var testHelper = require('./testHelper')();
 var os = require('os');
-var sinon = require('sinon');
 
 var generator = '../app';
 

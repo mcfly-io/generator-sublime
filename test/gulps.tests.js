@@ -4,7 +4,6 @@ var path = require('path');
 var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
 var mockery = require('mockery');
-var assert = require('yeoman-generator').assert;
 var os = require('os');
 var _ = require('lodash');
 

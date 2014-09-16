@@ -3,7 +3,6 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
-var assert = require('yeoman-generator').assert;
 var os = require('os');
 
 describe('sublime bash subgenerator', function() {
