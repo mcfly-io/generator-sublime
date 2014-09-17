@@ -16,7 +16,6 @@ describe('sublime:gulps', function() {
         'serve',
         'browserify',
         'release',
-        'karma',
         'changelog',
         'test'
     ];
@@ -90,10 +89,6 @@ describe('sublime:gulps', function() {
 
     it('with option release should scaffold release.js', function(done) {
         projectFiles.call(this, done, ['release']);
-    });
-
-    it('with option karma should scaffold karma.js', function(done) {
-        projectFiles.call(this, done, ['karma']);
     });
 
     it('with option changelog should scaffold changelog.js', function(done) {

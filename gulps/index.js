@@ -27,7 +27,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'serve',
             'browserify',
             'release',
-            'karma',
             'changelog',
             'test'
         ];
@@ -134,14 +133,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
 
-            if(this.karma) {
-                this.template('tasks/karma.js', 'gulp/tasks/karma.js');
-                npmPackages = npmPackages.concat([
-                    'chalk',
-                    'gulp-karma'
-                ]);
-            }
-
             if(this.changelog) {
                 this.template('tasks/changelog.js', 'gulp/tasks/changelog.js');
                 npmPackages = npmPackages.concat([
@@ -155,7 +146,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/test.js', 'gulp/tasks/test.js');
                 npmPackages = npmPackages.concat([
                     'gulp-mocha',
-                    'gulp-istanbul'
+                    'gulp-istanbul',
+                    'chalk',
+                    'gulp-karma'
                 ]);
             }
             var cmd = 'npm install --save-dev ' + _.uniq(npmPackages).join(' ');
@@ -191,10 +184,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         }
         if(this.release) {
             this.log('Run the command ' + chalk.yellow('gulp release') + ' to increment version and publish to npm.');
-
-        }
-        if(this.karma) {
-            this.log('Run the command ' + chalk.yellow('gulp karma') + ' to run karma.');
 
         }
         if(this.changelog) {
