@@ -28,10 +28,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'browserify',
             'release',
             'karma',
-            'changelog'
+            'changelog',
+            'test'
         ];
     },
-
     prompting: {
 
         askFor: function() {
@@ -82,7 +82,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp',
                 'gulp-util',
                 'gulp-load-plugins',
-                'require-dir'
+                'require-dir',
+                'run-sequence'
             ];
 
             this.sourceRoot(path.join(__dirname, '../templates/gulps'));
@@ -90,7 +91,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             this.template('gulpfile.js', 'gulpfile.js');
             this.template('common/constants.js', 'gulp/common/constants.js');
 
-            if(this.lint) {
+            if(this.lint || this.test) {
                 this.template('tasks/lint.js', 'gulp/tasks/lint.js');
                 npmPackages = npmPackages.concat([
                     'map-stream',
@@ -103,7 +104,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-eslint',
                     'gulp-plumber'
                 ]);
-
             }
             if(this.serve) {
                 this.template('tasks/serve.js', 'gulp/tasks/serve.js');
@@ -151,15 +151,20 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'q'
                 ]);
             }
-
+            if(this.test) {
+                this.template('tasks/test.js', 'gulp/tasks/test.js');
+                npmPackages = npmPackages.concat([
+                    'gulp-mocha',
+                    'gulp-istanbul'
+                ]);
+            }
             var cmd = 'npm install --save-dev ' + _.uniq(npmPackages).join(' ');
             this.log(chalk.bold.yellow('Please wait while we are running the following command:\n') + cmd);
             this.log(chalk.yellow('...'));
 
             exec(cmd, function(err) {
-
                 if(err) {
-                    throw new Error(err);
+                    this.emit('error', err);
                 }
                 this.log(chalk.bold.green('npm has executed successfully'));
                 done();
@@ -194,7 +199,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         }
         if(this.changelog) {
             this.log('Run the command ' + chalk.yellow('gulp changelog') + ' to create a CHANGELOG.md file.');
-
+        }
+        if(this.test) {
+            this.log('Run the command ' + chalk.yellow('gulp test') + ' to run the tests.');
         }
 
     }

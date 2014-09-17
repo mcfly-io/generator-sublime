@@ -53,7 +53,7 @@ var projectFiles = function(done, expectedFiles, prompts) {
         });
 };
 
-describe('sublime generator', function() {
+describe('sublime:app', function() {
 
     var defaultOptions;
 

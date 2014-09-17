@@ -7,16 +7,18 @@ var mockery = require('mockery');
 var os = require('os');
 var _ = require('lodash');
 
-describe('sublime gulps subgenerator', function() {
+var generator = '../gulps';
 
-    var generator = '../gulps';
+describe('sublime:gulps', function() {
+
     var allTasks = [
         'lint',
         'serve',
         'browserify',
         'release',
         'karma',
-        'changelog'
+        'changelog',
+        'test'
     ];
 
     before(function() {
@@ -39,7 +41,8 @@ describe('sublime gulps subgenerator', function() {
         testHelper.endMock(mockery);
     });
 
-    var projectFiles = function(done, expectedTasks) {
+    var projectFiles = function(done, expectedTasks, assertNoFile) {
+        assertNoFile = assertNoFile !== false;
         // always tranform the argument into an array
         expectedTasks = expectedTasks ? [].concat(expectedTasks) : [];
 
@@ -54,14 +57,17 @@ describe('sublime gulps subgenerator', function() {
 
                 assert.noFile('gulp/common/constants.js');
             }
-            assert.file(_.map(expectedTasks, function(task) {
+
+            function taskToFile(task) {
                 return 'gulp/tasks/' + task + '.js';
-            }));
+            }
+            assert.file(_.map(expectedTasks, taskToFile));
             var noFiles = allTasks.filter(function(task) {
                 return expectedTasks.indexOf(task) === -1;
-            });
-
-            assert.noFile(noFiles);
+            }).map(taskToFile);
+            if(assertNoFile) {
+                assert.noFile(noFiles);
+            }
             done();
         });
     };
@@ -94,4 +100,11 @@ describe('sublime gulps subgenerator', function() {
         projectFiles.call(this, done, ['changelog']);
     });
 
+    it('with option test should scaffold test.js and lint.js', function(done) {
+        projectFiles.call(this, function() {
+            assert.file('gulp/tasks/lint.js');
+            done();
+        }, ['test'], false);
+
+    });
 });
