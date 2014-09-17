@@ -5,7 +5,7 @@ var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
 var os = require('os');
 
-describe('sublime bash subgenerator', function() {
+describe('sublime:bash', function() {
 
     var testFile = 'test/bar.sh';
     var generator = '../bash';

@@ -7,7 +7,7 @@ var os = require('os');
 
 var generator = '../app';
 
-describe('notifier', function() {
+describe('sublime:app notifier', function() {
 
     var defaultOptions;
     var notifierCallback;

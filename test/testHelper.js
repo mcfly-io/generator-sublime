@@ -77,17 +77,17 @@ module.exports = function() {
         };
     };
 
+    var endMock = function(mockery) {
+        mockery.disable();
+        mockery.deregisterAll();
+    };
+
     var startMock = function(mockery) {
-        //mockery.disable();
+        endMock(mockery);
         mockery.enable({
             warnOnUnregistered: false,
             useCleanCache: true
         });
-    };
-
-    var endMock = function(mockery) {
-        mockery.disable();
-        mockery.deregisterAll();
     };
 
     return {
