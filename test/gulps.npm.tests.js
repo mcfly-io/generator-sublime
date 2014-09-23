@@ -7,7 +7,7 @@ var mockery = require('mockery');
 var os = require('os');
 
 var generator = '../gulps';
-
+var error;
 describe('sublime:gulps npm', function() {
     before(function() {
         testHelper.startMock(mockery);
@@ -21,11 +21,14 @@ describe('sublime:gulps npm', function() {
     beforeEach(function(done) {
 
         var defaultOptions = {};
-
+        error = new Error();
         var ctx = this.runGen = helpers.run(path.join(__dirname, generator))
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
             .withOptions(defaultOptions)
             .on('ready', function(generator) {
+                helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
+                    cb(error);
+                });
                 // TODO : Monkey patching waiting for pull request #648
                 generator.on('error', ctx.emit.bind(ctx, 'error'));
                 done();
@@ -37,7 +40,7 @@ describe('sublime:gulps npm', function() {
         this.runGen.withPrompt({
             'Tasks': ['lint']
         }).on('error', function(err) {
-            assert.equal(err.name, 'Error');
+            assert.equal(err, error);
             done();
         });
     });
