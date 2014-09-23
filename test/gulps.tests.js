@@ -27,11 +27,19 @@ describe('sublime:gulps', function() {
 
     beforeEach(function(done) {
 
-        var defaultOptions = {};
+        var defaultOptions = {
+            'skip-install': true
+        };
 
         this.runGen = helpers.run(path.join(__dirname, generator))
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
-            .withOptions(defaultOptions);
+            .withOptions(defaultOptions)
+            .on('ready', function(generator) {
+                helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
+                    cb();
+                });
+
+            });
         done();
 
     });
