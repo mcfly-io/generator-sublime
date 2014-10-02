@@ -36,7 +36,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
 
     constructor: function() {
         yeoman.generators.Base.apply(this, arguments);
-        this.option('hideWelcome', {
+        this.option('skip-welcome-message', {
             desc: 'Hide the welcome message',
             type: 'Boolean',
             defaults: false
@@ -101,7 +101,7 @@ var SublimeGenerator = yeoman.generators.Base.extend({
     prompting: {
         welcome: function() {
             // Have Yeoman greet the user.
-            if(!this.options.hideWelcome) {
+            if(!this.options['skip-welcome-message']) {
                 this.log(yosay('Welcome to the marvelous Sublime generator!'));
             }
 

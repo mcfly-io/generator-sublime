@@ -68,7 +68,7 @@ describe('sublime:app', function() {
     beforeEach(function(done) {
 
         defaultOptions = {
-            hideWelcome: true,
+            'skip-welcome-message': true,
             checkTravis: false
         };
 
@@ -84,24 +84,24 @@ describe('sublime:app', function() {
         testHelper.endMock(mockery);
     });
 
-    it('with option hideWelcome false should display welcome message', function(done) {
+    it('with option skip-welcome-message false should display welcome message', function(done) {
         var yosay = sinon.spy();
         mockery.registerMock('yosay', yosay);
 
         this.runGen.withOptions({
-            hideWelcome: false
+            'skip-welcome-message': false
         }).on('end', function() {
             assert(yosay.calledWith('Welcome to the marvelous Sublime generator!'), 'yosay was not called with welcome message');
             done();
         });
     });
 
-    it('with option hideWelcome true should not display welcome message', function(done) {
+    it('with option skip-welcome-message true should not display welcome message', function(done) {
         var yosay = sinon.spy();
         mockery.registerMock('yosay', yosay);
 
         this.runGen.withOptions({
-            hideWelcome: true
+            'skip-welcome-message': true
         }).on('end', function() {
             assert(yosay.callCount === 0, 'yosay should not be called');
             done();
