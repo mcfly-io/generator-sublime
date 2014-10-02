@@ -72,7 +72,11 @@ gulp.task('tag', ['commit'], function() {
     var pkg = readJsonFile('./package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
-    git.tag(v, message);
+    git.tag(v, message, function(err) {
+        if(err) {
+            throw new Error(err);
+        }
+    });
 });
 
 gulp.task('push', ['tag'], function() {
