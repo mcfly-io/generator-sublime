@@ -42,7 +42,7 @@ gulp.task('karma', function() {
 gulp.task('test', function(done) {
     runSequence(
         'lint',
-        ['mocha','karma'],
+        ['mocha', 'karma'],
         done
     );
 });
