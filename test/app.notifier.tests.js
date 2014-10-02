@@ -29,7 +29,7 @@ describe('sublime:app notifier', function() {
         }, notifierCallback));
 
         defaultOptions = {
-            hideWelcome: true,
+            'skip-welcome-message': true,
             checkTravis: false
         };
 
@@ -42,7 +42,7 @@ describe('sublime:app notifier', function() {
     it('with obsolete version should notify', function(done) {
 
         this.runGen.withOptions({
-            hideWelcome: true
+            'skip-welcome-message': true
         }).on('end', function() {
             assert.equal(notifierCallback.callCount, 1);
             sinon.assert.called(exitCallback);
