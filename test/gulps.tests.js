@@ -17,7 +17,8 @@ describe('sublime:gulps', function() {
         'browserify',
         'release',
         'changelog',
-        'test'
+        'test',
+        'style'
     ];
 
     before(function() {
@@ -109,5 +110,8 @@ describe('sublime:gulps', function() {
             done();
         }, ['test'], false);
 
+    });
+    it('with option style should scaffold style.js', function(done) {
+        projectFiles.call(this, done, ['style']);
     });
 });

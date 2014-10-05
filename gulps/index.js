@@ -27,7 +27,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'browserify',
             'release',
             'changelog',
-            'test'
+            'test',
+            'style'
         ];
     },
     prompting: {
@@ -116,7 +117,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/browserify.js', 'gulp/tasks/browserify.js');
                 npmPackages = npmPackages.concat([
                     'vinyl-source-stream',
-                    'browserify',
+                    'browserify#5.13.1',
                     'watchify',
                     'chalk'
                 ]);
@@ -149,6 +150,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-istanbul',
                     'chalk',
                     'gulp-karma'
+                ]);
+            }
+
+            if(this.style) {
+                this.template('tasks/style.js', 'gulp/tasks/style.js');
+                npmPackages = npmPackages.concat([
+                    'gulp-sass',
+                    'gulp-sourcemaps'
                 ]);
             }
 
@@ -205,7 +214,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(this.test) {
             this.log('Run the command ' + chalk.yellow('gulp test') + ' to run the tests.');
         }
-
+        if(this.style) {
+            this.log('Run the command ' + chalk.yellow('gulp sass') + ' to compile sass file.');
+        }
     }
 
 });
