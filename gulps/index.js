@@ -117,7 +117,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/browserify.js', 'gulp/tasks/browserify.js');
                 npmPackages = npmPackages.concat([
                     'vinyl-source-stream',
-                    'browserify#5.13.1',
+                    'browserify',
                     'watchify',
                     'chalk'
                 ]);
@@ -148,6 +148,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'gulp-mocha',
                     'gulp-istanbul',
+                    'gulp-plumber',
                     'chalk',
                     'gulp-karma'
                 ]);
@@ -156,8 +157,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.style) {
                 this.template('tasks/style.js', 'gulp/tasks/style.js');
                 npmPackages = npmPackages.concat([
+                    'event-stream',
                     'gulp-sass',
-                    'gulp-sourcemaps'
+                    'gulp-sourcemaps',
+                    'gulp-autoprefixer',
+                    'gulp-minify-css',
+                    'gulp-rename',
+                    'gulp-concat',
+                    'gulp-size'
                 ]);
             }
 
