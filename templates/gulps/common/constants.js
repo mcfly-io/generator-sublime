@@ -3,12 +3,13 @@
 var path = require('path');
 
 module.exports = function() {
+    var cwd = process.env.INIT_CWD || '';
     var constants = {
         versionFiles: ['./package.json', './bower.json'],
 
         growly: {
-            successIcon: path.join(process.env.INIT_CWD, 'node_modules/karma-growl-reporter/images/success.png'),
-            failedIcon: path.join(process.env.INIT_CWD, 'node_modules/karma-growl-reporter/images/failed.png')
+            successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
+            failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
 
         lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js'],
@@ -20,7 +21,7 @@ module.exports = function() {
                 src: ['./client/styles/main.scss']
             },
             css: {
-                src: ['']
+                src: <%= css %>
             }
         },
 
