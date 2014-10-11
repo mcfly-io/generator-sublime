@@ -171,7 +171,7 @@ describe('sublime:gulps', function() {
                     var constants = require(constantPath)();
 
                     assert.deepEqual(constants.style.css.src, ['./bower_components/famous/famous.css',
-                        './bower_components/famous-angular/famous-angular.css'
+                        './bower_components/famous-angular/dist/famous-angular.css'
                     ]);
                     done();
                 });
