@@ -10,7 +10,7 @@ var concat = $.concat;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 
-gulp.task('sass', function() {
+gulp.task('style', function() {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         .pipe(sourcemaps.init())
@@ -34,4 +34,8 @@ gulp.task('sass', function() {
         .pipe($.size())
         .pipe(gulp.dest(constants.style.dest));
 
+});
+
+gulp.task('style:watch', function() {
+    gulp.watch(constants.style.src, ['style']);
 });

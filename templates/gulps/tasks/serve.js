@@ -14,7 +14,7 @@ var serverConfig = {
     livereload: constants.serve.livereload
 };
 
-gulp.task('serve', ['browserify'], function() {
+gulp.task('serve', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
     gulp.src(serverConfig.root)
         .pipe(webserver({
             host: serverConfig.host,
@@ -28,7 +28,7 @@ gulp.task('serve', ['browserify'], function() {
     openBrowser('http://' + serverConfig.host + ':' + serverConfig.port);
 });
 
-gulp.task('browsersync', ['browserify'], function() {
+gulp.task('browsersync', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
     var config = {
         files: [serverConfig.root + '/index.html', serverConfig.root + '/scripts/bundle.js', serverConfig.root + '/styles/main.css'],
         tunnel: true,
