@@ -170,7 +170,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert.deepEqual(constants.style.css.src, ['./bower_component/famous/famous.css',
+                    assert.deepEqual(constants.style.css.src, ['./bower_components/famous/famous.css',
                         './bower_components/famous-angular/famous-angular.css'
                     ]);
                     done();

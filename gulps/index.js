@@ -50,7 +50,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
     _buildCssList: function() {
         var css = [];
         if(this.famous) {
-            css.push('\'./bower_component/famous/famous.css\'');
+            css.push('\'./bower_components/famous/famous.css\'');
             css.push('\'./bower_components/famous-angular/famous-angular.css\'');
         }
 
