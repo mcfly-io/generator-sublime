@@ -17,7 +17,8 @@ var allFiles = [
     '.gitignore',
     '.travis.yml',
     'shippable.yml',
-    'readme.md'
+    'readme.md',
+    '.settings'
 ];
 
 var createOptionsFromFiles = function(_, files) {
@@ -171,6 +172,10 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, ['readme.md']);
     });
 
+    it('with Files anwser Settings should only create .settings file', function(done) {
+        projectFiles.call(this, done, ['.settings']);
+    });
+
     it('with Files anwser with all options should create all files', function(done) {
         projectFiles.call(this, done, allFiles);
     });
@@ -186,12 +191,13 @@ describe('sublime:app', function() {
             var jshintrc = testHelper.readJsonFile('.jshintrc');
             var jscsrc = testHelper.readJsonFile('.jscsrc');
             var jsbeautifyrc = testHelper.readJsonFile('.jsbeautifyrc');
-
+            var settings = testHelper.readTextFile('.settings');
             assert.equal(jshintrc.indent, indent);
             assert.equal(jscsrc.validateIndentation, indent);
             assert.equal(jsbeautifyrc.html.indent_size, indent);
             assert.equal(jsbeautifyrc.css.indent_size, indent);
             assert.equal(jsbeautifyrc.js.indent_size, indent);
+            assert(_.contains(settings, 'tab_size = ' + indent));
             done();
         });
 

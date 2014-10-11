@@ -82,7 +82,8 @@ var SublimeGenerator = Class.extend({
             '.gitignore',
             '.travis.yml',
             'shippable.yml',
-            'readme.md'
+            'readme.md',
+            '.settings'
         ];
     },
 
@@ -111,7 +112,7 @@ var SublimeGenerator = Class.extend({
 
             var choices = this.allFiles.map(function(file) {
                 return {
-                    name: file,
+                    name: file === '.settings' ? '.settings (codio)' : file,
                     value: this._.classify(file),
                     checked: true
                 };
@@ -129,7 +130,7 @@ var SublimeGenerator = Class.extend({
                 message: 'What indentation value would you like ?',
                 when: function(answers) {
                     var values = answers.Files;
-                    return _.contains(values, 'Jshintrc') || _.contains(values, 'Jsbeautifyrc' || _.contains(values, 'Jscsrc'));
+                    return _.contains(values, 'Jshintrc') || _.contains(values, 'Jsbeautifyrc') || _.contains(values, 'Jscsrc') || _.contains(values, 'Settings');
                 },
                 validate: function(input) {
                     var value = parseInt(input, 10);
@@ -296,6 +297,9 @@ var SublimeGenerator = Class.extend({
             }
             if(this.ReadmeMd) {
                 this.template('_README.md', 'readme.md');
+            }
+            if(this.Settings) {
+                this.template('.settings');
             }
         },
 

@@ -1,0 +1,24 @@
+[editor]
+indent_with_tabs = false
+;vibrant-ink
+;rubyblue
+;mbo
+;pasteldark
+;twilight
+theme = rubyblue		
+font_size = 14
+linting = true
+key_toggleComment = Cmd+U
+tab_size = <%=Indent%>
+
+[code-beautifier]
+indent_level = <%=Indent%>
+indent_with_tabs = false
+preserve_newlines = true
+max_preserve_newlines = 2
+
+[terminal]
+font_size = 14
+font_color = white
+background_color = #232830
+cursor_color = gray
