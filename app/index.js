@@ -1,14 +1,12 @@
 'use strict';
 var path = require('path');
-var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
-var updateNotifier = require('update-notifier');
 var exec = require('child_process').exec;
 var npm = require('npm');
-var shell = require('shelljs');
+var Class = require('../class');
 
 var githubOptions = {
     version: '3.0.0'
@@ -32,10 +30,10 @@ var githubUserInfo = function(name, cb) {
     });
 };
 
-var SublimeGenerator = yeoman.generators.Base.extend({
+var SublimeGenerator = Class.extend({
 
     constructor: function() {
-        yeoman.generators.Base.apply(this, arguments);
+        Class.apply(this, arguments);
         this.option('skip-welcome-message', {
             desc: 'Hide the welcome message',
             type: 'Boolean',
@@ -66,18 +64,8 @@ var SublimeGenerator = yeoman.generators.Base.extend({
     initializing: function() {
 
         this.pkg = require('../package.json');
-        var notifier = updateNotifier({
-            packageName: this.pkg.name,
-            packageVersion: this.pkg.version,
-            updateCheckInterval: 1
-        });
+        this.notifyUpdate(this.pkg);
 
-        if(notifier.update) {
-            if(notifier.update.latest !== this.pkg.version) {
-                notifier.notify();
-                shell.exit(1);
-            }
-        }
         var pkgDest = {};
         try {
             pkgDest = this.dest.readJSON('package.json');
@@ -190,7 +178,15 @@ var SublimeGenerator = yeoman.generators.Base.extend({
                 this.Gitconfig = answers.Gitconfig;
                 this.NpmPublish = answers.NpmPublish;
 
-                done();
+                // check if travis is installed
+                if(this.options.checkTravis && this.NpmPublish) {
+                    this.checkTravis().then(function() {
+                        done();
+                    });
+                } else {
+                    done();
+                }
+
             }.bind(this));
         },
         askForGithub: function() {

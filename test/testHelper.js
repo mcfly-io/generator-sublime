@@ -1,7 +1,11 @@
 'use strict';
 var fs = require('fs');
 var _ = require('lodash');
+var path = require('path');
+var os = require('os');
 var stripJsonComments = require('strip-json-comments');
+var generators = require('yeoman-generator');
+var helpers = require('yeoman-generator').test;
 
 module.exports = function() {
     var readTextFile = function(filename) {
@@ -90,6 +94,29 @@ module.exports = function() {
         });
     };
 
+    /**
+     * Instantiate a simple, dummy generator
+     *
+     * @private
+     *
+     * @param {Class} [baseClass] - The base class of the generator, defaults to require('yeoman-generator').base
+     * @param {Object} [methods] - An object haskey of methods that should exist on the returned generator, default to a single 'test' method
+     *
+     * @returns {Generator} - An instance of the generator
+     */
+    var createGenerator = function(baseClass, methods) {
+        baseClass = baseClass || generators.base;
+        methods = methods || {
+            test: function() {
+                this.shouldRun = true;
+            }
+        };
+        helpers.setUpTestDirectory(path.join(os.tmpdir(), './temp-test'));
+        var env = this.env = generators();
+        env.registerStub(baseClass.extend(methods), 'dummy');
+        return env.create('dummy');
+    };
+
     return {
         tempFolder: './temp-test',
         readTextFile: readTextFile,
@@ -101,7 +128,8 @@ module.exports = function() {
         updateNotifierMock: updateNotifierMock,
         shelljsMock: shelljsMock,
         startMock: startMock,
-        endMock: endMock
+        endMock: endMock,
+        createGenerator: createGenerator
     };
 
 };

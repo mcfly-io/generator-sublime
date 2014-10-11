@@ -19,6 +19,7 @@
     "test": "gulp test"
   },
   "files": [
+    "class",
     "app",
     "bash",
     "gulps",
@@ -40,6 +41,7 @@
     "chalk": "^0.5.1",
     "github": "^0.2.2",
     "lodash": "^2.4.1",
+    "q": "^1.0.1",
     "shelljs": "^0.3.0",
     "strip-json-comments": "^1.0.1",
     "update-notifier": "^0.2.2",
