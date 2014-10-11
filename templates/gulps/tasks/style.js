@@ -10,7 +10,7 @@ var concat = $.concat;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 
-gulp.task('sass', function() {
+gulp.task('style', function() {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         .pipe(sourcemaps.init())
@@ -23,8 +23,8 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init({
             loadMaps: true
         }))
-        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(concat(constants.style.destName))
+        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(constants.style.dest))
         .pipe(minifycss())
@@ -34,4 +34,8 @@ gulp.task('sass', function() {
         .pipe($.size())
         .pipe(gulp.dest(constants.style.dest));
 
+});
+
+gulp.task('style:watch', function() {
+    gulp.watch(constants.style.src, ['style']);
 });

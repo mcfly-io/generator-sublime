@@ -15,6 +15,7 @@ module.exports = function() {
         lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js'],
 
         style: {
+            src: ['./client/styles/**/*.css', './client/styles/**/*.scss'],
             dest: './client/styles',
             destName: 'main.css',
             sass: {
