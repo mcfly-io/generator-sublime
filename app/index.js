@@ -93,19 +93,8 @@ var SublimeGenerator = Class.extend({
             if(!this.options['skip-welcome-message']) {
                 this.log(yosay('Welcome to the marvelous Sublime generator!'));
             }
-
-            // check if travis is installed
-            if(this.options.checkTravis) {
-                if(!this.shell.which('travis')) {
-                    this.log(chalk.red.bold('\nCould not find travis cli... ' +
-                        '\nPlease install it manually using the following command : '
-                    ) + chalk.yellow.bold('\ngem install travis -v' + this.travisOptions.version + ' --no-rdoc --no-ri'));
-                    this.shell.exit(1);
-                } else {
-                    this.log(chalk.gray('travis is installed, continuing...\n'));
-                }
-            }
         },
+
         askFor: function() {
 
             var done = this.async();
@@ -190,6 +179,7 @@ var SublimeGenerator = Class.extend({
 
             }.bind(this));
         },
+
         askForGithub: function() {
             var done = this.async();
             var that = this;
