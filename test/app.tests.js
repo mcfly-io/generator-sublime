@@ -242,22 +242,24 @@ describe('sublime:app', function() {
 
     });
 
-    it('with Gitconfig answser true should create git-config.sh file', function(done) {
+    it('with Gitconfig answser true should create git-config.sh and validate-commit-msg.js file', function(done) {
 
         this.runGen.withPrompt({
             'Gitconfig': true
         }).on('end', function() {
             assert.file('bin/git-config.sh');
+            assert.file('bin/validate-commit-msg.js');
             done();
         });
     });
 
-    it('with Gitconfig answser false should not create git-config.sh file', function(done) {
+    it('with Gitconfig answser false should not create git-config.sh and validate-commit-msg.js file', function(done) {
 
         this.runGen.withPrompt({
             'Gitconfig': false
         }).on('end', function() {
             assert.noFile('bin/git-config.sh');
+            assert.noFile('bin/validate-commit-msg.js');
             done();
         });
     });

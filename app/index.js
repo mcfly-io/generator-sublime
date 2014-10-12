@@ -284,6 +284,7 @@ var SublimeGenerator = Class.extend({
             }
             if(this.Gitconfig) {
                 this.template('bin/git-config.sh', 'bin/git-config.sh');
+                this.template('bin/validate-commit-msg.js', 'bin/validate-commit-msg.js');
             }
             if(this.ReadmeMd) {
                 this.template('_README.md', 'readme.md');

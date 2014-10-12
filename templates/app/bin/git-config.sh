@@ -56,6 +56,9 @@ git config --global alias.b '!git for-each-ref --sort="-authordate" --format="%(
 # ready : rebase interactive
 git config --global alias.ready 'rebase -i master'
 
+# ready-root : rebase interactive including the root commit
+git config --global alias.ready-root 'rebase -i --root'
+
 # sync : sync master
 git config --global alias.sync '!git pull --rebase --prune $@ && git submodule update --init --recursive'
 
@@ -74,3 +77,10 @@ git config --global alias.pv '!git push --tag && git push'
 
 # Remote
 git config --global alias.r 'remote -v'
+
+#########
+# hooks
+#########
+directory=$(dirname $(readlink -f $0))
+ln $directory/validate-commit-msg.js $directory/../.git/hooks/commit-msg
+
