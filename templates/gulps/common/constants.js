@@ -5,6 +5,8 @@ var path = require('path');
 module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var constants = {
+        repository: '<%= Repository %>',
+        
         versionFiles: ['./package.json', './bower.json'],
 
         growly: {
