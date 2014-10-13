@@ -14,7 +14,7 @@ var gutil = $.util;
 var plumber = $.plumber;
 var constants = require('../common/constants')();
 
-gulp.task('jshint', function() {
+gulp.task('jshint', false, function() {
     var hasError = false;
     var hasShown = false;
     var successReporter = map(function(file, cb) {
@@ -53,7 +53,7 @@ gulp.task('jshint', function() {
         }));
 });
 
-gulp.task('jscs', function() {
+gulp.task('jscs', false, function() {
     var hasError = false;
     var combined = combine(
         gulp.src(constants.lint),
@@ -84,7 +84,7 @@ gulp.task('jscs', function() {
 
 });
 
-gulp.task('eslint', function() {
+gulp.task('eslint', false, function() {
     var hasError = false;
     var hasShown = false;
     gulp.src(constants.lint)
@@ -120,7 +120,7 @@ gulp.task('eslint', function() {
 
 });
 
-gulp.task('static', function() {
+gulp.task('static', false, function() {
 
     var status = {
         hasShown: false,
@@ -168,4 +168,4 @@ gulp.task('static', function() {
 
 });
 //gulp.task('lint', ['jshint', 'jscs', 'eslint']);
-gulp.task('lint', ['static']);
+gulp.task('lint', 'Lint all javascript files.', ['static']);

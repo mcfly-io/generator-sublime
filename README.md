@@ -52,6 +52,7 @@ This generator will scaffold the following files:
 * bin/git-config.sh (configure git with common aliases and options)
 * .travis.yml (travis-ci config file)
 * shippable.yml (shippable.com config file)
+* .settings (codio settings file)
 
 In addition `generator-sublime` will configure `.travis.yml` file for npm publishing your package if the build succeeds.
 
@@ -79,8 +80,10 @@ This will scaffold some common gulp tasks:
 * changelog (create a CHANGELOG.md file when your commit messages adhere to angular commit guidelines)
 * lint (linting through jshint, jscs, and eslint)
 * release (bump the version, create tag and publish to github)
-* serve (start a server using livereload or browsersync)
+* serve (start a server using livereload)
+* browsersync (start a server using browserSync)
 * test (run unit tests - support karma and mocha)
+* style (create a bundle css file)
 
 ## Testing
 
@@ -92,4 +95,4 @@ Recent changes can be viewed on Github on the [Releases Page](https://github.com
 
 ## License
 
-MIT
+BSD

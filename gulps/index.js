@@ -78,10 +78,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 name: 'Tasks',
                 message: 'What gulp tasks do you need ?',
                 choices: choices
+            }, {
+                name: 'Repository',
+                message: 'What is the url of your repository ?',
+                default: 'https://github.com/user/repo',
+                when: function(answers) {
+                    var values = answers.Tasks;
+                    return _.contains(values, 'changelog');
+                }
             }];
 
             this.prompt(prompts, function(answers) {
                 this.Tasks = answers.Tasks = [].concat(answers.Tasks);
+                this.Repository = answers.Repository;
 
                 var hasListOption = function(list, option) {
                     return answers[list].indexOf(option) !== -1;
@@ -108,6 +117,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             var npmPackages = [
                 'gulp',
+                'gulp-help',
                 'gulp-util',
                 'gulp-load-plugins',
                 'require-dir',
@@ -168,7 +178,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'conventional-changelog',
                     'yargs',
                     'marked',
-                    'q'
+                    'q',
+                    'gulp-exec',
+                    'gulp-concat',
+                    'streamqueue'
                 ]);
             }
             if(this.test) {
@@ -198,16 +211,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             this.npmPackages = _.uniq(npmPackages);
             done();
-            //var cmd = 'npm install --save-dev ' + _.uniq(npmPackages).join(' ');
-            //this.log(chalk.bold.yellow('Please wait while we are running the following command:\n') + cmd);
-            //this.log(chalk.yellow('...'));
-            //             exec(cmd, function(err) {
-            //                 if(err) {
-            //                     this.emit('error', err);
-            //                 }
-            //                 this.log(chalk.bold.green('npm has executed successfully'));
-            //                 done();
-            //             }.bind(this));
         }
 
     },

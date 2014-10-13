@@ -4,6 +4,7 @@ var path = require('path');
 
 module.exports = function() {
     var constants = {
+        repository: 'https://github.com/thaiat/generator-sublime',
         versionFiles: ['./package.json', './bower.json'],
         growly: {
             successIcon: path.join(process.env.INIT_CWD, 'node_modules/karma-growl-reporter/images/success.png'),

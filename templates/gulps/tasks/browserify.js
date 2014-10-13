@@ -37,6 +37,6 @@ var browserifyShare = function(src, dest, bundleName) {
 
 };
 
-gulp.task('browserify', function() {
+gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function() {
     browserifyShare(constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
 });
