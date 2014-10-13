@@ -39,9 +39,9 @@ module.exports = function() {
             port: 5000
         },
         mocha: {
-            libs: ['app/**/*.js'],
-            tests: ['test/**/*.js'],
-            globals: 'test/helpers/globals.js',
+            libs: ['server/**/*.js'],
+            tests: ['test/mocha/**/*.js'],
+            globals: 'test/mocha/helpers/globals.js',
             timeout: 5000
         }
 

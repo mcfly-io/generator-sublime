@@ -187,11 +187,16 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.test) {
                 this.template('tasks/test.js', 'gulp/tasks/test.js');
                 npmPackages = npmPackages.concat([
+                    'lodash',
                     'gulp-mocha',
                     'gulp-istanbul',
                     'gulp-plumber',
                     'chalk',
                     'gulp-karma',
+                    'mocha',
+                    'mocha-lcov-reporter',
+                    'sinon',
+                    'chai',
                     'gulp-protractor'
                 ]);
             }
