@@ -6,18 +6,16 @@ module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var constants = {
         repository: '<%= Repository %>',
-        
         versionFiles: ['./package.json', './bower.json'],
-
         growly: {
             successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
 
-        lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js'],
+        lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js', '!./client/scripts/bundle.js', '!./client/scripts/bundle.min.js'],
 
         style: {
-            src: ['./client/styles/**/*.css', './client/styles/**/*.scss'],
+            src: ['./client/styles/**/*.css', './client/styles/**/*.scss', '!./client/styles/main.css', '!./client/styles/main.min.css'],
             dest: './client/styles',
             destName: 'main.css',
             sass: {

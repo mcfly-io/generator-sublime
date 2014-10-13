@@ -20,7 +20,10 @@
         "waits": false,
         "waitsFor": false,
         "assert": false,
-        "sinon": false
+        "sinon": false,
+        "element": false,
+        "by": false,
+        "browser": false
     },
     "predef": [
         "beforeEach",
@@ -43,7 +46,10 @@
         "waits",
         "waitsFor",
         "assert",
-        "sinon"
+        "sinon",
+        "element",
+        "by",
+        "browser"
     ],
     "bitwise": true,
     "browser": true,
@@ -65,6 +71,6 @@
     "sub": true,
     "trailing": true,
     "undef": true,
-    "unused": true,
+    "unused": false,
     "strict": true
 }
