@@ -191,7 +191,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-istanbul',
                     'gulp-plumber',
                     'chalk',
-                    'gulp-karma'
+                    'gulp-karma',
+                    'gulp-protractor'
                 ]);
             }
 
