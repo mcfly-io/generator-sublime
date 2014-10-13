@@ -6,9 +6,7 @@ module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var constants = {
         repository: '<%= Repository %>',
-        
         versionFiles: ['./package.json', './bower.json'],
-
         growly: {
             successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
