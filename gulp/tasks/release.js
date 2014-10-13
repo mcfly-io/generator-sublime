@@ -31,7 +31,7 @@ var readJsonFile = function(filename) {
  * gulp bump --ver=1.2.3
  * @returns {void}
  */
-gulp.task('bump', function() {
+gulp.task('bump', false, function() {
     var bumpType = 'patch';
     // major.minor.patch
     if(args.patch) {
@@ -58,7 +58,7 @@ gulp.task('bump', function() {
 
 });
 
-gulp.task('commit', ['bump'], function() {
+gulp.task('commit', false, ['bump'], function() {
     var pkg = readJsonFile('./package.json');
     var message = pkg.version;
     return gulp.src(constants.versionFiles)
@@ -68,7 +68,7 @@ gulp.task('commit', ['bump'], function() {
         .pipe(git.commit(message));
 });
 
-gulp.task('tag', ['commit'], function() {
+gulp.task('tag', false, ['commit'], function() {
     var pkg = readJsonFile('./package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
@@ -79,7 +79,7 @@ gulp.task('tag', ['commit'], function() {
     });
 });
 
-gulp.task('push', ['tag'], function() {
+gulp.task('push', false, ['tag'], function() {
     exec('git push origin master && git push origin master --tags', function(err) {
         if(err) {
             throw new Error(err);
@@ -93,4 +93,4 @@ gulp.task('push', ['tag'], function() {
 //     }).on('close', done);
 // });
 
-gulp.task('release', ['push']);
+gulp.task('release', 'Publish a new release', ['push']);

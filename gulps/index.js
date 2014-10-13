@@ -117,6 +117,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             var npmPackages = [
                 'gulp',
+                'gulp-help',
                 'gulp-util',
                 'gulp-load-plugins',
                 'require-dir',

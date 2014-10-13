@@ -43,7 +43,7 @@ var makeChangelog = function(options) {
     return deferred.promise;
 };
 
-gulp.task('changelog:conventional', function() {
+gulp.task('changelog:conventional', false, function() {
     var dest = argv.dest || 'CHANGELOG.md';
     var toHtml = argv.html || false;
     return makeChangelog(argv).then(function(log) {
@@ -56,7 +56,7 @@ gulp.task('changelog:conventional', function() {
     });
 });
 
-gulp.task('changelog:script', function() {
+gulp.task('changelog:script', false, function() {
     var options = argv;
     var version = options.version || pkg.version;
     var from = options.from || '';
@@ -75,4 +75,4 @@ gulp.task('changelog:script', function() {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('changelog', ['changelog:script']);
+gulp.task('changelog', 'Generate a CHANGELOG.md file', ['changelog:script']);

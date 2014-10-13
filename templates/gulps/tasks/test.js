@@ -11,7 +11,7 @@ var chalk = require('chalk');
 
 var constants = require('../common/constants')();
 
-gulp.task('mocha', function(done) {
+gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
     gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
@@ -31,7 +31,7 @@ gulp.task('mocha', function(done) {
         });
 });
 
-gulp.task('karma', function() {
+gulp.task('karma', 'Runs karma unit tests.', function() {
     gulp.src(['no need to supply files because everything is in config file'])
         .pipe(karma({
             configFile: 'karma.conf.js',
@@ -41,9 +41,15 @@ gulp.task('karma', function() {
         });
 });
 
-gulp.task('test', function(done) {
+gulp.task('unit', 'Runs all unit tests.', function(done) {
     runSequence(
         'lint', ['mocha', 'karma'],
         done
     );
 });
+
+gulp.task('e2e', 'Runs e2e tests.', function() {
+
+});
+
+gulp.task('test', ['unit', 'e2e']);
