@@ -72,4 +72,4 @@ gulp.task('e2e', 'Runs e2e tests.', ['webdriver-update'], function(done) {
         });
 });
 
-gulp.task('test', ['unit', 'e2e']);
+gulp.task('test', 'Runs all the tests (unit and e2e)', ['unit', 'e2e']);
