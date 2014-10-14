@@ -12,7 +12,7 @@ var chalk = require('chalk');
 var constants = require('../common/constants')();
 
 gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
-    gulp.src(constants.mocha.libs)
+    return gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
         }))
@@ -32,7 +32,7 @@ gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
 });
 
 gulp.task('karma', 'Runs karma unit tests.', function() {
-    gulp.src(['no need to supply files because everything is in config file'])
+    return gulp.src(['no need to supply files because everything is in config file'])
         .pipe(karma({
             configFile: 'karma.conf.js',
             action: 'run'
@@ -43,7 +43,9 @@ gulp.task('karma', 'Runs karma unit tests.', function() {
 
 gulp.task('unit', 'Runs all unit tests.', function(done) {
     runSequence(
-        'lint', ['mocha', 'karma'],
+        'lint',
+        'mocha',
+        'karma',
         done
     );
 });
@@ -72,4 +74,12 @@ gulp.task('e2e', 'Runs e2e tests.', ['webdriver-update'], function(done) {
         });
 });
 
-gulp.task('test', 'Runs all the tests (unit and e2e)', ['unit', 'e2e']);
+gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
+    runSequence(
+        'lint',
+        'mocha',
+        'karma',
+        'e2e',
+        done
+    );
+});
