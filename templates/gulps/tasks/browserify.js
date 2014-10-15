@@ -9,7 +9,12 @@ var chalk = require('chalk');
 var constants = require('../common/constants')();
 
 var bundleShare = function(b, dest, bundleName) {
-    b.bundle()
+    var bundle = b.bundle();
+    bundle
+        .on('error', function(err) {
+            gutil.log(chalk.red('Browserify failed'), '\n', err);
+            bundle.end();
+        })
         .pipe(source(bundleName))
         .pipe(gulp.dest(dest));
 };

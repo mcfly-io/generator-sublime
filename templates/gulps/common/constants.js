@@ -14,6 +14,11 @@ module.exports = function() {
 
         lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js', '!./client/scripts/bundle.js', '!./client/scripts/bundle.min.js'],
 
+        fonts : {
+            src : <%=  fonts %>,
+            dest : '/client/fonts'
+        },
+        
         style: {
             src: ['./client/styles/**/*.css', './client/styles/**/*.scss', '!./client/styles/main.css', '!./client/styles/main.min.css'],
             dest: './client/styles',

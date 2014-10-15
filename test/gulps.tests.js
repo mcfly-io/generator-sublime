@@ -177,5 +177,50 @@ describe('sublime:gulps', function() {
                 });
         });
 
+        it('should include proper fonts when ionic framework', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': true,
+                'famous': false
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.fonts.src, ['./bower_components/ionic/release/fonts/*.*']);
+                    done();
+                });
+        });
+
+        it('should include proper empty fonts when no framework', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': false,
+                'famous': false
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.fonts.src, []);
+                    done();
+                });
+        });
     });
 });

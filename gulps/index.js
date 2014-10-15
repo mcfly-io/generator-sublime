@@ -45,6 +45,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         this.ionic = this.options.ionic;
         this.famous = this.options.famous;
         this._buildCssList();
+        this._buildFontsList();
     },
 
     _buildCssList: function() {
@@ -57,6 +58,16 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         css = css.length > 0 ? css : ['\'\''];
         this.css = '[' + css.join(', ') + ']';
 
+    },
+
+    _buildFontsList: function() {
+        var fonts = [];
+        if(this.ionic) {
+            fonts.push('\'./bower_components/ionic/release/fonts/*.*\'');
+        }
+
+        fonts = fonts.length > 0 ? fonts : [];
+        this.fonts = '[' + fonts.join(', ') + ']';
     },
 
     prompting: {
