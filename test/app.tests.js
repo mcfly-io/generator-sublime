@@ -18,7 +18,8 @@ var allFiles = [
     '.travis.yml',
     'shippable.yml',
     'readme.md',
-    '.settings'
+    '.settings',
+    '.codio'
 ];
 
 var createOptionsFromFiles = function(_, files) {
@@ -172,8 +173,8 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, ['readme.md']);
     });
 
-    it('with Files anwser Settings should only create .settings file', function(done) {
-        projectFiles.call(this, done, ['.settings']);
+    it('with Files anwser Settings should only create .settings and .codio file', function(done) {
+        projectFiles.call(this, done, ['.settings', '.codio']);
     });
 
     it('with Files anwser with all options should create all files', function(done) {

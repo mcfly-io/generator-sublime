@@ -10,7 +10,12 @@ var concat = $.concat;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 
-gulp.task('style', 'Generates a bundle css file.', function() {
+gulp.task('fonts', 'Copy fonts.', function() {
+    gulp.src(constants.fonts.src)
+        .pipe(gulp.dest(constants.fonts.dest));
+});
+
+gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         .pipe(sourcemaps.init())
