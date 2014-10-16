@@ -290,7 +290,8 @@ var SublimeGenerator = Class.extend({
                 this.template('_README.md', 'readme.md');
             }
             if(this.Settings) {
-                this.template('.settings');
+                this.template('_settings', '.settings');
+                this.template('_codio', '.codio');
             }
         },
 
