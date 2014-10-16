@@ -18,7 +18,7 @@ module.exports = function() {
             src: <%=  fonts %>,
             dest: './client/fonts'
         },
-        
+
         style: {
             src: ['./client/styles/**/*.css', './client/styles/**/*.scss', '!./client/styles/main.css', '!./client/styles/main.min.css'],
             dest: './client/styles',
