@@ -31,17 +31,17 @@ gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) {
 gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
     var config = {
         files: [serverConfig.root + '/index.html', serverConfig.root + '/scripts/bundle.js', serverConfig.root + '/styles/main.css'],
-        tunnel: true,
+        tunnel: true, // or '<%= appname %>',
         server: {
             baseDir: serverConfig.root,
             middleware: [
-
                 function(req, res, next) {
-                    //console.log("Hi from first middleware");
+                    //console.log("Hi from middleware");
                     next();
                 }
             ]
         },
+        host: serverConfig.host,
         port: serverConfig.port,
         logLevel: 'info', // info, debug , silent
         open: false,

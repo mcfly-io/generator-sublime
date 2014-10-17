@@ -41,7 +41,7 @@ module.exports = function() {
             root: 'client',
             host: '0.0.0.0',
             livereload: 9000,
-            port: 5000
+            port: 9500
         },
         mocha: {
             libs: ['server/**/*.js'],
