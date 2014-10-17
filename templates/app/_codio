@@ -11,6 +11,6 @@
 // Preview button configuration
   "preview": {
 	  	"Code coverage": "https://{{domain}}/coverage/PhantomJS%2B1.9.7%2B(Linux)/lcov-report/",
-        "Launch application": "http://{{domain}}:5000/"
+        "Launch application": "https://{{domain}}:9500/"
   }
 }

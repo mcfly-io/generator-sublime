@@ -7,6 +7,7 @@ var chalk = require('chalk');
 var GulpsGenerator = yeoman.generators.Base.extend({
 
     constructor: function() {
+
         yeoman.generators.Base.apply(this, arguments);
         this.option('ionic', {
             desc: 'ionic',
@@ -19,6 +20,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             defaults: false
         });
 
+        this.appname = this.appname || path.basename(process.cwd());
+        this.appname = this._.slugify(this._.humanize(this.appname));
     },
 
     initializing: function() {
