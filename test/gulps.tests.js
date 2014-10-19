@@ -114,6 +114,51 @@ describe('sublime:gulps', function() {
         it('with option style should scaffold style.js', function(done) {
             projectFiles.call(this, done, ['style']);
         });
+
+        var checkOption = function(ctx, option, done) {
+            var opts = {
+                'skip-install': true,
+                'ionic': false,
+                'famous': false
+            };
+            opts[option] = true;
+
+            ctx.runGen.withOptions(opts)
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    assert.file('gulp/tasks/' + option + '.js');
+
+                    done();
+                });
+        };
+
+        it('should success with option lint', function(done) {
+            checkOption(this, 'lint', done);
+        });
+
+        it('should success with option serve', function(done) {
+            checkOption(this, 'serve', done);
+        });
+
+        it('should success with option browserify', function(done) {
+            checkOption(this, 'browserify', done);
+        });
+
+        it('should success with option release', function(done) {
+            checkOption(this, 'release', done);
+        });
+
+        it('should success with option changelog', function(done) {
+            checkOption(this, 'changelog', done);
+        });
+
+        it('should success with option test', function(done) {
+            checkOption(this, 'test', done);
+        });
+
+        it('should success with option style', function(done) {
+            checkOption(this, 'style', done);
+        });
     });
 
     describe('constants.js', function() {
@@ -222,5 +267,6 @@ describe('sublime:gulps', function() {
                     done();
                 });
         });
+
     });
 });
