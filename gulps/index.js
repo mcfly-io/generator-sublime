@@ -9,6 +9,16 @@ var GulpsGenerator = yeoman.generators.Base.extend({
     constructor: function() {
 
         yeoman.generators.Base.apply(this, arguments);
+        this.allTasks = [
+            'lint',
+            'serve',
+            'browserify',
+            'release',
+            'changelog',
+            'test',
+            'style'
+        ];
+
         this.option('ionic', {
             desc: 'ionic',
             type: 'Boolean',
@@ -19,6 +29,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             type: 'Boolean',
             defaults: false
         });
+
+        _.forEach(this.allTasks, function(task) {
+            this.option(task, {
+                desc: task,
+                type: 'Boolean'
+            });
+        }.bind(this));
 
         this.appname = this.appname || path.basename(process.cwd());
         this.appname = this._.slugify(this._.humanize(this.appname));
@@ -35,18 +52,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         this.pkgDest = pkgDest;
 
-        this.allTasks = [
-            'lint',
-            'serve',
-            'browserify',
-            'release',
-            'changelog',
-            'test',
-            'style'
-        ];
-
         this.ionic = this.options.ionic;
         this.famous = this.options.famous;
+
+        _.forEach(this.allTasks, function(task) {
+            this[task] = this.options[task];
+        }.bind(this));
+
         this._buildCssList();
         this._buildFontsList();
     },
@@ -78,7 +90,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         askFor: function() {
 
             var done = this.async();
-
+            var that = this;
             var choices = this.allTasks.map(function(task) {
                 return {
                     name: task,
@@ -86,11 +98,20 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     checked: false
                 };
             });
+            var hasTaskOption = false;
+            _.forEach(that.allTasks, function(task) {
+                if(that.options[task] === true) {
+                    hasTaskOption = true;
+                }
+            });
 
             var prompts = [{
                 type: 'checkbox',
                 name: 'Tasks',
                 message: 'What gulp tasks do you need ?',
+                when: function() {
+                    return !hasTaskOption;
+                },
                 choices: choices
             }, {
                 name: 'Repository',
@@ -98,7 +119,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 default: 'https://github.com/user/repo',
                 when: function(answers) {
                     var values = answers.Tasks;
-                    return _.contains(values, 'changelog');
+                    return _.contains(values, 'changelog') || that.options.changelog === true;
                 }
             }];
 
@@ -111,7 +132,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 };
 
                 choices.forEach(function(choice) {
-                    this[choice.value] = hasListOption('Tasks', choice.value);
+                    if(this[choice.value] === undefined) {
+                        this[choice.value] = hasListOption('Tasks', choice.value);
+                    }
                 }.bind(this));
 
                 done();
