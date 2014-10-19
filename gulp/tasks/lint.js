@@ -5,7 +5,7 @@ var $ = require('gulp-load-plugins')();
 var map = require('map-stream');
 var combine = require('stream-combiner');
 var chalk = require('chalk');
-var growly = require('growly');
+//var growly = require('growly');
 var _ = require('lodash');
 var jshint = $.jshint;
 var jscs = $.jscs;
@@ -33,20 +33,20 @@ gulp.task('jshint', false, function() {
         .pipe(jshint.reporter('fail'))
         .on('error', function() {
             gutil.log(chalk.red('Jshint failed'));
-            growly.notify('One or more jshint error', {
-                title: 'FAILED - JsHint',
-                icon: constants.growly.failedIcon
-            });
+            //             growly.notify('One or more jshint error', {
+            //                 title: 'FAILED - JsHint',
+            //                 icon: constants.growly.failedIcon
+            //             });
             throw new Error('jshint failed');
         })
         .pipe(map(function() {
             if(!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All Jshint files passed'));
-                growly.notify('All files passed', {
-                    title: 'PASSED - JsHint',
-                    icon: constants.growly.successIcon
-                });
+                //                 growly.notify('All files passed', {
+                //                     title: 'PASSED - JsHint',
+                //                     icon: constants.growly.successIcon
+                //                 });
 
             }
 
@@ -65,20 +65,20 @@ gulp.task('jscs', false, function() {
 
         gutil.log(err.toString());
         gutil.log(chalk.red('Jscs failed'));
-        growly.notify('One or more jscs error', {
-            title: 'FAILED - Jscs',
-            icon: constants.growly.failedIcon
-        });
+        //         growly.notify('One or more jscs error', {
+        //             title: 'FAILED - Jscs',
+        //             icon: constants.growly.failedIcon
+        //         });
         throw new Error('jscs failed');
     });
 
     combined.on('end', function() {
         if(!hasError) {
             gutil.log(chalk.green('All Jscs files passed'));
-            growly.notify('All files passed', {
-                title: 'PASSED - Jscs',
-                icon: constants.growly.successIcon
-            });
+            //             growly.notify('All files passed', {
+            //                 title: 'PASSED - Jscs',
+            //                 icon: constants.growly.successIcon
+            //             });
 
         }
     });
@@ -103,17 +103,17 @@ gulp.task('eslint', false, function() {
             if(!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All EsLint files passed'));
-                growly.notify('All files passed', {
-                    title: 'PASSED - EsLint',
-                    icon: constants.growly.successIcon
-                });
+                //                 growly.notify('All files passed', {
+                //                     title: 'PASSED - EsLint',
+                //                     icon: constants.growly.successIcon
+                //                 });
 
             } else {
                 gutil.log(chalk.red('EsLint failed'));
-                growly.notify('One or more eslint error', {
-                    title: 'FAILED - EsLint',
-                    icon: constants.growly.failedIcon
-                });
+                //                 growly.notify('One or more eslint error', {
+                //                     title: 'FAILED - EsLint',
+                //                     icon: constants.growly.failedIcon
+                //                 });
                 throw new Error('eslint failed');
             }
 
@@ -138,10 +138,10 @@ gulp.task('static', false, function() {
                 status.errs.push(err);
                 if(!status.hasShown) {
                     status.hasShown = true;
-                    growly.notify('One or more lint error', {
-                        title: 'FAILED - lint',
-                        icon: constants.growly.failedIcon
-                    });
+                    //                     growly.notify('One or more lint error', {
+                    //                         title: 'FAILED - lint',
+                    //                         icon: constants.growly.failedIcon
+                    //                     });
                     this.emit('end');
                 }
             }
@@ -160,10 +160,10 @@ gulp.task('static', false, function() {
 
             } else {
                 gutil.log(chalk.green('All lint files passed'));
-                growly.notify('All files passed', {
-                    title: 'PASSED - lint',
-                    icon: constants.growly.successIcon
-                });
+                //                 growly.notify('All files passed', {
+                //                     title: 'PASSED - lint',
+                //                     icon: constants.growly.successIcon
+                //                 });
             }
         });
 
