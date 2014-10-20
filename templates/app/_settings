@@ -5,10 +5,11 @@ indent_with_tabs = false
 ;mbo
 ;pasteldark
 ;twilight
-theme = rubyblue		
+theme = rubyblue
 font_size = 14
 linting = true
 key_toggleComment = Cmd+U
+show_trailing_space = true
 tab_size = <%=Indent%>
 
 [code-beautifier]
