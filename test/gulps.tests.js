@@ -222,6 +222,32 @@ describe('sublime:gulps', function() {
                 });
         });
 
+        it('should include proper css when bootstrap framework', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': false,
+                'bootstrap': true
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
+                        './bower_components/bootstrap/dist/bootstrap.css',
+                        './bower_components/bootstrap/dist/bootstrap-theme.css'
+                    ]);
+                    done();
+                });
+        });
+
         it('should include proper fonts when ionic framework', function(done) {
             this.runGen.withOptions({
                 'skip-install': true,
@@ -241,6 +267,54 @@ describe('sublime:gulps', function() {
                     var constants = require(constantPath)();
 
                     assert.deepEqual(constants.fonts.src, ['./bower_components/ionic/release/fonts/*.*']);
+                    done();
+                });
+        });
+
+        it('should include proper fonts when fontawesome framework', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': false,
+                'famous': false,
+                'fontawesome': true
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.fonts.src, ['./bower_components/font-awesome/fonts/*.*']);
+                    done();
+                });
+        });
+
+        it('should include proper fonts when bootstrap framework', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': false,
+                'famous': false,
+                'bootstrap': true
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.fonts.src, ['./bower_components/bootstrap/dist/fonts/*.*']);
                     done();
                 });
         });

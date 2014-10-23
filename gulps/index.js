@@ -29,6 +29,16 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             type: 'Boolean',
             defaults: false
         });
+        this.option('fontawesome', {
+            desc: 'font-awseome',
+            type: 'Boolean',
+            defaults: false
+        });
+        this.option('boostrap', {
+            desc: 'bootstrap',
+            type: 'Boolean',
+            defaults: false
+        });
 
         _.forEach(this.allTasks, function(task) {
             this.option(task, {
@@ -54,6 +64,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         this.ionic = this.options.ionic;
         this.famous = this.options.famous;
+        this.fontawesome = this.options.fontawesome;
+        this.bootstrap = this.options.bootstrap;
 
         _.forEach(this.allTasks, function(task) {
             this[task] = this.options[task];
@@ -69,7 +81,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             //css.push('\'./bower_components/famous/famous.css\'');
             css.push('\'./bower_components/famous-angular/dist/famous-angular.css\'');
         }
-
+        if(this.bootstrap) {
+            css.push('\'./bower_components/bootstrap/dist/bootstrap.css\'');
+            css.push('\'./bower_components/bootstrap/dist/bootstrap-theme.css\'');
+        }
         css = css.length > 0 ? css : ['\'\''];
         this.css = '[' + css.join(', ') + ']';
 
@@ -80,7 +95,12 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(this.ionic) {
             fonts.push('\'./bower_components/ionic/release/fonts/*.*\'');
         }
-
+        if(this.fontawesome) {
+            fonts.push('\'./bower_components/font-awesome/fonts/*.*\'');
+        }
+        if(this.bootstrap) {
+            fonts.push('\'./bower_components/bootstrap/dist/fonts/*.*\'');
+        }
         fonts = fonts.length > 0 ? fonts : [];
         this.fonts = '[' + fonts.join(', ') + ']';
     },
