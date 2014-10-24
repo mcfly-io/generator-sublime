@@ -5,6 +5,7 @@ var webserver = $.webserver;
 var browserSync = require('browser-sync');
 var openBrowser = require('open');
 var gutil = require('gulp-util');
+var chalk = require('chalk');
 
 var constants = require('../common/constants')();
 
@@ -56,7 +57,5 @@ gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (s
 });
 
 gulp.task('bowersync', false, function() {
-    gutil.log(chalk.red('Task \'bowersync\' is not in your gulpfile.'), '\n');
-    gutil.log(chalk.red('Did you mean this?'), '\n');
-    gutil.log(chalk.yellow('gulp browsersync'), '\n');
+    gutil.log(chalk.red('\n', 'Task \'bowersync\' is not in your gulpfile.'), '\n', chalk.red('Did you mean this?'), '\n', chalk.yellow('gulp browsersync'), '\n');
 });
