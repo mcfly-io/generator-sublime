@@ -205,7 +205,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'gulp-webserver',
                     'browser-sync',
-                    'open'
+                    'open',
+                    'chalk'
                 ]);
             }
             if(this.browserify) {
