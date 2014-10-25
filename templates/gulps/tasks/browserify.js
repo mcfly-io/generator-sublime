@@ -12,7 +12,7 @@ var bundleShare = function(b, dest, bundleName) {
     var bundle = b.bundle();
     bundle
         .on('error', function(err) {
-            gutil.log(chalk.red('Browserify failed'), '\n', err);
+            gutil.log(chalk.red('Browserify failed', '\n', err.message));
             bundle.end();
         })
         .pipe(source(bundleName))
