@@ -14,7 +14,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "prepublish": "bash ./bin/prepublish.sh",
+    "preinstall": "bash ./bin/prepublish.sh",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./test -r ./test/helpers/global.js && istanbul report cobertura",
     "test": "gulp test"
   },
