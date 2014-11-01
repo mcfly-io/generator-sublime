@@ -60,14 +60,14 @@ describe('sublime:gulps', function() {
 
                 if(expectedTasks.length > 0) {
                     assert.file('gulpfile.js');
-                    assert.file('gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
                 } else {
 
-                    assert.noFile('gulp/common/constants.js');
+                    assert.noFile('gulp_tasks/common/constants.js');
                 }
 
                 function taskToFile(task) {
-                    return 'gulp/tasks/' + task + '.js';
+                    return 'gulp_tasks/tasks/' + task + '.js';
                 }
                 assert.file(_.map(expectedTasks, taskToFile));
                 var noFiles = allTasks.filter(function(task) {
@@ -106,7 +106,7 @@ describe('sublime:gulps', function() {
 
         it('with option test should scaffold test.js and lint.js', function(done) {
             projectFiles.call(this, function() {
-                assert.file('gulp/tasks/lint.js');
+                assert.file('gulp_tasks/tasks/lint.js');
                 done();
             }, ['test'], false);
 
@@ -125,8 +125,8 @@ describe('sublime:gulps', function() {
 
             ctx.runGen.withOptions(opts)
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    assert.file('gulp/tasks/' + option + '.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    assert.file('gulp_tasks/tasks/' + option + '.js');
 
                     done();
                 });
@@ -187,8 +187,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     var constants = require(constantPath)();
 
@@ -207,8 +207,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];
@@ -232,8 +232,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];
@@ -258,8 +258,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];
@@ -282,8 +282,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];
@@ -306,8 +306,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];
@@ -329,8 +329,8 @@ describe('sublime:gulps', function() {
                     Tasks: ['style']
                 })
                 .on('end', function() {
-                    assert.file('gulp/common/constants.js');
-                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp/common/constants.js');
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
                     // make sure the file is not cached by node as we are requiring it
                     delete require.cache[require.resolve(constantPath)];

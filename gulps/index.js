@@ -181,13 +181,15 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'run-sequence'
             ];
 
+            var gulpFolder = 'gulp_tasks';
+
             this.sourceRoot(path.join(__dirname, '../templates/gulps'));
 
             this.template('gulpfile.js', 'gulpfile.js');
-            this.template('common/constants.js', 'gulp/common/constants.js');
+            this.template('common/constants.js', gulpFolder + '/common/constants.js');
 
             if(this.lint || this.test) {
-                this.template('tasks/lint.js', 'gulp/tasks/lint.js');
+                this.template('tasks/lint.js', gulpFolder + '/tasks/lint.js');
                 npmPackages = npmPackages.concat([
                     'map-stream',
                     'stream-combiner',
@@ -201,7 +203,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
             if(this.serve) {
-                this.template('tasks/serve.js', 'gulp/tasks/serve.js');
+                this.template('tasks/serve.js', gulpFolder + '/tasks/serve.js');
                 npmPackages = npmPackages.concat([
                     'gulp-webserver',
                     'browser-sync',
@@ -210,7 +212,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
             if(this.browserify) {
-                this.template('tasks/browserify.js', 'gulp/tasks/browserify.js');
+                this.template('tasks/browserify.js', gulpFolder + '/tasks/browserify.js');
                 npmPackages = npmPackages.concat([
                     'vinyl-source-stream',
                     'browserify',
@@ -220,7 +222,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             if(this.release) {
-                this.template('tasks/release.js', 'gulp/tasks/release.js');
+                this.template('tasks/release.js', gulpFolder + '/tasks/release.js');
                 npmPackages = npmPackages.concat([
                     'yargs',
                     'strip-json-comments',
@@ -231,7 +233,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             if(this.changelog) {
-                this.template('tasks/changelog.js', 'gulp/tasks/changelog.js');
+                this.template('tasks/changelog.js', gulpFolder + '/tasks/changelog.js');
                 npmPackages = npmPackages.concat([
                     'conventional-changelog',
                     'yargs',
@@ -243,7 +245,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
             if(this.test) {
-                this.template('tasks/test.js', 'gulp/tasks/test.js');
+                this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
                 npmPackages = npmPackages.concat([
                     'lodash',
                     'gulp-mocha',
@@ -260,7 +262,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             if(this.style) {
-                this.template('tasks/style.js', 'gulp/tasks/style.js');
+                this.template('tasks/style.js', gulpFolder + '/tasks/style.js');
                 npmPackages = npmPackages.concat([
                     'event-stream',
                     'gulp-sass',
