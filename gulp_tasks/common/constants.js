@@ -10,7 +10,7 @@ module.exports = function() {
             successIcon: path.join(process.env.INIT_CWD, 'node_modules/karma-growl-reporter/images/success.png'),
             failedIcon: path.join(process.env.INIT_CWD, 'node_modules/karma-growl-reporter/images/failed.png')
         },
-        lint: ['app/**/*.js', 'bash/**/*.js', 'gulps/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js'],
+        lint: ['app/**/*.js', 'bash/**/*.js', 'gulps/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js'],
         mocha: {
             libs: ['app/**/*.js', 'gulps/**/*.js', 'bash/**/*.js', 'class/**/*.js'],
             tests: ['test/**/*.js'],

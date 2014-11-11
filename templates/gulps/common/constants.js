@@ -13,7 +13,7 @@ module.exports = function() {
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
 
-        lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp/**/*.js', 'karam.conf.js', 'test/**/*.js', '!./client/scripts/bundle.js', '!./client/scripts/bundle.min.js'],
+        lint: ['./client/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js', '!./client/scripts/bundle.js', '!./client/scripts/bundle.min.js'],
 
         fonts: {
             src: <%=  fonts %>,
