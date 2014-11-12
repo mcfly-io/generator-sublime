@@ -169,6 +169,14 @@ describe('sublime:app', function() {
         });
     });
 
+    it('.travis.yml should have short node version', function(done) {
+        projectFiles.call(this, function() {
+            var body = testHelper.readTextFile('.travis.yml');
+            assert.equal(body.indexOf('- 0.10\n') > 0, true);
+            done();
+        }, ['.travis.yml']);
+    });
+
     it('with Files anwser ReadmeMd should only create readme.md file', function(done) {
         projectFiles.call(this, done, ['readme.md']);
     });

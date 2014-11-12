@@ -280,6 +280,8 @@ var SublimeGenerator = Class.extend({
                 this.template('shippable.yml', 'shippable.yml');
             }
             if(this.TravisYml) {
+                var nodeVersion = this.options.nodeVersion;
+                this.shortNodeVersion = _.first(nodeVersion.split('.'), 2).join('.');
                 this.template('_travis.yml', '.travis.yml');
             }
             if(this.Gitconfig) {

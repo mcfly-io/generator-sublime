@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - <%=options.nodeVersion%>
+  - <%=shortNodeVersion%>
     
 before_script:
   - npm link
