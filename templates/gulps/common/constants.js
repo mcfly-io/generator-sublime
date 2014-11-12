@@ -42,7 +42,8 @@ module.exports = function() {
             root: 'client',
             host: '0.0.0.0',
             livereload: 9000,
-            port: 9500
+            port: 9500,
+            localtunnel: true // true, false or '<%= appname %>'
         },
         mocha: {
             libs: ['server/**/*.js'],

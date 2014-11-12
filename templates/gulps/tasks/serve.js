@@ -13,7 +13,8 @@ var serverConfig = {
     host: constants.serve.host,
     root: constants.serve.root,
     port: constants.serve.port,
-    livereload: constants.serve.livereload
+    livereload: constants.serve.livereload,
+    localtunnel: constants.serve.localtunnel
 };
 
 gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
@@ -32,8 +33,8 @@ gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) {
 
 gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
     var config = {
-        files: [serverConfig.root + '/index.html', serverConfig.root + '/scripts/bundle.js', serverConfig.root + '/styles/main.css'],
-        tunnel: true, // or '<%= appname %>',
+        files: [serverConfig.root + '/index.html', serverConfig.root + '/scripts/bundle.js', serverConfig.root + '/styles/main.css', serverConfig.root + '/styles/main.min.css'],
+        tunnel: serverConfig.localtunnel,
         server: {
             baseDir: serverConfig.root,
             middleware: [
