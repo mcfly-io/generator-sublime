@@ -29,7 +29,8 @@ describe('sublime:gulps', function() {
         beforeEach(function(done) {
 
             var defaultOptions = {
-                'skip-install': true
+                'skip-install': true,
+                'clientFolder': 'www'
             };
 
             this.runGen = helpers.run(path.join(__dirname, generator))
@@ -166,15 +167,38 @@ describe('sublime:gulps', function() {
 
             this.runGen = helpers.run(path.join(__dirname, generator))
                 .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
+                .withOptions({
+                    clientFolder: 'www'
+                })
+                .on('ready', function(generator) {
+                    helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
+                        cb();
+                    });
 
-            .on('ready', function(generator) {
-                helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
-                    cb();
                 });
-
-            });
             done();
 
+        });
+
+        it('should set clientFolder', function(done) {
+            this.runGen.withOptions({
+                'skip-install': true,
+                'ionic': true,
+                'famous': false
+            })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+                    var constants = require(constantPath)();
+
+                    assert.equal(constants.clientFolder, 'www');
+                    done();
+                });
         });
 
         it('should include proper css when ionic framework', function(done) {
@@ -190,8 +214,10 @@ describe('sublime:gulps', function() {
                     assert.file('gulp_tasks/common/constants.js');
                     var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
 
-                    var constants = require(constantPath)();
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
 
+                    var constants = require(constantPath)();
                     assert.deepEqual(constants.style.css.src, ['']);
                     done();
                 });

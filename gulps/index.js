@@ -19,6 +19,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'style'
         ];
 
+        this.option('clientFolder', {
+            desc: 'client folder',
+            type: 'String'
+        });
+
         this.option('ionic', {
             desc: 'ionic',
             type: 'Boolean',
@@ -62,6 +67,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         this.pkgDest = pkgDest;
 
+        this.clientFolder = this.options.clientFolder;
         this.ionic = this.options.ionic;
         this.famous = this.options.famous;
         this.fontawesome = this.options.fontawesome;
@@ -126,6 +132,12 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             });
 
             var prompts = [{
+                name: 'clientFolder',
+                message: 'What is your client folder?',
+                when: function() {
+                    return that.clientFolder === undefined || !_.isString(that.clientFolder);
+                }
+            }, {
                 type: 'checkbox',
                 name: 'Tasks',
                 message: 'What gulp tasks do you need ?',
@@ -135,7 +147,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 choices: choices
             }, {
                 name: 'Repository',
-                message: 'What is the url of your repository ?',
+                message: 'What is the url of your repository?',
                 default: 'https://github.com/user/repo',
                 when: function(answers) {
                     var values = answers.Tasks;
@@ -146,7 +158,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             this.prompt(prompts, function(answers) {
                 this.Tasks = answers.Tasks = [].concat(answers.Tasks);
                 this.Repository = answers.Repository;
-
+                this.clientFolder = this.clientFolder || answers.clientFolder;
                 var hasListOption = function(list, option) {
                     return answers[list].indexOf(option) !== -1;
                 };
