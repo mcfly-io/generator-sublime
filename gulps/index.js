@@ -34,7 +34,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             type: 'Boolean',
             defaults: false
         });
-        this.option('boostrap', {
+        this.option('bootstrap', {
             desc: 'bootstrap',
             type: 'Boolean',
             defaults: false
