@@ -16,7 +16,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'release',
             'changelog',
             'test',
-            'style'
+            'style',
+            'dist'
         ];
 
         this.option('clientFolder', {
@@ -287,6 +288,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
 
+            if(this.dist) {
+                this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
+                npmPackages = npmPackages.concat([
+                    'yargs',
+                    'glob-to-regexp',
+                    'del'
+                ]);
+            }
             this.npmPackages = _.uniq(npmPackages);
             done();
         }

@@ -6,6 +6,7 @@ module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var clientFolder = '<%= clientFolder%>';
     var constants = {
+        cwd: cwd,
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
         versionFiles: ['./package.json', './bower.json'],
@@ -52,8 +53,10 @@ module.exports = function() {
             tests: ['test/mocha/**/*.js'],
             globals: 'test/mocha/helpers/globals.js',
             timeout: 5000
+        },
+        dist: {
+            distFolder: 'dist'
         }
-
     };
 
     return constants;

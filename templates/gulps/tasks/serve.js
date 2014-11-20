@@ -17,26 +17,12 @@ var serverConfig = {
     localtunnel: constants.serve.localtunnel
 };
 
-gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
-    gulp.src(serverConfig.root)
-        .pipe(webserver({
-            host: serverConfig.host,
-            port: serverConfig.port,
-            livereload: {
-                enable: true,
-                port: serverConfig.livereload
-            }
-        }));
-    //console.log('Started connect web server on http://localhost:' + serverConfig.port + '.');
-    openBrowser('http://' + serverConfig.host + ':' + serverConfig.port);
-});
-
-gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
+function browserSyncStart(baseDir) {
     var config = {
-        files: [serverConfig.root + '/index.html', serverConfig.root + '/scripts/bundle.js', serverConfig.root + '/styles/main.css', serverConfig.root + '/styles/main.min.css'],
-        tunnel: serverConfig.localtunnel,
+        files: [baseDir + '/index.html', baseDir + '/scripts/bundle.js', baseDir + '/styles/main.css'],
+        tunnel: true, // or 'my-app',
         server: {
-            baseDir: serverConfig.root,
+            baseDir: baseDir,
             middleware: [
                 function(req, res, next) {
                     //console.log("Hi from middleware");
@@ -54,7 +40,24 @@ gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (s
     };
 
     browserSync(config);
+}
 
+gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
+    gulp.src(serverConfig.root)
+        .pipe(webserver({
+            host: serverConfig.host,
+            port: serverConfig.port,
+            livereload: {
+                enable: true,
+                port: serverConfig.livereload
+            }
+        }));
+    //console.log('Started connect web server on http://localhost:' + serverConfig.port + '.');
+    openBrowser('http://' + serverConfig.host + ':' + serverConfig.port);
+});
+
+gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
+    browserSyncStart(serverConfig.root);
 });
 
 gulp.task('bowersync', false, function() {

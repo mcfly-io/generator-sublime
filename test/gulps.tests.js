@@ -18,7 +18,8 @@ describe('sublime:gulps', function() {
             'release',
             'changelog',
             'test',
-            'style'
+            'style',
+            'dist'
         ];
 
         before(function() {
@@ -114,6 +115,10 @@ describe('sublime:gulps', function() {
         });
         it('with option style should scaffold style.js', function(done) {
             projectFiles.call(this, done, ['style']);
+        });
+
+        it('with option dist should scaffold dist.js', function(done) {
+            projectFiles.call(this, done, ['dist']);
         });
 
         var checkOption = function(ctx, option, done) {
