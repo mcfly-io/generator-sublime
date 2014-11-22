@@ -137,6 +137,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 message: 'What is your client folder?',
                 when: function() {
                     return that.clientFolder === undefined || !_.isString(that.clientFolder);
+                },
+                validate: function(input) {
+                    var isValid = input !== undefined && input.length > 0;
+                    if(!isValid) {
+                        return 'You must input an non empty value';
+                    }
+
+                    return true;
                 }
             }, {
                 type: 'checkbox',
