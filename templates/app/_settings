@@ -17,6 +17,7 @@ indent_level = <%=Indent%>
 indent_with_tabs = false
 preserve_newlines = true
 max_preserve_newlines = 2
+space_before_conditional = false
 
 [terminal]
 font_size = 14
