@@ -284,7 +284,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-minify-css',
                     'gulp-rename',
                     'gulp-concat',
-                    'gulp-size'
+                    'gulp-size',
+                    'jshint-stylish'
                 ]);
             }
 

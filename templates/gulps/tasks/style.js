@@ -7,20 +7,24 @@ var sass = $.sass;
 var autoprefixer = $.autoprefixer;
 var rename = $.rename;
 var concat = $.concat;
+var size = $.size;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 
 gulp.task('fonts', 'Copy fonts.', function() {
     gulp.src(constants.fonts.src)
-        .pipe(gulp.dest(constants.fonts.dest));
+        .pipe(gulp.dest(constants.fonts.dest))
+        .pipe($.size({
+            title: 'fonts'
+        }));
 });
 
 gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
 
     var sassFiles = gulp.src(constants.style.sass.src)
-        //.pipe(sourcemaps.init())
-        .pipe(sass());
-        //.pipe(sourcemaps.write());
+    //.pipe(sourcemaps.init())
+    .pipe(sass());
+    //.pipe(sourcemaps.write());
 
     var cssFiles = gulp.src(constants.style.css.src);
 
@@ -32,12 +36,20 @@ gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         //.pipe(sourcemaps.write())
         .pipe(gulp.dest(constants.style.dest))
+        .pipe($.size({
+            title: 'css files',
+            showFiles: true
+        }))
         .pipe(minifycss())
         .pipe(rename({
             suffix: '.min'
         }))
         .pipe($.size())
-        .pipe(gulp.dest(constants.style.dest));
+        .pipe(gulp.dest(constants.style.dest))
+        .pipe(size({
+            title: 'css files',
+            showFiles: true
+        }));
 
 });
 
