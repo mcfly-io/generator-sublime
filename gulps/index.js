@@ -249,7 +249,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'strip-json-comments',
                     'gulp-bump',
                     'gulp-git',
-                    'gulp-if'
+                    'gulp-if',
+                    'gulp-tap',
+                    'lodash',
+                    'node-jsxml',
+                    'streamqueue'
                 ]);
             }
 
@@ -262,6 +266,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'q',
                     'gulp-exec',
                     'gulp-concat',
+                    'gulp-tap',
                     'streamqueue'
                 ]);
             }

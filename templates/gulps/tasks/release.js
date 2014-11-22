@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+var path = require('path');
 var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')();
@@ -7,9 +9,11 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var stripJsonComments = require('strip-json-comments');
 var bump = $.bump;
+var tap = $.tap;
+var XML = require('node-jsxml').XML;
+var streamqueue = require('streamqueue');
 var git = $.git;
-var gulpif = $.
-if;
+var gulpif = $.if;
 var constants = require('../common/constants')();
 
 var readTextFile = function(filename) {
@@ -20,6 +24,12 @@ var readTextFile = function(filename) {
 var readJsonFile = function(filename) {
     var body = readTextFile(filename);
     return JSON.parse(stripJsonComments(body));
+};
+
+var filterFiles = function(files, extension) {
+    return _.filter(files, function(file) {
+        return path.extname(file) === extension;
+    });
 };
 
 /**
@@ -48,13 +58,40 @@ gulp.task('bump', false, function() {
     }
     bumpType = process.env.BUMP || bumpType;
 
-    return gulp.src(constants.versionFiles)
+    var version;
+    var srcjson = filterFiles(constants.versionFiles, '.json');
+    var srcxml = filterFiles(constants.versionFiles, '.xml');
+
+    // preparing the queue for bumping json and then xml files
+    var stream = streamqueue({
+        objectMode: true
+    });
+
+    // first we bump the json files
+    stream.queue(gulp.src(srcjson)
         .pipe(gulpif(args.ver !== undefined, bump({
             version: args.ver
         }), bump({
             type: bumpType
         })))
-        .pipe(gulp.dest('./'));
+        .pipe(tap(function(file) {
+            if(!version) {
+                var json = JSON.parse(String(file.contents));
+                version = json.version;
+            }
+        }))
+        .pipe(gulp.dest('./')));
+
+    // then after we have the correct value for version, we take care of the xml files
+    stream.queue(gulp.src(srcxml)
+        .pipe(tap(function(file) {
+            var xml = new XML(String(file.contents));
+            xml.attribute('version').setValue(version);
+            file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
+        }))
+        .pipe(gulp.dest('./')));
+
+    return stream.done();
 
 });
 
