@@ -73,6 +73,12 @@ You should then be able to run it
 ```
 yo sublime:gulps
 ```
+#### Options
+* clientFolder : the name of the client folder (usually `client` or `www`)
+* ionic : true to include ionic framework
+* famous : true to include angular-famous framework
+* fontawesome : true to include font-awesome
+* boostrap : true to include the bootstrap library
 
 #### Results
 This will scaffold some common gulp tasks:

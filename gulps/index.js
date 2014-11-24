@@ -16,8 +16,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'release',
             'changelog',
             'test',
-            'style'
+            'style',
+            'dist'
         ];
+
+        this.option('clientFolder', {
+            desc: 'client folder',
+            type: 'String'
+        });
 
         this.option('ionic', {
             desc: 'ionic',
@@ -34,7 +40,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             type: 'Boolean',
             defaults: false
         });
-        this.option('boostrap', {
+        this.option('bootstrap', {
             desc: 'bootstrap',
             type: 'Boolean',
             defaults: false
@@ -62,6 +68,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         this.pkgDest = pkgDest;
 
+        this.clientFolder = this.options.clientFolder;
         this.ionic = this.options.ionic;
         this.famous = this.options.famous;
         this.fontawesome = this.options.fontawesome;
@@ -126,6 +133,20 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             });
 
             var prompts = [{
+                name: 'clientFolder',
+                message: 'What is your client folder?',
+                when: function() {
+                    return that.clientFolder === undefined || !_.isString(that.clientFolder);
+                },
+                validate: function(input) {
+                    var isValid = input !== undefined && input.length > 0;
+                    if(!isValid) {
+                        return 'You must input an non empty value';
+                    }
+
+                    return true;
+                }
+            }, {
                 type: 'checkbox',
                 name: 'Tasks',
                 message: 'What gulp tasks do you need ?',
@@ -135,7 +156,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 choices: choices
             }, {
                 name: 'Repository',
-                message: 'What is the url of your repository ?',
+                message: 'What is the url of your repository?',
                 default: 'https://github.com/user/repo',
                 when: function(answers) {
                     var values = answers.Tasks;
@@ -146,7 +167,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             this.prompt(prompts, function(answers) {
                 this.Tasks = answers.Tasks = [].concat(answers.Tasks);
                 this.Repository = answers.Repository;
-
+                this.clientFolder = this.clientFolder || answers.clientFolder;
                 var hasListOption = function(list, option) {
                     return answers[list].indexOf(option) !== -1;
                 };
@@ -198,7 +219,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'lodash',
                     'gulp-jshint',
                     'gulp-jscs',
-                    'gulp-eslint',
+                    'gulp-eslint@0.1.8',
                     'gulp-plumber'
                 ]);
             }
@@ -228,7 +249,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'strip-json-comments',
                     'gulp-bump',
                     'gulp-git',
-                    'gulp-if'
+                    'gulp-if',
+                    'gulp-tap',
+                    'lodash',
+                    'node-jsxml',
+                    'streamqueue'
                 ]);
             }
 
@@ -241,6 +266,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'q',
                     'gulp-exec',
                     'gulp-concat',
+                    'gulp-tap',
                     'streamqueue'
                 ]);
             }
@@ -271,10 +297,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-minify-css',
                     'gulp-rename',
                     'gulp-concat',
-                    'gulp-size'
+                    'gulp-size',
+                    'jshint-stylish'
                 ]);
             }
 
+            if(this.dist) {
+                this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
+                npmPackages = npmPackages.concat([
+                    'yargs',
+                    'glob-to-regexp',
+                    'del'
+                ]);
+            }
             this.npmPackages = _.uniq(npmPackages);
             done();
         }
