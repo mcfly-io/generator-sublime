@@ -103,7 +103,10 @@ describe('sublime:gulps', function() {
         });
 
         it('with option changelog should scaffold changelog.js', function(done) {
-            projectFiles.call(this, done, ['changelog']);
+            projectFiles.call(this, function() {
+                assert.file('gulp_tasks/common/changelog-script.js');
+                done();
+            }, ['changelog']);
         });
 
         it('with option test should scaffold test.js and lint.js', function(done) {
