@@ -263,6 +263,7 @@ var SublimeGenerator = Class.extend({
             }
             if(this.Eslintrc) {
                 this.template('_eslintrc', '.eslintrc');
+                this.template('_eslintignore', '.eslintignore');
             }
             if(this.TernProject) {
                 this.template('_tern-project', '.tern-project');

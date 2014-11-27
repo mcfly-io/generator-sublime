@@ -123,7 +123,7 @@ describe('sublime:app', function() {
     });
 
     it('with Files anwser Eslintrc should only create .eslintrc file', function(done) {
-        projectFiles.call(this, done, ['.eslintrc']);
+        projectFiles.call(this, done, ['.eslintrc', '.eslintignore']);
     });
 
     it('with Files anwser TernProject should only create .tern-project file', function(done) {

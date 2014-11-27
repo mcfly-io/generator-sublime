@@ -259,6 +259,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             if(this.changelog) {
                 this.template('tasks/changelog.js', gulpFolder + '/tasks/changelog.js');
+                this.template('common/changelog-script.js', gulpFolder + '/common/changelog-script.js');
                 npmPackages = npmPackages.concat([
                     'conventional-changelog',
                     'yargs',
