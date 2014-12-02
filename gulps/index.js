@@ -20,6 +20,61 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'dist'
         ];
 
+        this.npmPackagesVersion = {
+            'browser-sync': '1.7.2',
+            'browserify': '6.3.3',
+            'chai': '1.10.0',
+            'chalk': '0.5.1',
+            'conventional-changelog': '0.0.11',
+            'del': '1.0.0',
+            'event-stream': '3.1.7',
+            'glob-to-regexp': '0.0.1',
+            'growly': '1.1.1',
+            'gulp': '3.8.10',
+            'gulp-autoprefixer': '2.0.0',
+            'gulp-bump': '0.1.11',
+            'gulp-concat': '2.4.2',
+            'gulp-eslint': '0.1.8', // version 2.0.0 has a bug with multiple eslintrc files
+            'gulp-exec': '2.1.1',
+            'gulp-git': '0.5.5',
+            'gulp-help': '1.3.1',
+            'gulp-if': '1.2.5',
+            'gulp-istanbul': '0.4.0',
+            'gulp-jscs': '1.3.1',
+            'gulp-jshint': '1.9.0',
+            'gulp-karma': '0.0.4',
+            'gulp-load-plugins': '0.7.1',
+            'gulp-minify-css': '0.3.11',
+            'gulp-mocha': '2.0.0',
+            'gulp-plumber': '0.6.6',
+            'gulp-protractor': '0.0.11',
+            'gulp-rename': '1.2.0',
+            'gulp-sass': '1.1.0',
+            'gulp-size': '1.1.0',
+            'gulp-sourcemaps': '1.2.8',
+            'gulp-tap': '0.1.3',
+            'gulp-util': '3.0.1',
+            'gulp-webserver': '0.8.7',
+            'jshint-stylish': '1.0.0',
+            'lodash': '',
+            'map-stream': '0.0.5',
+            'marked': '0.3.2',
+            'mocha': '2.0.1',
+            'mocha-lcov-reporter': '0.0.1',
+            'node-jsxml': '0.6.0',
+            'open': '0.0.5',
+            'q': '1.1.2',
+            'require-dir': '0.1.0',
+            'run-sequence': '1.0.2',
+            'sinon': '1.12.1',
+            'stream-combiner': '0.2.1',
+            'streamqueue': '0.1.1',
+            'strip-json-comments': '1.0.2',
+            'vinyl-source-stream': '1.0.0',
+            'watchify': '2.1.1',
+            'yargs': '1.3.3'
+        };
+
         this.option('clientFolder', {
             desc: 'client folder',
             type: 'String'
@@ -219,7 +274,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'lodash',
                     'gulp-jshint',
                     'gulp-jscs',
-                    'gulp-eslint@0.1.8',
+                    'gulp-eslint',
                     'gulp-plumber'
                 ]);
             }
@@ -322,9 +377,23 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(!this.npmPackages) {
             return;
         }
+        var that = this;
         var done = this.async();
-        this.npmInstall(this.npmPackages, {
-            'saveDev': true
+        var packagesToInstall = _(this.npmPackages)
+            .map(function(p) {
+                var version = that.npmPackagesVersion[p];
+                if(version === undefined) {
+                    var err = new Error('Unknown package ' + p);
+                    that.emit('error', err);
+                }
+                if(version.length > 0) {
+                    version = '@' + version;
+                }
+                return p + version;
+            }).value();
+        this.npmInstall(packagesToInstall, {
+            'saveDev': true,
+            'saveExact': true
         }, done);
     },
 
