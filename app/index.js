@@ -43,7 +43,7 @@ var SublimeGenerator = Class.extend({
         this.option('nodeVersion', {
             desc: 'Node.js version',
             type: 'String',
-            defaults: '0.10.30'
+            defaults: '0.10.33'
         });
 
         this.option('githubUser', {
