@@ -61,6 +61,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-util': '3.0.1',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
+            'jadeify': '3.0.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '1.0.1',
             'jasmine-spec-reporter': '1.1.0',
@@ -320,6 +321,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'cssify',
                     'deamdify',
                     'html2js-browserify',
+                    'jadeify',
                     'vinyl-source-stream',
                     'watchify'
                 ]);
