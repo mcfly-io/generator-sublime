@@ -12,7 +12,7 @@ var chalk = require('chalk');
 var constants = require('../common/constants')();
 
 gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
-    return gulp.src(constants.mocha.libs)
+    gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
         }))
