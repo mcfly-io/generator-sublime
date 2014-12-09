@@ -13,7 +13,8 @@ var tap = $.tap;
 var XML = require('node-jsxml').XML;
 var streamqueue = require('streamqueue');
 var git = $.git;
-var gulpif = $.if;
+var gulpif = $.
+if;
 var constants = require('../common/constants')();
 
 var readTextFile = function(filename) {
@@ -83,14 +84,15 @@ gulp.task('bump', false, function() {
         .pipe(gulp.dest('./')));
 
     // then after we have the correct value for version, we take care of the xml files
-    stream.queue(gulp.src(srcxml)
-        .pipe(tap(function(file) {
-            var xml = new XML(String(file.contents));
-            xml.attribute('version').setValue(version);
-            file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
-        }))
-        .pipe(gulp.dest('./')));
-
+    if(srcxml.length > 0) {
+        stream.queue(gulp.src(srcxml)
+            .pipe(tap(function(file) {
+                var xml = new XML(String(file.contents));
+                xml.attribute('version').setValue(version);
+                file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
+            }))
+            .pipe(gulp.dest('./')));
+    }
     return stream.done();
 
 });
