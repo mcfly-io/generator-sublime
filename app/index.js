@@ -13,7 +13,7 @@ var githubOptions = {
 };
 
 var travisOptions = {
-    version: '1.7.2'
+    version: '1.7.4'
 };
 
 var github = new GitHubApi(githubOptions);
@@ -168,14 +168,15 @@ var SublimeGenerator = Class.extend({
                 this.Gitconfig = answers.Gitconfig;
                 this.NpmPublish = answers.NpmPublish;
 
+                done();
                 // check if travis is installed
-                if(this.options.checkTravis && this.NpmPublish) {
-                    this.checkTravis().then(function() {
-                        done();
-                    });
-                } else {
-                    done();
-                }
+                //if(this.options.checkTravis && this.NpmPublish) {
+                //    this.checkTravis().then(function() {
+                //        done();
+                //    });
+                //} else {
+                //    done();
+                //}
 
             }.bind(this));
         },
@@ -312,12 +313,14 @@ var SublimeGenerator = Class.extend({
                         that._errorTravis.call(that, err);
                     }
                     var auth = stdout.split('=')[1];
-                    exec('travis encrypt ' + auth + ' --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder, function(err) {
-                        if(err) {
-                            that._errorTravis.call(that, err);
-                        }
-                    });
+                    that.log(chalk.green('Add the following environment variable to travis: ') + chalk.yellow('NPM_API_KEY ' + auth));
                     done();
+                    //exec('travis encrypt ' + auth + ' --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder, function(err) {
+                    //    if(err) {
+                    //        that._errorTravis.call(that, err);
+                    //    }
+                    //});
+                    //done();
                 });
 
             }
