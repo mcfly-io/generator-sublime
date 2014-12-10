@@ -10,6 +10,20 @@ var concat = $.concat;
 var size = $.size;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
+var gmux = require('gulp-mux');
+
+var fonts = function(constants) {
+    gulp.src(constants.fonts.src)
+        .pipe(gulp.dest(constants.fonts.dest))
+        .pipe($.size({
+            title: 'fonts'
+        }));
+};
+
+gulp.task('fonts:all', 'Copy fonts.', function() {
+    var targets = gmux.targets.getTargets(constants.defaultTarget);
+    gmux.createAndRunTasks(gulp, fonts, 'fonts', targets, constants);
+});
 
 gulp.task('fonts', 'Copy fonts.', function() {
     gulp.src(constants.fonts.src)
@@ -29,13 +43,13 @@ gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
     var cssFiles = gulp.src(constants.style.css.src);
 
     return es.concat(cssFiles, sassFiles)
-        //.pipe(sourcemaps.init({
-        //    loadMaps: true
-        //}))
-        .pipe(concat(constants.style.destName))
+    //.pipe(sourcemaps.init({
+    //    loadMaps: true
+    //}))
+    .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        //.pipe(sourcemaps.write())
-        .pipe(gulp.dest(constants.style.dest))
+    //.pipe(sourcemaps.write())
+    .pipe(gulp.dest(constants.style.dest))
         .pipe($.size({
             title: 'css files',
             showFiles: true

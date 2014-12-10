@@ -51,6 +51,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-load-plugins': '0.7.1',
             'gulp-minify-css': '0.3.11',
             'gulp-mocha': '2.0.0',
+            'gulp-mux': '', // always take latest version as this is our package
             'gulp-plumber': '0.6.6',
             'gulp-protractor': '0.0.11',
             'gulp-rename': '1.2.0',
@@ -276,7 +277,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp-util',
                 'gulp-load-plugins',
                 'require-dir',
-                'run-sequence'
+                'run-sequence',
+                'gulp-mux'
             ];
 
             var gulpFolder = 'gulp_tasks';
