@@ -4,9 +4,11 @@ var path = require('path');
 
 module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
-    var clientFolder = '<%= clientFolder%>';
+    var clientFolder = '<%= clientFolder%>'; // the source file folder
+    var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
+        defaultTarget : defaultTarget,
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
         versionFiles: ['./package.json', './bower.json', './config.xml'],
@@ -16,19 +18,18 @@ module.exports = function() {
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
 
-        lint: ['./' + clientFolder + '/**/*.js', './server/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js', '!./' + clientFolder + '/scripts/bundle.js', '!./' + clientFolder + '/scripts/bundle.min.js'],
-
+        lint: ['./' + clientFolder + '/**/*.js', '!./' + clientFolder + '/**/*-*.js', './' + clientFolder + '/**/*{{targetSuffix}}.js', './server/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js', '!test/**/*-*.js', 'test/**/*{{targetSuffix}}.js', '!./' + clientFolder + '/scripts/bundle*.js', '!./' + clientFolder + '/scripts/bundle*.min.js'],
         fonts: {
             src: <%=  fonts %>,
             dest: './' + clientFolder + '/fonts'
         },
 
         style: {
-            src: ['./' + clientFolder + '/styles/**/*.css', './' + clientFolder + '/styles/**/*.scss', '!./' + clientFolder + '/styles/main.css', '!./' + clientFolder + '/styles/main.min.css'],
+            src: ['./' + clientFolder + '/styles/**/*.css', '!./' + clientFolder + '/styles/**/*-*.css', './' + clientFolder + '/styles/**/*{{targetSuffix}}.css', './' + clientFolder + '/styles/**/*.scss', '!./' + clientFolder + '/styles/**/*-*.scss', './' + clientFolder + '/styles/**/*{{targetSuffix}}.scss', '!./' + clientFolder + '/styles/main*.css', '!./' + clientFolder + '/styles/main*.min.css'],
             dest: './' + clientFolder + '/styles',
-            destName: 'main.css',
+            destName: 'main{{targetSuffix}}.css',
             sass: {
-                src: ['./' + clientFolder + '/styles/main.scss']
+                src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
             },
             css: {
                 src: <%= css %>
@@ -36,13 +37,13 @@ module.exports = function() {
         },
 
         browserify: {
-            src: './' + clientFolder + '/scripts/main.js',
+            src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
             dest: './' + clientFolder + '/scripts',
-            bundleName: 'bundle.js'
+            bundleName: 'bundle{{targetSuffix}}.js'
         },
 
         serve: {
-            root: clientFolder,
+            root: 'dist/{{targetName}}',
             host: '0.0.0.0',
             livereload: 9000,
             port: 9500,
@@ -55,7 +56,7 @@ module.exports = function() {
             timeout: 5000
         },
         dist: {
-            distFolder: 'dist'
+            distFolder: 'dist/{{targetName}}/'
         }
     };
 

@@ -20,6 +20,84 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'dist'
         ];
 
+        this.npmPackagesVersion = {
+            'brfs': '1.2.0',
+            'browser-sync': '1.7.2',
+            'browserify': '6.3.3',
+            'browserify-istanbul': '0.1.2',
+            'browserify-shim': '3.8.0',
+            'chai': '1.10.0',
+            'chalk': '0.5.1',
+            'conventional-changelog': '0.0.11',
+            'cssify': '0.6.0',
+            'deamdify': '0.1.1',
+            'del': '1.0.0',
+            'event-stream': '3.1.7',
+            'glob-to-regexp': '0.0.1',
+            'growly': '1.1.1',
+            'gulp': '3.8.10',
+            'gulp-autoprefixer': '2.0.0',
+            'gulp-bump': '0.1.11',
+            'gulp-concat': '2.4.2',
+            'gulp-eslint': '0.1.8', // version 2.0.0 has a bug with multiple eslintrc files
+            'gulp-exec': '2.1.1',
+            'gulp-git': '0.5.5',
+            'gulp-help': '1.3.1',
+            'gulp-if': '1.2.5',
+            'gulp-istanbul': '0.4.0',
+            'gulp-jscs': '1.3.1',
+            'gulp-jshint': '1.9.0',
+            'gulp-karma': '0.0.4',
+            'gulp-load-plugins': '0.7.1',
+            'gulp-minify-css': '0.3.11',
+            'gulp-mocha': '2.0.0',
+            'gulp-mux': '', // always take latest version as this is our package
+            'gulp-plumber': '0.6.6',
+            'gulp-protractor': '0.0.11',
+            'gulp-rename': '1.2.0',
+            'gulp-sass': '1.1.0',
+            'gulp-size': '1.1.0',
+            'gulp-sourcemaps': '1.2.8',
+            'gulp-tap': '0.1.3',
+            'gulp-util': '3.0.1',
+            'gulp-webserver': '0.8.7',
+            'html2js-browserify': '0.0.2',
+            'jadeify': '3.0.0', // cannot accept browserify >= 7.0.0
+
+            'jasmine-reporters': '1.0.1',
+            'jasmine-spec-reporter': '1.1.0',
+
+            'jshint-stylish': '1.0.0',
+
+            'karma': '0.12.28',
+            'karma-bro': '0.11.1',
+            'karma-coverage': '0.2.6', // version 0.2.7 has an issue : https://github.com/karma-runner/karma-coverage/issues/119
+            'karma-growl-reporter': '0.1.1',
+            'karma-jasmine': '0.3.2',
+            'karma-mocha-reporter': '0.3.1',
+            'karma-phantomjs-launcher': '0.1.4',
+
+            'lodash': '2.4.1',
+
+            'map-stream': '0.0.5',
+            'marked': '0.3.2',
+            'mocha': '2.0.1',
+            'mocha-lcov-reporter': '0.0.1',
+            'node-jsxml': '0.6.0',
+            'open': '0.0.5',
+            'protractor-html-screenshot-reporter': '0.0.17',
+            'q': '1.1.2',
+            'require-dir': '0.1.0',
+            'run-sequence': '1.0.2',
+            'sinon': '1.12.1',
+            'stream-combiner': '0.2.1',
+            'streamqueue': '0.1.1',
+            'strip-json-comments': '1.0.2',
+            'vinyl-source-stream': '1.0.0',
+            'watchify': '2.1.1',
+            'yargs': '1.3.3'
+        };
+
         this.option('clientFolder', {
             desc: 'client folder',
             type: 'String'
@@ -199,7 +277,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp-util',
                 'gulp-load-plugins',
                 'require-dir',
-                'run-sequence'
+                'run-sequence',
+                'gulp-mux'
             ];
 
             var gulpFolder = 'gulp_tasks';
@@ -219,7 +298,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'lodash',
                     'gulp-jshint',
                     'gulp-jscs',
-                    'gulp-eslint@0.1.8',
+                    'gulp-eslint',
                     'gulp-plumber'
                 ]);
             }
@@ -235,10 +314,18 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.browserify) {
                 this.template('tasks/browserify.js', gulpFolder + '/tasks/browserify.js');
                 npmPackages = npmPackages.concat([
-                    'vinyl-source-stream',
+                    'brfs',
+                    'browser-sync',
                     'browserify',
-                    'watchify',
-                    'chalk'
+                    'browserify-istanbul',
+                    'browserify-shim',
+                    'chalk',
+                    'cssify',
+                    'deamdify',
+                    'html2js-browserify',
+                    'jadeify',
+                    'vinyl-source-stream',
+                    'watchify'
                 ]);
             }
 
@@ -274,17 +361,28 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.test) {
                 this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
                 npmPackages = npmPackages.concat([
-                    'lodash',
+                    'chai',
+                    'chalk',
                     'gulp-mocha',
                     'gulp-istanbul',
                     'gulp-plumber',
-                    'chalk',
+                    'gulp-protractor',
                     'gulp-karma',
+                    'jasmine-reporters',
+                    'jasmine-spec-reporter',
+                    'karma',
+                    'karma-bro',
+                    'karma-coverage',
+                    'karma-growl-reporter',
+                    'karma-jasmine',
+                    'karma-mocha-reporter',
+                    'karma-phantomjs-launcher',
+                    'lodash',
                     'mocha',
                     'mocha-lcov-reporter',
-                    'sinon',
-                    'chai',
-                    'gulp-protractor'
+                    'protractor-html-screenshot-reporter',
+                    'sinon'
+
                 ]);
             }
 
@@ -322,9 +420,23 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(!this.npmPackages) {
             return;
         }
+        var that = this;
         var done = this.async();
-        this.npmInstall(this.npmPackages, {
-            'saveDev': true
+        var packagesToInstall = _(this.npmPackages)
+            .map(function(p) {
+                var version = that.npmPackagesVersion[p];
+                if(version === undefined) {
+                    var err = new Error('Unknown package ' + p);
+                    that.emit('error', err);
+                }
+                if(version.length > 0) {
+                    version = '@' + version;
+                }
+                return p + version;
+            }).value();
+        this.npmInstall(packagesToInstall, {
+            'saveDev': true,
+            'saveExact': true
         }, done);
     },
 

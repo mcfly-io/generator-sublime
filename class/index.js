@@ -32,10 +32,10 @@ module.exports = Base.extend({
         this.utils.chalk = chalk;
     },
 
-    createOptions : function() {
-        
+    createOptions: function() {
+
     },
-    
+
     /**
      * Check if a command line utility is installed
      *
