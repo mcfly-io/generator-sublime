@@ -23,7 +23,7 @@ module.exports = function() {
         lint: ['./' + clientFolder + '/**/*.js', '!./' + clientFolder + '/**/*-*.js', './' + clientFolder + '/**/*{{targetSuffix}}.js', './server/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js', '!test/**/*-*.js', 'test/**/*{{targetSuffix}}.js', '!./' + clientFolder + '/scripts/bundle*.js', '!./' + clientFolder + '/scripts/bundle*.min.js'],
         fonts: {
             src: <%=  fonts %>,
-            dest: './' + clientFolder + '/fonts'
+            dest: './dist/{{targetName}}/fonts'
         },
 
         style: {
@@ -58,7 +58,7 @@ module.exports = function() {
             timeout: 5000
         },
         dist: {
-            distFolder: 'dist/{{targetName}}/'
+            distFolder: './dist/{{targetName}}/'
         }
     };
 
