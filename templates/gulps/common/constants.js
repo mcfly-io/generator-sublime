@@ -20,14 +20,24 @@ module.exports = function() {
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
 
-        lint: ['./' + clientFolder + '/**/*.js', '!./' + clientFolder + '/**/*-*.js', './' + clientFolder + '/**/*{{targetSuffix}}.js', './server/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karam.conf.js', 'test/**/*.js', '!test/**/*-*.js', 'test/**/*{{targetSuffix}}.js', '!./' + clientFolder + '/scripts/bundle*.js', '!./' + clientFolder + '/scripts/bundle*.min.js'],
+        lint: [
+            './' + clientFolder + '/scripts/*/**/*.js',
+            '!./' + clientFolder + '/scripts/*/**/*[-]!({{targetName}})',
+            './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
+            './' + clientFolder + '/scripts/main{{targetSuffix}}.test.js'
+        ],
         fonts: {
             src: <%=  fonts %>,
             dest: './dist/{{targetName}}/fonts'
         },
 
         style: {
-            src: ['./' + clientFolder + '/styles/**/*.css', '!./' + clientFolder + '/styles/**/*-*.css', './' + clientFolder + '/styles/**/*{{targetSuffix}}.css', './' + clientFolder + '/styles/**/*.scss', '!./' + clientFolder + '/styles/**/*-*.scss', './' + clientFolder + '/styles/**/*{{targetSuffix}}.scss', '!./' + clientFolder + '/styles/main*.css', '!./' + clientFolder + '/styles/main*.min.css'],
+            src: [
+                './' + clientFolder + '/styles/**/*.css',
+                './' + clientFolder + '/styles/**/*.scss',
+                '!./' + clientFolder + '/styles/main*.css',
+                '!./' + clientFolder + '/styles/main*.min.css'
+            ],
             dest: './' + clientFolder + '/styles',
             destName: 'main{{targetSuffix}}.css',
             sass: {
