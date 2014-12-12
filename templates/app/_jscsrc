@@ -2,7 +2,7 @@
     "excludeFiles": ["node_modules/**", "coverage"],
     "preset": "google",
     "requireParenthesesAroundIIFE": true,
-    "maximumLineLength": 400,
+    "maximumLineLength": 1400,
     "validateIndentation": <%=Indent%>,
     "disallowKeywords": ["with"],
     "disallowSpacesInsideObjectBrackets": null,

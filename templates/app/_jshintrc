@@ -62,7 +62,7 @@
     "indent": <%=Indent%>,
     "latedef": true,
     "maxdepth": 4,
-    "maxparams": 5,
+    "maxparams": 15,
     "newcap": true,
     "node": true,
     "noempty": true,
