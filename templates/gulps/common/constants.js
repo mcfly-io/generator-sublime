@@ -8,7 +8,9 @@ module.exports = function() {
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
-        defaultTarget : defaultTarget,
+        defaultTarget: defaultTarget,
+        targetName: '{{targetName}}',
+        targetSuffix: '{{targetSuffix}}',
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
         versionFiles: ['./package.json', './bower.json', './config.xml'],
