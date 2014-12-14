@@ -46,7 +46,7 @@ module.exports = function() {
 
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            dest: './' + clientFolder + '/scripts',
+            dest: './dist/{{targetName}}/{{mode}}/scripts',
             bundleName: 'bundle{{targetSuffix}}.js'
         },
 
