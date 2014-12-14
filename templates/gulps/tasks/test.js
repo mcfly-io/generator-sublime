@@ -11,8 +11,8 @@ var chalk = require('chalk');
 
 var constants = require('../common/constants')();
 
-gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
-    gulp.src(constants.mocha.libs)
+gulp.task('mocha', 'Runs mocha unit tests.', function() {
+    return gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
         }))
@@ -26,8 +26,7 @@ gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
                 }))
                 .pipe(istanbul.writeReports({
                     reporters: ['lcov', 'json', 'text', 'text-summary', 'cobertura']
-                }))
-                .on('end', done);
+                }));
         });
 });
 
@@ -44,8 +43,8 @@ gulp.task('karma', 'Runs karma unit tests.', function() {
 gulp.task('unit', 'Runs all unit tests.', function(done) {
     runSequence(
         'lint',
-        'mocha',
         'karma',
+        'mocha',
         done
     );
 });
@@ -77,8 +76,8 @@ gulp.task('e2e', 'Runs e2e tests.', ['webdriver-update'], function(done) {
 gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
     runSequence(
         'lint',
-        'mocha',
         'karma',
+        'mocha',
         'e2e',
         done
     );
