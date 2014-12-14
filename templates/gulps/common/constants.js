@@ -11,6 +11,7 @@ module.exports = function() {
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
         targetSuffix: '{{targetSuffix}}',
+        mode: '{{mode}}',
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
         versionFiles: ['./package.json', './bower.json', './config.xml'],
@@ -22,23 +23,18 @@ module.exports = function() {
 
         lint: [
             './' + clientFolder + '/scripts/*/**/*.js',
-            '!./' + clientFolder + '/scripts/*/**/*[-]!({{targetName}})',
-            './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            './' + clientFolder + '/scripts/main{{targetSuffix}}.test.js'
+            '!./' + clientFolder + '/scripts/bundle*.js'
         ],
         fonts: {
             src: <%=  fonts %>,
-            dest: './dist/{{targetName}}/fonts'
+            dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
 
         style: {
             src: [
-                './' + clientFolder + '/styles/**/*.css',
-                './' + clientFolder + '/styles/**/*.scss',
-                '!./' + clientFolder + '/styles/main*.css',
-                '!./' + clientFolder + '/styles/main*.min.css'
+                './' + clientFolder + '/styles/main{{targetSuffix}}.scss'
             ],
-            dest: './' + clientFolder + '/styles',
+            dest: './dist/{{targetName}}/{{mode}}/styles',
             destName: 'main{{targetSuffix}}.css',
             sass: {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
