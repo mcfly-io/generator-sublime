@@ -101,8 +101,8 @@ gulp.task('eslint', false, function() {
         .on('data', function(file) {
 
             if(file.eslint.messages && file.eslint.messages.length && _.any(file.eslint.messages, function(item) {
-                return item.severity === 2;
-            })) {
+                    return item.severity === 2;
+                })) {
                 hasError = true;
             }
         })

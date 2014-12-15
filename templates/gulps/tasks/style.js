@@ -23,7 +23,7 @@ var taskFonts = function(constants) {
 gulp.task('fonts', 'Copy fonts.', function(done) {
     var taskname = 'fonts';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
+    if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskFonts, taskname, global.options.target, global.options.mode, constants, done);
@@ -64,7 +64,7 @@ var taskStyle = function(constants) {
 gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
     var taskname = 'style';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
+    if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     gmux.createAndRunTasks(gulp, taskStyle, taskname, global.options.target, global.options.mode, constants);
@@ -78,7 +78,7 @@ gulp.task('style:watch', 'Watch changes for style files.', function() {
 
     var taskname = 'style:watch';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
+    if(global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskStyleWatch, taskname, global.options.target, global.options.mode, constants);

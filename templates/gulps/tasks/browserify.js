@@ -29,7 +29,7 @@ var browserifyShare = function(singleRun, src, dest, bundleName) {
         packageCache: {},
         fullPaths: true
     });
-    if (singleRun) {
+    if(singleRun) {
         b = watchify(b);
     }
     b.on('update', function() {
@@ -56,7 +56,7 @@ var taskWatchify = function(constants) {
 gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {
     var taskname = 'browserify';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
+    if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskBrowserify, taskname, global.options.target, global.options.mode, constants, done);
@@ -66,7 +66,7 @@ gulp.task('browserify', 'Generates a bundle javascript file with browserify.', f
 gulp.task('watchify', 'Generates a bundle javascript file with watchify.', function(done) {
     var taskname = 'watchify';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
+    if(global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskWatchify, taskname, global.options.target, global.options.mode, constants, done);
