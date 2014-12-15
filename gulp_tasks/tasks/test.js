@@ -15,6 +15,7 @@ gulp.task('mocha', 'Runs mocha unit tests', function(done) {
         .pipe(istanbul({
             includeUntested: true
         }))
+        .pipe(istanbul.hookRequire())
         .on('finish', function() {
             gulp.src(constants.mocha.tests)
                 //.pipe(plumber())
