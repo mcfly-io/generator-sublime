@@ -1,46 +1,64 @@
 'use strict';
 var gulp = require('gulp');
-var path = require('path');
-var args = require('yargs').argv;
-var _ = require('lodash');
-var globToRegexp = require('glob-to-regexp');
 var $ = require('gulp-load-plugins')();
-var fs = require('fs');
+var rename = $.rename;
 var del = require('del');
+var gmux = require('gulp-mux');
+var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 
-/**
- * Gets the list of application names from the list of index.html files
- * index.html -> app
- * index-web.html -> web
- * index-mobile.html -> mobile
- * @returns {String[]} - The list of application names
- */
-
-function getAppNameFromIndexFiles() {
-    var re = globToRegexp('{index-*.html,index.html}', {
-        extended: true
-    });
-
-    return _.chain(fs.readdirSync('<%= clientFolder%>'))
-        .filter(function(name) {
-            return re.test(name);
-        })
-        .map(function(name) {
-            var appname = path.basename(name, '.html');
-            appname = appname === 'index' ? 'app' : _.chain(appname.split('-')).last().value();
-            return appname;
-        })
-        .value();
-}
+var taskClean = function(constants) {
+    del([constants.dist.distFolder]);
+};
 
 gulp.task('clean', 'Clean distribution folder.', function(done) {
-    del([constants.dist.distFolder], done);
+    var taskname = 'clean';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskClean, taskname, global.options.target, global.options.mode, constants, done);
 });
 
-gulp.task('dist', 'Distribute the application.', ['clean', 'browserify', 'style'], function() {
-    getAppNameFromIndexFiles().forEach(function(name) {
-        gulp.src('./client/scripts/bundle.js')
-            .pipe(gulp.dest(path.join(constants.dist.distFolder, name)));
-    });
+var taskHtml = function(constants) {
+    gulp.src(constants.html.src)
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest(constants.dist.distFolder));
+};
+
+var taskImages = function(constants) {
+    gulp.src(constants.images.src, {
+            base: '.'
+        })
+        .pipe(gulp.dest(constants.dist.distFolder));
+};
+
+gulp.task('html', 'Copy html in distribution folder.', function() {
+    var taskname = 'html';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskHtml, taskname, global.options.target, global.options.mode, constants);
+});
+
+gulp.task('images', 'Copy all images in distribution folder.', function() {
+    var taskname = 'images';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskImages, taskname, global.options.target, global.options.mode, constants);
+});
+
+gulp.task('dist', 'Distribute the application.', function(done) {
+    return runSequence('clean', 'html', 'images', 'browserify', 'style', done);
+});
+
+gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {
+    var taskname = 'clean:all';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    var targets = gmux.targets.getAllTargets();
+    gmux.createAndRunTasks(gulp, taskClean, taskname, targets, 'dev', constants);
+    gmux.createAndRunTasks(gulp, taskClean, taskname, targets, 'prod', constants);
 });

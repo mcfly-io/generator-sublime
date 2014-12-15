@@ -29,7 +29,12 @@ module.exports = function() {
             src: <%=  fonts %>,
             dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
-
+        html: {
+            src: './client/index{{targetSuffix}}.html'
+        },
+        images: {
+            src: ['./client/images/**/*', './client/icons/**/*']
+        },
         style: {
             src: [
                 './' + clientFolder + '/styles/main{{targetSuffix}}.scss'

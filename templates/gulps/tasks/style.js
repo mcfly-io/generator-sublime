@@ -11,7 +11,6 @@ var size = $.size;
 var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 var gmux = require('gulp-mux');
-global.options = null;
 
 var taskFonts = function(constants) {
     return gulp.src(constants.fonts.src)

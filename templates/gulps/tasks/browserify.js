@@ -8,7 +8,6 @@ var browserify = require('browserify');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var constants = require('../common/constants')();
-global.options = null;
 
 var bundleShare = function(b, dest, bundleName) {
     var bundle = b.bundle();
