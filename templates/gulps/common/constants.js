@@ -64,7 +64,7 @@ module.exports = function() {
             timeout: 5000
         },
         dist: {
-            distFolder: './dist/{{targetName}}/'
+            distFolder: './dist/{{targetName}}/{{mode}}'
         }
     };
 
