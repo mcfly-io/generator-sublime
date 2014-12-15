@@ -1,5 +1,6 @@
 'use strict';
 var gulp = require('gulp');
+global.options = null;
 require('gulp-help')(gulp);
 require('require-dir')('./gulp_tasks/tasks');
 

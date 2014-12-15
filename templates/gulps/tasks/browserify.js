@@ -6,6 +6,7 @@ var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browserify = require('browserify');
 var chalk = require('chalk');
+var gmux = require('gulp-mux');
 var constants = require('../common/constants')();
 
 var bundleShare = function(b, dest, bundleName) {
@@ -19,7 +20,7 @@ var bundleShare = function(b, dest, bundleName) {
         .pipe(gulp.dest(dest));
 };
 
-var browserifyShare = function(src, dest, bundleName) {
+var browserifyShare = function(singleRun, src, dest, bundleName) {
     bundleName = bundleName || 'bundle.js';
     // we need to pass these config options to browserify
     var b = browserify({
@@ -28,7 +29,9 @@ var browserifyShare = function(src, dest, bundleName) {
         packageCache: {},
         fullPaths: true
     });
-    b = watchify(b);
+    if (singleRun) {
+        b = watchify(b);
+    }
     b.on('update', function() {
         bundleShare(b, dest, bundleName);
     });
@@ -42,6 +45,30 @@ var browserifyShare = function(src, dest, bundleName) {
 
 };
 
-gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function() {
-    browserifyShare(constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
+var taskBrowserify = function(constants) {
+    browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
+};
+
+var taskWatchify = function(constants) {
+    browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
+};
+
+gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {
+    var taskname = 'browserify';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskBrowserify, taskname, global.options.target, global.options.mode, constants, done);
+
+});
+
+gulp.task('watchify', 'Generates a bundle javascript file with watchify.', function(done) {
+    var taskname = 'watchify';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskWatchify, taskname, global.options.target, global.options.mode, constants, done);
+
 });
