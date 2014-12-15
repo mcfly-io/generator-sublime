@@ -4,25 +4,18 @@ var $ = require('gulp-load-plugins')();
 var webserver = $.webserver;
 var browserSync = require('browser-sync');
 var openBrowser = require('open');
+var runSequence = require('run-sequence');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
-
+var gmux = require('gulp-mux');
 var constants = require('../common/constants')();
 
-var serverConfig = {
-    host: constants.serve.host,
-    root: constants.serve.root,
-    port: constants.serve.port,
-    livereload: constants.serve.livereload,
-    localtunnel: constants.serve.localtunnel
-};
-
-function browserSyncStart(baseDir) {
+var taskBrowsersyncstart = function(constants) {
     var config = {
-        files: [baseDir + '/index.html', baseDir + '/scripts/bundle.js', baseDir + '/styles/main.css'],
-        tunnel: true, // or 'my-app',
+        files: [constants.serve.root + '/index.html', constants.serve.root + '/scripts/bundle.js', constants.serve.root + '/styles/main.css'],
+        tunnel: constants.serve.localtunnel,
         server: {
-            baseDir: baseDir,
+            baseDir: constants.serve.root,
             middleware: [
                 function(req, res, next) {
                     //console.log("Hi from middleware");
@@ -30,8 +23,8 @@ function browserSyncStart(baseDir) {
                 }
             ]
         },
-        host: serverConfig.host,
-        port: serverConfig.port,
+        host: constants.serve.host,
+        port: constants.serve.port,
         logLevel: 'info', // info, debug , silent
         open: false,
         browser: ['google chrome'], // ['google chrome', 'firefox'],
@@ -40,24 +33,30 @@ function browserSyncStart(baseDir) {
     };
 
     browserSync(config);
-}
+};
+var taskBrowsersync = function(constants) {
+    runSequence(
+        ['watchify'<% if (style) { %>, 'style', 'style:watch', 'images', 'html', 'html:watch'<% } %>],
+        'browsersyncstart'
+    );
+};
 
-gulp.task('serve', 'Launches a livereload server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
-    gulp.src(serverConfig.root)
-        .pipe(webserver({
-            host: serverConfig.host,
-            port: serverConfig.port,
-            livereload: {
-                enable: true,
-                port: serverConfig.livereload
-            }
-        }));
-    //console.log('Started connect web server on http://localhost:' + serverConfig.port + '.');
-    openBrowser('http://' + serverConfig.host + ':' + serverConfig.port);
+gulp.task('browsersyncstart', false, function() {
+    var taskname = 'browsersyncstart';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskBrowsersyncstart, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('browsersync', 'Launches a browserSync server.', ['browserify'<% if (style) { %>, 'style', 'style:watch'<% } %>], function() {
-    browserSyncStart(serverConfig.root);
+gulp.task('browsersync', 'Launches a browserSync server.', function() {
+    var taskname = 'browsersync';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskBrowsersync, taskname, global.options.target, global.options.mode, constants);
 });
 
 gulp.task('bowersync', false, function() {

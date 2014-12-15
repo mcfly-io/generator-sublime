@@ -40,7 +40,7 @@ module.exports = function() {
                 './' + clientFolder + '/styles/main{{targetSuffix}}.scss'
             ],
             dest: './dist/{{targetName}}/{{mode}}/styles',
-            destName: 'main{{targetSuffix}}.css',
+            destName: 'main.css',
             sass: {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
             },
@@ -52,11 +52,11 @@ module.exports = function() {
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
             dest: './dist/{{targetName}}/{{mode}}/scripts',
-            bundleName: 'bundle{{targetSuffix}}.js'
+            bundleName: 'bundle.js'
         },
 
         serve: {
-            root: 'dist/{{targetName}}',
+            root: 'dist/{{targetName}}/{{mode}}',
             host: '0.0.0.0',
             livereload: 9000,
             port: 9500,
