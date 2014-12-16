@@ -66,7 +66,7 @@ gulp.task('images', function() {
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('clean', 'html', 'browserify', 'style', done);
+    return runSequence('clean', 'html', 'images', 'browserify', 'style', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {
