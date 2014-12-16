@@ -26,7 +26,7 @@ module.exports = function() {
             '!./' + clientFolder + '/scripts/bundle*.js'
         ],
         fonts: {
-            src: <%=  fonts %>,
+            src: <%=  fonts %>, // you can also add a specific src_appname
             dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
         html: {
@@ -45,7 +45,7 @@ module.exports = function() {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
             },
             css: {
-                src: <%= css %>
+                src: <%= css %>  // you can also add a specific src_appname
             }
         },
 

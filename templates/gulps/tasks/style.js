@@ -13,7 +13,11 @@ var constants = require('../common/constants')();
 var gmux = require('gulp-mux');
 
 var taskFonts = function(constants) {
-    return gulp.src(constants.fonts.src)
+    var srcFont = constants.fonts['src_' + constants.targetName];
+    if(!srcFont) {
+        srcFont = constants.fonts.src;
+    }
+    return gulp.src(srcFont)
         .pipe(gulp.dest(constants.fonts.dest))
         .pipe($.size({
             title: 'fonts:' + constants.targetName
@@ -35,7 +39,11 @@ var taskStyle = function(constants) {
         .pipe(sass());
     //.pipe(sourcemaps.write());
 
-    var cssFiles = gulp.src(constants.style.css.src);
+    var srcCss = constants.style.css['src_' + constants.targetName];
+    if(!srcCss) {
+        srcCss = constants.style.css.src;
+    }
+    var cssFiles = gulp.src(srcCss);
 
     return es.concat(cssFiles, sassFiles)
         //.pipe(sourcemaps.init({
