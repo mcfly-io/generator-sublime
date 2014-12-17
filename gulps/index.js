@@ -59,6 +59,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-size': '1.1.0',
             'gulp-sourcemaps': '1.2.8',
             'gulp-tap': '0.1.3',
+            'gulp-uglify': '1.0.2',
             'gulp-util': '3.0.1',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
@@ -94,6 +95,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'streamqueue': '0.1.1',
             'strip-json-comments': '1.0.2',
             'vinyl-source-stream': '1.0.0',
+            'vinyl-buffer': '1.0.0',
             'watchify': '2.1.1',
             'yargs': '1.3.3'
         };
@@ -326,6 +328,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'html2js-browserify',
                     'jadeify',
                     'vinyl-source-stream',
+                    'vinyl-buffer',
                     'watchify'
                 ]);
             }
@@ -444,20 +447,16 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
         if(this.lint) {
             this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
-
         }
         if(this.serve) {
-            this.log('Run the command ' + chalk.yellow('gulp serve') + ' to launch a live reload server.');
+            //this.log('Run the command ' + chalk.yellow('gulp serve') + ' to launch a live reload server.');
             this.log('Run the command ' + chalk.yellow('gulp browsersync') + ' to launch a browsersync server.');
-
         }
         if(this.browserify) {
             this.log('Run the command ' + chalk.yellow('gulp browserify') + ' to create a browserify bundle.');
-
         }
         if(this.release) {
             this.log('Run the command ' + chalk.yellow('gulp release') + ' to increment version and publish to npm.');
-
         }
         if(this.changelog) {
             this.log('Run the command ' + chalk.yellow('gulp changelog') + ' to create a CHANGELOG.md file.');
@@ -465,8 +464,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(this.test) {
             this.log('Run the command ' + chalk.yellow('gulp test') + ' to run the tests.');
         }
+        if(this.dist) {
+            this.log('Run the command ' + chalk.yellow('gulp dist') + ' to distribute the application.');
+        }
         if(this.style) {
-            this.log('Run the command ' + chalk.yellow('gulp sass') + ' to compile sass file.');
+            this.log('Run the command ' + chalk.yellow('gulp style') + ' to compile style files.');
         }
     }
 

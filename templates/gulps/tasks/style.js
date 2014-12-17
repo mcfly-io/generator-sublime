@@ -9,6 +9,7 @@ var rename = $.rename;
 var concat = $.concat;
 var size = $.size;
 var minifycss = require('gulp-minify-css');
+var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
 var gmux = require('gulp-mux');
 
@@ -52,11 +53,13 @@ var taskStyle = function(constants) {
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         //.pipe(sourcemaps.write())
+        .pipe(gulpif(constants.mode === 'prod', minifycss()))
         .pipe(gulp.dest(constants.style.dest))
         .pipe($.size({
             title: 'css files',
             showFiles: true
-        }))
+        }));
+        /*
         .pipe(minifycss())
         .pipe(rename({
             suffix: '.min'
@@ -67,6 +70,7 @@ var taskStyle = function(constants) {
             title: 'css files:' + constants.targetName,
             showFiles: true
         }));
+        */
 };
 
 gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
