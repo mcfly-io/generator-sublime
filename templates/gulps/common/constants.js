@@ -23,19 +23,20 @@ module.exports = function() {
 
         lint: [
             './' + clientFolder + '/scripts/*/**/*.js',
-            '!./' + clientFolder + '/scripts/bundle*.js'
+            '!./' + clientFolder + '/scripts/bundle*.js',
+            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karam.conf.js', './test/**/*.js'
         ],
         fonts: {
             src: <%=  fonts %>, // you can also add a specific src_appname
             dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
         html: {
-            src: './client/index{{targetSuffix}}.html'
+            src: './' + clientFolder + '/index{{targetSuffix}}.html'
         },
         images: {
             src: [
-            './client/images/{{targetName}}/**/*', './client/images/*.*', 
-            './client/icons/{{targetName}}/**/*', './client/icons/*.*'
+            './' + clientFolder + '/images/{{targetName}}/**/*', './' + clientFolder + '/images/*.*',
+            './' + clientFolder + '/icons/{{targetName}}/**/*', './' + clientFolder + '/icons/*.*'
             ]
         },
         style: {

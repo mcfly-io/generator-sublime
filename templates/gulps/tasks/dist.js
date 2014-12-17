@@ -24,6 +24,22 @@ var taskHtml = function(constants) {
     gulp.src(constants.html.src)
         .pipe(rename('index.html'))
         .pipe(gulp.dest(constants.dist.distFolder));
+
+    gulp.src('./' + constants.clientFolder + '/404' + constants.targetSuffix + '.html')
+        .pipe(rename('404.html'))
+        .pipe(gulp.dest(constants.dist.distFolder));
+
+     gulp.src('./' + constants.clientFolder + '/favicon' + constants.targetSuffix + '.ico')
+        .pipe(rename('favicon.ico'))
+        .pipe(gulp.dest(constants.dist.distFolder));
+
+     gulp.src('./' + constants.clientFolder + '/robots' + constants.targetSuffix + '.txt')
+        .pipe(rename('robots.txt'))
+        .pipe(gulp.dest(constants.dist.distFolder));
+
+     gulp.src('./' + constants.clientFolder + '/apple-touch-icon' + constants.targetSuffix + '.png')
+        .pipe(rename('apple-touch-icon.png'))
+        .pipe(gulp.dest(constants.dist.distFolder));
 };
 
 var taskImage = function(constants) {
@@ -46,7 +62,7 @@ var taskHtmlWatch = function(constants) {
     gulp.watch(constants.html.src, ['html']);
 };
 
-gulp.task('html:watch', 'Watch changes for html index file.', function() {
+gulp.task('html:watch', false, function() {
 
     var taskname = 'html:watch';
     gmux.targets.setClientFolder(constants.clientFolder);
@@ -56,7 +72,7 @@ gulp.task('html:watch', 'Watch changes for html index file.', function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('image', function() {
+gulp.task('image', false, function() {
     var taskname = 'image';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {

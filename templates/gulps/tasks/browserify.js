@@ -3,13 +3,16 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var constants = require('../common/constants')();
+var gulpif = require('gulp-if');
 
-var bundleShare = function(b, dest, bundleName) {
+var bundleShare = function(b, dest, bundleName, mode) {
     var bundle = b.bundle();
     bundle
         .on('error', function(err) {
@@ -17,10 +20,12 @@ var bundleShare = function(b, dest, bundleName) {
             bundle.end();
         })
         .pipe(source(bundleName))
+        .pipe(buffer())
+        .pipe(gulpif(mode === 'prod', uglify()))
         .pipe(gulp.dest(dest));
 };
 
-var browserifyShare = function(singleRun, src, dest, bundleName) {
+var browserifyShare = function(singleRun, src, dest, bundleName, mode) {
     bundleName = bundleName || 'bundle.js';
     // we need to pass these config options to browserify
     var b = browserify({
@@ -33,7 +38,7 @@ var browserifyShare = function(singleRun, src, dest, bundleName) {
         b = watchify(b);
     }
     b.on('update', function() {
-        bundleShare(b, dest, bundleName);
+        bundleShare(b, dest, bundleName, mode);
     });
 
     b.on('log', function(msg) {
@@ -41,16 +46,16 @@ var browserifyShare = function(singleRun, src, dest, bundleName) {
     });
 
     b.add(src);
-    bundleShare(b, dest, bundleName);
+    bundleShare(b, dest, bundleName, mode);
 
 };
 
 var taskBrowserify = function(constants) {
-    browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
+    browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
 };
 
 var taskWatchify = function(constants) {
-    browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName);
+    browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
 };
 
 gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {
