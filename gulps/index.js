@@ -278,7 +278,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp-load-plugins',
                 'require-dir',
                 'run-sequence',
-                'gulp-mux'
+                'gulp-mux',
+                'gulp-if'
             ];
 
             var gulpFolder = 'gulp_tasks';
@@ -305,9 +306,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.serve) {
                 this.template('tasks/serve.js', gulpFolder + '/tasks/serve.js');
                 npmPackages = npmPackages.concat([
-                    'gulp-webserver',
+                    //'gulp-webserver',
                     'browser-sync',
-                    'open',
+                    //'open',
                     'chalk'
                 ]);
             }
@@ -404,8 +405,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.dist) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 npmPackages = npmPackages.concat([
-                    'yargs',
-                    'glob-to-regexp',
                     'del'
                 ]);
             }
