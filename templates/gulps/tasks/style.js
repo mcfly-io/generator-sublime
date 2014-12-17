@@ -12,21 +12,25 @@ var minifycss = require('gulp-minify-css');
 var constants = require('../common/constants')();
 var gmux = require('gulp-mux');
 
-var taskFonts = function(constants) {
-    return gulp.src(constants.fonts.src)
+var taskFont = function(constants) {
+    var srcFont = constants.fonts['src_' + constants.targetName];
+    if(!srcFont) {
+        srcFont = constants.fonts.src;
+    }
+    return gulp.src(srcFont)
         .pipe(gulp.dest(constants.fonts.dest))
         .pipe($.size({
-            title: 'fonts:' + constants.targetName
+            title: 'font:' + constants.targetName
         }));
 };
 
-gulp.task('fonts', 'Copy fonts.', function(done) {
-    var taskname = 'fonts';
+gulp.task('font', 'Copy fonts.', function(done) {
+    var taskname = 'font';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
-    return gmux.createAndRunTasks(gulp, taskFonts, taskname, global.options.target, global.options.mode, constants, done);
+    return gmux.createAndRunTasks(gulp, taskFont, taskname, global.options.target, global.options.mode, constants, done);
 });
 
 var taskStyle = function(constants) {
@@ -35,7 +39,11 @@ var taskStyle = function(constants) {
         .pipe(sass());
     //.pipe(sourcemaps.write());
 
-    var cssFiles = gulp.src(constants.style.css.src);
+    var srcCss = constants.style.css['src_' + constants.targetName];
+    if(!srcCss) {
+        srcCss = constants.style.css.src;
+    }
+    var cssFiles = gulp.src(srcCss);
 
     return es.concat(cssFiles, sassFiles)
         //.pipe(sourcemaps.init({
@@ -61,7 +69,7 @@ var taskStyle = function(constants) {
         }));
 };
 
-gulp.task('style', 'Generates a bundle css file.', ['fonts'], function() {
+gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
     var taskname = 'style';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {

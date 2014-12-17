@@ -26,14 +26,17 @@ module.exports = function() {
             '!./' + clientFolder + '/scripts/bundle*.js'
         ],
         fonts: {
-            src: <%=  fonts %>,
+            src: <%=  fonts %>, // you can also add a specific src_appname
             dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
         html: {
             src: './client/index{{targetSuffix}}.html'
         },
         images: {
-            src: ['./client/images/**/*', './client/icons/**/*']
+            src: [
+            './client/images/{{targetName}}/**/*', './client/images/*.*', 
+            './client/icons/{{targetName}}/**/*', './client/icons/*.*'
+            ]
         },
         style: {
             src: [
@@ -45,7 +48,7 @@ module.exports = function() {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
             },
             css: {
-                src: <%= css %>
+                src: <%= css %>  // you can also add a specific src_appname
             }
         },
 
