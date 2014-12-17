@@ -36,7 +36,7 @@ var taskBrowsersyncstart = function(constants) {
 };
 var taskBrowsersync = function(constants) {
     runSequence(
-        ['watchify'<% if (style) { %>, 'style', 'style:watch', 'images', 'html', 'html:watch'<% } %>],
+        ['watchify'<% if (style) { %>, 'style', 'style:watch', 'image', 'html', 'html:watch'<% } %>],
         'browsersyncstart'
     );
 };

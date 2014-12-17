@@ -26,14 +26,14 @@ var taskHtml = function(constants) {
         .pipe(gulp.dest(constants.dist.distFolder));
 };
 
-var taskImages = function(constants) {
+var taskImage = function(constants) {
     gulp.src(constants.images.src, {
             base: constants.clientFolder
         })
         .pipe(gulp.dest(constants.dist.distFolder));
 };
 
-gulp.task('html', function() {
+gulp.task('html', false, function() {
     var taskname = 'html';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -56,17 +56,17 @@ gulp.task('html:watch', 'Watch changes for html index file.', function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('images', function() {
-    var taskname = 'images';
+gulp.task('image', function() {
+    var taskname = 'image';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
-    return gmux.createAndRunTasks(gulp, taskImages, taskname, global.options.target, global.options.mode, constants);
+    return gmux.createAndRunTasks(gulp, taskImage, taskname, global.options.target, global.options.mode, constants);
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('clean', 'html', 'images', 'browserify', 'style', done);
+    return runSequence('html', 'image', 'browserify', 'style', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {

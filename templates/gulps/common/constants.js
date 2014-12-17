@@ -33,7 +33,10 @@ module.exports = function() {
             src: './client/index{{targetSuffix}}.html'
         },
         images: {
-            src: ['./client/images/{{targetName}}/**/*', './client/images/*.*', './client/icons/{{targetName}}/**/*', './client/icons/*.*']
+            src: [
+            './client/images/{{targetName}}/**/*', './client/images/*.*', 
+            './client/icons/{{targetName}}/**/*', './client/icons/*.*'
+            ]
         },
         style: {
             src: [
