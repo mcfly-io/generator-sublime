@@ -31,12 +31,12 @@ module.exports = function() {
             dest: './dist/{{targetName}}/{{mode}}/fonts'
         },
         html: {
-            src: './client/index{{targetSuffix}}.html'
+            src: './' + clientFolder + '/index{{targetSuffix}}.html'
         },
         images: {
             src: [
-            './client/images/{{targetName}}/**/*', './client/images/*.*',
-            './client/icons/{{targetName}}/**/*', './client/icons/*.*'
+            './' + clientFolder + '/images/{{targetName}}/**/*', './' + clientFolder + '/images/*.*',
+            './' + clientFolder + '/icons/{{targetName}}/**/*', './' + clientFolder + '/icons/*.*'
             ]
         },
         style: {
