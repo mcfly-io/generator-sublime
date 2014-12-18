@@ -325,6 +325,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'chalk',
                     'cssify',
                     'deamdify',
+                    'gulp-uglify',
                     'html2js-browserify',
                     'jadeify',
                     'vinyl-source-stream',
