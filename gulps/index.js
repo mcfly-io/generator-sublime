@@ -169,8 +169,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             css.push('\'./bower_components/famous-angular/dist/famous-angular.css\'');
         }
         if(this.bootstrap) {
-            css.push('\'./bower_components/bootstrap/dist/bootstrap.css\'');
-            css.push('\'./bower_components/bootstrap/dist/bootstrap-theme.css\'');
+            css.push('\'./bower_components/bootstrap/dist/css/bootstrap.css\'');
+            css.push('\'./bower_components/bootstrap/dist/css/bootstrap-theme.css\'');
         }
         css = css.length > 0 ? css : ['\'\''];
         this.css = '[' + css.join(', ') + ']';

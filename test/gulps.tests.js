@@ -275,8 +275,8 @@ describe('sublime:gulps', function() {
                     var constants = require(constantPath)();
 
                     assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
-                        './bower_components/bootstrap/dist/bootstrap.css',
-                        './bower_components/bootstrap/dist/bootstrap-theme.css'
+                        './bower_components/bootstrap/dist/css/bootstrap.css',
+                        './bower_components/bootstrap/dist/css/bootstrap-theme.css'
                     ]);
                     done();
                 });
