@@ -29,15 +29,15 @@ var taskHtml = function(constants) {
         .pipe(rename('404.html'))
         .pipe(gulp.dest(constants.dist.distFolder));
 
-     gulp.src('./' + constants.clientFolder + '/favicon' + constants.targetSuffix + '.ico')
+    gulp.src('./' + constants.clientFolder + '/favicon' + constants.targetSuffix + '.ico')
         .pipe(rename('favicon.ico'))
         .pipe(gulp.dest(constants.dist.distFolder));
 
-     gulp.src('./' + constants.clientFolder + '/robots' + constants.targetSuffix + '.txt')
+    gulp.src('./' + constants.clientFolder + '/robots' + constants.targetSuffix + '.txt')
         .pipe(rename('robots.txt'))
         .pipe(gulp.dest(constants.dist.distFolder));
 
-     gulp.src('./' + constants.clientFolder + '/apple-touch-icon' + constants.targetSuffix + '.png')
+    gulp.src('./' + constants.clientFolder + '/apple-touch-icon' + constants.targetSuffix + '.png')
         .pipe(rename('apple-touch-icon.png'))
         .pipe(gulp.dest(constants.dist.distFolder));
 };
