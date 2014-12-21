@@ -6,6 +6,7 @@ var del = require('del');
 var gmux = require('gulp-mux');
 var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
+var helper = require('../common/helper');
 
 var taskClean = function(constants) {
     del([constants.dist.distFolder]);
@@ -21,32 +22,46 @@ gulp.task('clean', 'Clean distribution folder.', function(done) {
 });
 
 var taskHtml = function(constants) {
+
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www' : dest;
+
     gulp.src(constants.html.src)
         .pipe(rename('index.html'))
-        .pipe(gulp.dest(constants.dist.distFolder));
+        .pipe(gulp.dest(dest));
 
     gulp.src('./' + constants.clientFolder + '/404' + constants.targetSuffix + '.html')
         .pipe(rename('404.html'))
-        .pipe(gulp.dest(constants.dist.distFolder));
+        .pipe(gulp.dest(dest));
 
     gulp.src('./' + constants.clientFolder + '/favicon' + constants.targetSuffix + '.ico')
         .pipe(rename('favicon.ico'))
-        .pipe(gulp.dest(constants.dist.distFolder));
+        .pipe(gulp.dest(dest));
 
     gulp.src('./' + constants.clientFolder + '/robots' + constants.targetSuffix + '.txt')
         .pipe(rename('robots.txt'))
-        .pipe(gulp.dest(constants.dist.distFolder));
+        .pipe(gulp.dest(dest));
 
     gulp.src('./' + constants.clientFolder + '/apple-touch-icon' + constants.targetSuffix + '.png')
         .pipe(rename('apple-touch-icon.png'))
+        .pipe(gulp.dest(dest));
+
+    gulp.src('./' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml')
+        .pipe(rename('config.xml'))
         .pipe(gulp.dest(constants.dist.distFolder));
+
+    gulp.src('./' + constants.clientFolder + '/hooks' + constants.targetSuffix + '/**/*.*')
+        .pipe(gulp.dest(constants.dist.distFolder + '/hooks'));
 };
 
 var taskImage = function(constants) {
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www' : dest;
+
     gulp.src(constants.images.src, {
             base: constants.clientFolder
         })
-        .pipe(gulp.dest(constants.dist.distFolder));
+        .pipe(gulp.dest(dest));
 };
 
 gulp.task('html', false, function() {

@@ -28,7 +28,7 @@ module.exports = function() {
         ],
         fonts: {
             src: <%=  fonts %>, // you can also add a specific src_appname
-            dest: './dist/{{targetName}}/{{mode}}/fonts'
+            dest: 'fonts'
         },
         html: {
             src: './' + clientFolder + '/index{{targetSuffix}}.html'
@@ -43,7 +43,7 @@ module.exports = function() {
             src: [
                 './' + clientFolder + '/styles/main{{targetSuffix}}.scss'
             ],
-            dest: './dist/{{targetName}}/{{mode}}/styles',
+            dest: 'styles',
             destName: 'main.css',
             sass: {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
@@ -55,12 +55,11 @@ module.exports = function() {
 
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            dest: './dist/{{targetName}}/{{mode}}/scripts',
+            dest: 'scripts',
             bundleName: 'bundle.js'
         },
 
         serve: {
-            root: 'dist/{{targetName}}/{{mode}}',
             host: '0.0.0.0',
             livereload: 9000,
             port: 9500,

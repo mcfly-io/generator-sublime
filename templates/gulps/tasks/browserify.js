@@ -9,8 +9,9 @@ var watchify = require('watchify');
 var browserify = require('browserify');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
-var constants = require('../common/constants')();
 var gulpif = require('gulp-if');
+var constants = require('../common/constants')();
+var helper = require('../common/helper');
 
 var bundleShare = function(b, dest, bundleName, mode) {
     var bundle = b.bundle();
@@ -51,11 +52,21 @@ var browserifyShare = function(singleRun, src, dest, bundleName, mode) {
 };
 
 var taskBrowserify = function(constants) {
-    browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
+    //browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
+
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    browserifyShare(false, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode);
+
 };
 
 var taskWatchify = function(constants) {
-    browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
+    //browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
+
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    browserifyShare(true, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode);
+
 };
 
 gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {

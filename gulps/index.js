@@ -290,6 +290,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             this.template('gulpfile.js', 'gulpfile.js');
             this.template('common/constants.js', gulpFolder + '/common/constants.js');
+            this.template('common/helper.js', gulpFolder + '/common/helper.js');
 
             if(this.lint || this.test) {
                 this.template('tasks/lint.js', gulpFolder + '/tasks/lint.js');
