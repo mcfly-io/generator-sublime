@@ -14,7 +14,7 @@ module.exports = function() {
         mode: '{{mode}}',
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
-        versionFiles: ['./package.json', './bower.json', './config.xml'],
+        versionFiles: ['./package.json', './bower.json', './' + clientFolder + '/config*.xml'],
         growly: {
             notify: false,
             successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
