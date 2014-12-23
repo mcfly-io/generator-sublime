@@ -11,15 +11,20 @@ var size = $.size;
 var minifycss = require('gulp-minify-css');
 var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
+var helper = require('../common/helper');
 var gmux = require('gulp-mux');
 
 var taskFont = function(constants) {
+
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.fonts.dest : dest + '/' + constants.fonts.dest;
+
     var srcFont = constants.fonts['src_' + constants.targetName];
     if(!srcFont) {
         srcFont = constants.fonts.src;
     }
     return gulp.src(srcFont)
-        .pipe(gulp.dest(constants.fonts.dest))
+        .pipe(gulp.dest(dest))
         .pipe($.size({
             title: 'font:' + constants.targetName
         }));
@@ -35,6 +40,9 @@ gulp.task('font', 'Copy fonts.', function(done) {
 });
 
 var taskStyle = function(constants) {
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.style.dest : dest + '/' + constants.style.dest;
+
     var sassFiles = gulp.src(constants.style.sass.src)
         //.pipe(sourcemaps.init())
         .pipe(sass());
@@ -54,23 +62,23 @@ var taskStyle = function(constants) {
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         //.pipe(sourcemaps.write())
         .pipe(gulpif(constants.mode === 'prod', minifycss()))
-        .pipe(gulp.dest(constants.style.dest))
+        .pipe(gulp.dest(dest))
         .pipe($.size({
             title: 'css files',
             showFiles: true
         }));
-        /*
-        .pipe(minifycss())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe($.size())
-        .pipe(gulp.dest(constants.style.dest))
-        .pipe(size({
-            title: 'css files:' + constants.targetName,
-            showFiles: true
-        }));
-        */
+    /*
+    .pipe(minifycss())
+    .pipe(rename({
+        suffix: '.min'
+    }))
+    .pipe($.size())
+    .pipe(gulp.dest(constants.style.dest))
+    .pipe(size({
+        title: 'css files:' + constants.targetName,
+        showFiles: true
+    }));
+    */
 };
 
 gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {

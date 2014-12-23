@@ -9,13 +9,17 @@ var gutil = require('gulp-util');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var constants = require('../common/constants')();
+var helper = require('../common/helper');
 
 var taskBrowsersyncstart = function(constants) {
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www' : dest;
+
     var config = {
-        files: [constants.serve.root + '/index.html', constants.serve.root + '/scripts/bundle.js', constants.serve.root + '/styles/main.css'],
+        files: [dest + '/index.html', dest + '/scripts/bundle.js', dest + '/styles/main.css'],
         tunnel: constants.serve.localtunnel,
         server: {
-            baseDir: constants.serve.root,
+            baseDir: dest,
             middleware: [
                 function(req, res, next) {
                     //console.log("Hi from middleware");
@@ -34,6 +38,7 @@ var taskBrowsersyncstart = function(constants) {
 
     browserSync(config);
 };
+
 var taskBrowsersync = function(constants) {
     runSequence(
         ['watchify'<% if (style) { %>, 'style', 'style:watch', 'image', 'html', 'html:watch'<% } %>],

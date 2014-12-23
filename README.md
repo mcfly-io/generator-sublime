@@ -78,7 +78,7 @@ yo sublime:gulps
 * ionic : true to include ionic framework
 * famous : true to include angular-famous framework
 * fontawesome : true to include font-awesome
-* boostrap : true to include the bootstrap library
+* bootstrap : true to include the bootstrap library
 
 #### Results
 This will scaffold some common gulp tasks:
