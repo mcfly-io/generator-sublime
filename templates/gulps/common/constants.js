@@ -60,10 +60,11 @@ module.exports = function() {
         },
 
         serve: {
-            host: '0.0.0.0',
-            livereload: 9000,
-            port: 9500,
-            localtunnel: true // true, false or '<%= appname %>'
+            host: 'localhost', //'0.0.0.0',
+            port: 5000,
+            open: true,
+            browser: ['google chrome'], // ['google chrome', 'firefox'],
+            localtunnel: false // true, false or '<%= appname %>'
         },
         mocha: {
             libs: ['server/**/*.js'],
