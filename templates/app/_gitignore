@@ -49,3 +49,6 @@ Thumbs.db
 # Cordova
 platforms/
 plugins/
+
+# Changelog
+CHANGELOG.md
