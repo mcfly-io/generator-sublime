@@ -14,7 +14,7 @@ module.exports = function() {
         mode: '{{mode}}',
         clientFolder: clientFolder,
         repository: '<%= Repository %>',
-        versionFiles: ['./package.json', './bower.json', './config.xml'],
+        versionFiles: ['./package.json', './bower.json', './' + clientFolder + '/config*.xml'],
         growly: {
             notify: false,
             successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
@@ -60,10 +60,11 @@ module.exports = function() {
         },
 
         serve: {
-            host: '0.0.0.0',
-            livereload: 9000,
-            port: 9500,
-            localtunnel: true // true, false or '<%= appname %>'
+            host: 'localhost', //'0.0.0.0',
+            port: 5000,
+            open: true,
+            browser: ['google chrome'], // ['google chrome', 'firefox'],
+            localtunnel: false // true, false or '<%= appname %>'
         },
         mocha: {
             libs: ['server/**/*.js'],

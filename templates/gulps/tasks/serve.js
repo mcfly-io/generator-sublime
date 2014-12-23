@@ -30,8 +30,8 @@ var taskBrowsersyncstart = function(constants) {
         host: constants.serve.host,
         port: constants.serve.port,
         logLevel: 'info', // info, debug , silent
-        open: false,
-        browser: ['google chrome'], // ['google chrome', 'firefox'],
+        open: constants.serve.open,
+        browser: constants.serve.browser, //['google chrome'], // ['google chrome', 'firefox'],
         notify: true,
         logConnections: false
     };

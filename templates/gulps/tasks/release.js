@@ -91,7 +91,7 @@ gulp.task('bump', false, function() {
                 xml.attribute('version').setValue(version);
                 file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
             }))
-            .pipe(gulp.dest('./')));
+            .pipe(gulp.dest('./' + constants.clientFolder)));
     }
     return stream.done();
 

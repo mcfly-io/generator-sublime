@@ -5,7 +5,6 @@ var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
 var exec = require('child_process').exec;
-var npm = require('npm');
 var Class = require('../class');
 
 var githubOptions = {
@@ -218,39 +217,6 @@ var SublimeGenerator = Class.extend({
         }
     },
 
-    configuring: {
-        npmLogin: function() {
-            if(this.NpmPublish) {
-                var that = this;
-                var done = this.async();
-
-                that.log(chalk.yellow.bold('\n' + 'npm login : ') + chalk.gray('Enter your npm credentials...'));
-
-                // npm login, this creates the file '~/.npmrc'
-                // we cannot use here spawn as it does not work on windows platform
-                // we have to require npm
-                npm.load(function(err, npm) {
-                    if(err) {
-                        throw err;
-                    }
-
-                    npm.login(function() {
-                        var cmdTextEmail = 'cat ~/.npmrc | grep \'email\'';
-                        // parse '~/.npmrc' to retreive npm email
-                        exec(cmdTextEmail, function(err, stdout) {
-                            if(err) {
-                                throw new Error(err);
-                            }
-                            that.email = stdout.split('=')[1];
-                            done();
-                        });
-                    });
-
-                });
-            }
-        }
-    },
-
     writing: {
         projectFiles: function() {
 
@@ -297,47 +263,10 @@ var SublimeGenerator = Class.extend({
                 this.template('_settings', '.settings');
                 this.template('_codio', '.codio');
             }
-        },
-
-        npmPublish: function() {
-            if(this.NpmPublish) {
-
-                var that = this;
-                var done = this.async();
-
-                var cmdTextApiKey = 'cat ~/.npmrc | grep \'_auth\'';
-
-                exec(cmdTextApiKey, function(err, stdout) {
-
-                    if(err) {
-                        that._errorTravis.call(that, err);
-                    }
-                    var auth = stdout.split('=')[1];
-                    that.log(chalk.green('Add the following environment variable to travis: ') + chalk.yellow('NPM_API_KEY ' + auth));
-                    done();
-                    //exec('travis encrypt ' + auth + ' --add deploy.api_key -r ' + that.githubUser + '/' + that.appnameFolder, function(err) {
-                    //    if(err) {
-                    //        that._errorTravis.call(that, err);
-                    //    }
-                    //});
-                    //done();
-                });
-
-            }
         }
-    },
-
-    _errorTravis: function(err) {
-        this.errorTravis = true;
-        this.log(chalk.red('The following error occured configuring travis for npm publish :'));
-        this.log(chalk.red('\n' + err.message));
-        this.log(chalk.yellow.bold('\nYou need to configure manually .travis.yml deploy section'));
     },
 
     end: function() {
-        if(this.errTravis) {
-            return;
-        }
         this.log('');
         this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
         this.log('Run the command ' + chalk.yellow('yo sublime:bash path/to/bashfile.sh') + ' to create a new bash file.');
