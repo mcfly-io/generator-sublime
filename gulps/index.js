@@ -53,7 +53,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-mocha': '2.0.0',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-plumber': '0.6.6',
-            'gulp-protractor': '0.0.11',
+            'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.0',
             'gulp-sass': '1.1.0',
             'gulp-size': '1.1.0',
@@ -86,6 +86,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'mocha-lcov-reporter': '0.0.1',
             'node-jsxml': '0.6.0',
             'open': '0.0.5',
+            'protractor': '1.5.0',
             'protractor-html-screenshot-reporter': '0.0.17',
             'q': '1.1.2',
             'require-dir': '0.1.0',
@@ -386,6 +387,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'lodash',
                     'mocha',
                     'mocha-lcov-reporter',
+                    'protractor',
                     'protractor-html-screenshot-reporter',
                     'sinon'
 
