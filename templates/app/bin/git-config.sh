@@ -42,7 +42,7 @@ git config --global alias.cm '!git add . && git commit -m '
 git config --global alias.undo '!git add -A && git commit -qm "UNDO SAVEPOINT" && git reset HEAD~1 --hard' 
 
 # bclean : used by bdone
-git config --global alias.bclean '!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f'
+git config --global alias.bclean '!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f'
 
 # bdone : chekout master and clean the merged branches
 git config --global alias.bdone '!f() { git checkout ${1-master} && git sync && git bclean ${1-master}; }; f'
