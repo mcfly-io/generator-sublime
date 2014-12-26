@@ -9,6 +9,7 @@ var gmux = require('gulp-mux');
 var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
+var fs = require('fs');
 
 var taskClean = function(constants) {
     del([constants.dist.distFolder]);
@@ -65,15 +66,21 @@ var taskImage = function(constants) {
         })
         .pipe(gulp.dest(dest));
 
+};
+
+var taskImageCordova = function(constants) {
     if(helper.isMobile(constants)) {
-        gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
-            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
+        if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
+            gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
 
-        gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
-            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
-
-        gulp.src(constants.cordova.src + '/resources/android/**/*')
-            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
+            gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
+        }
+        if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
+            gulp.src(constants.cordova.src + '/resources/android/**/*')
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
+        }
     }
 };
 
@@ -100,7 +107,7 @@ gulp.task('html:watch', false, function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('image', false, function() {
+gulp.task('image', false, ['image:cordova'], function() {
     var taskname = 'image';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -109,15 +116,25 @@ gulp.task('image', false, function() {
     return gmux.createAndRunTasks(gulp, taskImage, taskname, global.options.target, global.options.mode, constants);
 });
 
+gulp.task('image:cordova', false, function() {
+    // this task copy the cordova icons and splashes to dist, but only if the platforms exist
+    var taskname = 'image:cordova';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskImageCordova, taskname, global.options.target, global.options.mode, constants);
+});
+
 var taskCordovaIcon = function(constants) {
     if(!helper.isMobile(constants)) {
         return;
     }
     exec('./bin/cordova-generate-icons ' + constants.cordova.icon + ' ' + constants.cordova.src, helper.execHandler);
-    exec('./bin/cordova-generate-splashs ' + constants.cordova.icon + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, helper.execHandler);
+    exec('./bin/cordova-generate-splashes ' + constants.cordova.icon + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, helper.execHandler);
 };
 
-gulp.task('cordova:icon', 'Generate the cordova icons and splashs.', function() {
+gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function() {
     var taskname = 'cordova:icon';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
