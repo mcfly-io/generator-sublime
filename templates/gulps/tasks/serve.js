@@ -8,6 +8,7 @@ var runSequence = require('run-sequence');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
+var exec = require('child_process').exec;
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 
@@ -37,6 +38,14 @@ var taskBrowsersyncstart = function(constants) {
     };
 
     browserSync(config);
+
+    var platform = global.options.platform || constants.cordova.platform;
+    if(helper.isMobile(constants)) {
+        gutil.log('Launching ' + platform + ' emulator');
+        exec('ionic emulate ' + platform + ' --livereload', {
+            cwd: constants.dist.distFolder
+        }, helper.execHandler);
+    }
 };
 
 var taskBrowsersync = function(constants) {
@@ -62,6 +71,28 @@ gulp.task('browsersync', 'Launches a browserSync server.', function() {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskBrowsersync, taskname, global.options.target, global.options.mode, constants);
+});
+
+var taskCordovaRun = function(constants) {
+    if(!helper.isMobile(constants)) {
+        gutil.log(chalk.red('Error: ' + chalk.bold(constants.targetName) + ' is not a cordova application'));
+        return;
+    }
+    var platform = global.options.platform || constants.cordova.platform;
+    gutil.log('ionic run ' + platform);
+    exec('ionic run ' + platform, {
+        cwd: constants.dist.distFolder
+    }, helper.execHandler);
+};
+
+gulp.task('cordova:run', 'Execute cordova run', function() {
+    var taskname = 'cordova:run';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskCordovaRun, taskname, global.options.target, global.options.mode, constants);
+
 });
 
 gulp.task('bowersync', false, function() {

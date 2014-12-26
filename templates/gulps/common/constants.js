@@ -7,6 +7,7 @@ module.exports = function() {
     var clientFolder = '<%= clientFolder%>'; // the source file folder
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
+        appname: '<%= appname%>',
         cwd: cwd,
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
@@ -20,14 +21,19 @@ module.exports = function() {
             successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
-
+        cordova: {
+            src: './' + clientFolder + '/cordova/{{targetName}}', 
+            icon: './' + clientFolder + '/icons/{{targetName}}/icon.png',
+            platform: 'ios',
+            iconBackground: '#3D4860'
+        },
         lint: [
             './' + clientFolder + '/scripts/*/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karam.conf.js', './test/**/*.js'
         ],
         fonts: {
-            src: <%=  fonts %>, // you can also add a specific src_appname
+            src: <%= fonts %>, // you can also add a specific src_appname
             dest: 'fonts'
         },
         html: {
@@ -35,8 +41,8 @@ module.exports = function() {
         },
         images: {
             src: [
-            './' + clientFolder + '/images/{{targetName}}/**/*', './' + clientFolder + '/images/*.*',
-            './' + clientFolder + '/icons/{{targetName}}/**/*', './' + clientFolder + '/icons/*.*'
+                './' + clientFolder + '/images/{{targetName}}/**/*', './' + clientFolder + '/images/*.*',
+                './' + clientFolder + '/icons/{{targetName}}/**/*', './' + clientFolder + '/icons/*.*'
             ]
         },
         style: {
@@ -49,7 +55,7 @@ module.exports = function() {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
             },
             css: {
-                src: <%= css %>  // you can also add a specific src_appname
+                src: <%= css %> // you can also add a specific src_appname
             }
         },
 

@@ -3,6 +3,8 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var rename = $.rename;
 var del = require('del');
+var exec = require('child_process').exec;
+var gutil = require('gulp-util');
 var gmux = require('gulp-mux');
 var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
@@ -62,6 +64,17 @@ var taskImage = function(constants) {
             base: constants.clientFolder
         })
         .pipe(gulp.dest(dest));
+
+    if(helper.isMobile(constants)) {
+        gulp.src(constants.cordovas.src + '/resources/ios/icons/**/*')
+            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
+
+        gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
+            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
+
+        gulp.src(constants.cordova.src + '/resources/android/**/*')
+            .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
+    }
 };
 
 gulp.task('html', false, function() {
@@ -94,6 +107,23 @@ gulp.task('image', false, function() {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskImage, taskname, global.options.target, global.options.mode, constants);
+});
+
+ar taskCordovaIcons = function(constants) {
+    if(!helper.isMobile(constants)) {
+        return;
+    }
+    exec('./bin/cordova-generate-icons ' + constants.cordova.icon + ' ' + constants.cordova.src, helper.execHandler);
+    exec('./bin/cordova-generate-splashs ' + constants.cordova.icon + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, helper.execHandler);
+};
+
+gulp.task('cordova:icons', 'Generate the cordova icons and splashs.', function() {
+    var taskname = 'cordova:icons';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskCordovaIcons, taskname, global.options.target, global.options.mode, constants);
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
