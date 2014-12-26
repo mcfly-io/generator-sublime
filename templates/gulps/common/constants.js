@@ -22,7 +22,7 @@ module.exports = function() {
             failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
         },
         cordova: {
-            src: './' + clientFolder + '/cordova/{{targetName}}', 
+            src: './' + clientFolder + '/cordova/{{targetName}}',
             icon: './' + clientFolder + '/icons/{{targetName}}/icon.png',
             platform: 'ios',
             iconBackground: '#3D4860'
