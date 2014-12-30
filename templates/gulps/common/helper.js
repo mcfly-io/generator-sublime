@@ -22,7 +22,7 @@ var isMobile = exports.isMobile = function(constants) {
  */
 var execHandler = exports.execHandler = function(err, stdout, stderr) {
     if(err) {
-        throw err;
+        gutil.log(chalk.red('An error occured executing a command line action'));
     }
     if(stdout) {
         gutil.log(stdout);
