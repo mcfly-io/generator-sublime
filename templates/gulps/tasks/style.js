@@ -95,7 +95,7 @@ gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
 });
 
 var taskStyleWatch = function(constants) {
-    gulp.watch(constants.style.src, ['style']);
+    gulp.watch(constants.style.watchFolder, ['style']);
 };
 
 gulp.task('style:watch', 'Watch changes for style files.', function() {
