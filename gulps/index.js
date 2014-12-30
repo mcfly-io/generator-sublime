@@ -44,6 +44,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-git': '0.5.5',
             'gulp-help': '1.3.1',
             'gulp-if': '1.2.5',
+            'gulp-imagemin': '2.1.0',
             'gulp-istanbul': '0.4.0',
             'gulp-jscs': '1.3.1',
             'gulp-jshint': '1.9.0',
@@ -412,7 +413,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.dist) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 npmPackages = npmPackages.concat([
-                    'del'
+                    'del',
+                    'gulp-rename',
+                    'gulp-imagemin'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
