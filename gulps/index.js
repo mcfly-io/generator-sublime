@@ -53,6 +53,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-minify-css': '0.3.11',
             'gulp-mocha': '2.0.0',
             'gulp-mux': '', // always take latest version as this is our package
+            'gulp-order': '1.1.1',
             'gulp-plumber': '0.6.6',
             'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.0',
@@ -406,6 +407,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-sourcemaps',
                     'gulp-autoprefixer',
                     'gulp-minify-css',
+                    'gulp-order',
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
