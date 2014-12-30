@@ -181,6 +181,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
     _buildFontsList: function() {
         var fonts = [];
+        fonts.push('\'./\' + clientFolder + \'/fonts/*.*\'');
+        fonts.push('\'./\' + clientFolder + \'/fonts/{{targetName}}/**/*.*\'');
+
         if(this.ionic) {
             fonts.push('\'./bower_components/ionic/release/fonts/*.*\'');
         }
