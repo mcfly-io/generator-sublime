@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var rename = $.rename;
+var imagemin = $.imagemin;
 var del = require('del');
 var exec = require('child_process').exec;
 var gutil = require('gulp-util');
@@ -64,6 +65,7 @@ var taskImage = function(constants) {
     gulp.src(constants.images.src, {
             base: constants.clientFolder
         })
+        .pipe(imagemin())
         .pipe(gulp.dest(dest));
 
 };
@@ -72,13 +74,16 @@ var taskImageCordova = function(constants) {
     if(helper.isMobile(constants)) {
         if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
             gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
+                .pipe(imagemin())
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
 
             gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
+                .pipe(imagemin())
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
         }
         if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
+                .pipe(imagemin())
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
         }
     }

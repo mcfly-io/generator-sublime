@@ -49,6 +49,7 @@ module.exports = function() {
             src: [
                 './' + clientFolder + '/styles/main{{targetSuffix}}.scss'
             ],
+            watchFolder: './' + clientFolder + '/styles/**/*.scss',
             dest: 'styles',
             destName: 'main.css',
             sass: {

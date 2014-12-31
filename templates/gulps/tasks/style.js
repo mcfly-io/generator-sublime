@@ -7,6 +7,7 @@ var sass = $.sass;
 var autoprefixer = $.autoprefixer;
 var rename = $.rename;
 var concat = $.concat;
+var order = $.order;
 var size = $.size;
 var minifycss = require('gulp-minify-css');
 var gulpif = require('gulp-if');
@@ -45,19 +46,22 @@ var taskStyle = function(constants) {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         //.pipe(sourcemaps.init())
-        .pipe(sass());
+        .pipe(sass())
+        .pipe(concat('sass.css'));
     //.pipe(sourcemaps.write());
 
     var srcCss = constants.style.css['src_' + constants.targetName];
     if(!srcCss) {
         srcCss = constants.style.css.src;
     }
-    var cssFiles = gulp.src(srcCss);
+    var cssFiles = gulp.src(srcCss)
+        .pipe(concat('css.css'));
 
     return es.concat(cssFiles, sassFiles)
         //.pipe(sourcemaps.init({
         //    loadMaps: true
         //}))
+        .pipe(order(['css.css', 'sass.css']))
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         //.pipe(sourcemaps.write())
@@ -91,7 +95,7 @@ gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
 });
 
 var taskStyleWatch = function(constants) {
-    gulp.watch(constants.style.src, ['style']);
+    gulp.watch(constants.style.watchFolder, ['style']);
 };
 
 gulp.task('style:watch', 'Watch changes for style files.', function() {

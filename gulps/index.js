@@ -44,6 +44,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-git': '0.5.5',
             'gulp-help': '1.3.1',
             'gulp-if': '1.2.5',
+            'gulp-imagemin': '2.1.0',
             'gulp-istanbul': '0.4.0',
             'gulp-jscs': '1.3.1',
             'gulp-jshint': '1.9.0',
@@ -52,6 +53,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-minify-css': '0.3.11',
             'gulp-mocha': '2.0.0',
             'gulp-mux': '', // always take latest version as this is our package
+            'gulp-order': '1.1.1',
             'gulp-plumber': '0.6.6',
             'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.0',
@@ -180,6 +182,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
     _buildFontsList: function() {
         var fonts = [];
+        fonts.push('\'./\' + clientFolder + \'/fonts/*.*\'');
+        fonts.push('\'./\' + clientFolder + \'/fonts/{{targetName}}/**/*.*\'');
+
         if(this.ionic) {
             fonts.push('\'./bower_components/ionic/release/fonts/*.*\'');
         }
@@ -402,6 +407,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-sourcemaps',
                     'gulp-autoprefixer',
                     'gulp-minify-css',
+                    'gulp-order',
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
@@ -412,7 +418,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.dist) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 npmPackages = npmPackages.concat([
-                    'del'
+                    'del',
+                    'gulp-rename',
+                    'gulp-imagemin'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
