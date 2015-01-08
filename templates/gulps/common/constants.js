@@ -30,7 +30,7 @@ module.exports = function() {
         lint: [
             './' + clientFolder + '/scripts/*/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
-            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karam.conf.js', './test/**/*.js'
+            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
         ],
         fonts: {
             src: <%= fonts %>, // you can also add a specific src_appname
