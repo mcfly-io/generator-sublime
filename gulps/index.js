@@ -73,7 +73,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'jshint-stylish': '1.0.0',
 
             'karma': '0.12.28',
-            'karma-bro': '0.11.1',
+            'karma-browserify': '2.0.0',
             'karma-coverage': '0.2.6', // version 0.2.7 has an issue : https://github.com/karma-runner/karma-coverage/issues/119
             'karma-growl-reporter': '0.1.1',
             'karma-jasmine': '0.3.2',
@@ -383,7 +383,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'jasmine-reporters',
                     'jasmine-spec-reporter',
                     'karma',
-                    'karma-bro',
+                    'karma-browserify',
                     'karma-coverage',
                     'karma-growl-reporter',
                     'karma-jasmine',
