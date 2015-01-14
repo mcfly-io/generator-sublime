@@ -12,6 +12,7 @@ var gutil = require('gulp-util');
 var exec = $.exec;
 var concat = $.concat;
 var helper = require('../common/helper');
+
 var constants = require('../common/constants')();
 
 var repository = constants.repository;
@@ -44,7 +45,7 @@ var makeChangelog = function(options) {
     return deferred.promise;
 };
 
-gulp.task('changelog:conventional', false, function() {
+gulp.task('changelog:conventional', false, function(cb) {
     var dest = argv.dest || 'CHANGELOG.md';
     var toHtml = argv.html || false;
     return makeChangelog(argv).then(function(log) {
@@ -54,10 +55,11 @@ gulp.task('changelog:conventional', false, function() {
             });
         }
         fs.writeFileSync(dest, log);
+        cb();
     });
 });
 
-gulp.task('changelog:script', false, function() {
+gulp.task('changelog:script', false, function(cb) {
     var pkg = helper.readJsonFile('./package.json');
     var options = argv;
     var version = options.version || pkg.version;
@@ -72,9 +74,10 @@ gulp.task('changelog:script', false, function() {
     })));
     stream.queue(gulp.src('CHANGELOG.md'));
 
-    return stream.done()
+    stream.done()
         .pipe(concat('CHANGELOG.md'))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./'))
+        .on('end', cb);
 });
 
 gulp.task('changelog', 'Generates a CHANGELOG.md file.', ['changelog:script']);
