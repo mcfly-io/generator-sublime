@@ -162,9 +162,8 @@ gulp.task('release:createRelease', false, ['push'], function(cb) {
             };
             github.releases.createRelease(msg, function(err, res) {
                 if(err) {
-                    gutil.log('Error:' + err);
+                    gutil.log(gutil.colors.red('Error: ' + err));
                 } else {
-                    gutil.log('Response: "' + res.meta.status + '": ' + res.url);
                     del('CHANGELOG.md');
                 }
             });
