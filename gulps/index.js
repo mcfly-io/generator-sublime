@@ -31,9 +31,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'conventional-changelog': '0.0.11',
             'cssify': '0.6.0',
             'deamdify': '0.1.1',
-            'del': '1.0.0',
+            'del': '1.1.1',
             'event-stream': '3.1.7',
             'glob-to-regexp': '0.0.1',
+            'github': '0.2.3',
             'growly': '1.1.1',
             'gulp': '3.8.10',
             'gulp-autoprefixer': '2.0.0',
@@ -345,12 +346,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.release) {
                 this.template('tasks/release.js', gulpFolder + '/tasks/release.js');
                 npmPackages = npmPackages.concat([
+                    'del',
+                    'github',
                     'gulp-bump',
                     'gulp-git',
                     'gulp-if',
                     'gulp-tap',
                     'node-jsxml',
-                    'streamqueue',
                     'yargs'
                 ]);
             }
