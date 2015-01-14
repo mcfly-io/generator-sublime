@@ -80,7 +80,7 @@ yo sublime:gulps
 * fontawesome : true to include font-awesome
 * bootstrap : true to include the bootstrap library
 
-To better understand the gulp task system have a look at [`gulp-mux`](https://github.com/thaiat/gulp-mux).
+To better understand the gulp task system have a look at the docs of [`gulp-mux`](https://github.com/thaiat/gulp-mux).
 
 #### Results
 This will scaffold some common gulp tasks:
