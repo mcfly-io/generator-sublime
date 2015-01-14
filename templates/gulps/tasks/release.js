@@ -96,7 +96,7 @@ gulp.task('commit', false, ['bump'], function() {
         .pipe(git.commit(message));
 });
 
-gulp.task('tag', false, ['commit'], function() {
+gulp.task('tag', false, ['commit'], function(cb) {
     var pkg = helper.readJsonFile('./package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
@@ -104,14 +104,16 @@ gulp.task('tag', false, ['commit'], function() {
         if(err) {
             throw new Error(err);
         }
+        cb();
     });
 });
 
-gulp.task('push', false, ['tag'], function() {
+gulp.task('push', false, ['tag'], function(cb) {
     exec('git push origin master  && git push origin master --tags', function(err) {
         if(err) {
             throw new Error(err);
         }
+        cb();
     });
 });
 
