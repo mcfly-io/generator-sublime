@@ -13,25 +13,9 @@ var tap = $.tap;
 var XML = require('node-jsxml').XML;
 var streamqueue = require('streamqueue');
 var git = $.git;
-var gulpif = $.
-if;
+var gulpif = $.if;
+var helper = require('../common/helper');
 var constants = require('../common/constants')();
-
-var readTextFile = function(filename) {
-    var body = fs.readFileSync(filename, 'utf8');
-    return body;
-};
-
-var readJsonFile = function(filename) {
-    var body = readTextFile(filename);
-    return JSON.parse(stripJsonComments(body));
-};
-
-var filterFiles = function(files, extension) {
-    return _.filter(files, function(file) {
-        return path.extname(file) === extension;
-    });
-};
 
 /**
  * Bumps any version in the constants.versionFiles
@@ -40,9 +24,10 @@ var filterFiles = function(files, extension) {
  * gulp bump --minor (or --major or --prerelease or --patch which is the default)
  * - or -
  * gulp bump --ver=1.2.3
+ * @param {function} cb - The gulp callback
  * @returns {void}
  */
-gulp.task('bump', false, function() {
+gulp.task('bump', false, function(cb) {
     var bumpType = 'patch';
     // major.minor.patch
     if(args.patch) {
@@ -60,16 +45,11 @@ gulp.task('bump', false, function() {
     bumpType = process.env.BUMP || bumpType;
 
     var version;
-    var srcjson = filterFiles(constants.versionFiles, '.json');
-    var srcxml = filterFiles(constants.versionFiles, '.xml');
-
-    // preparing the queue for bumping json and then xml files
-    var stream = streamqueue({
-        objectMode: true
-    });
+    var srcjson = helper.filterFiles(constants.versionFiles, '.json');
+    var srcxml = helper.filterFiles(constants.versionFiles, '.xml');
 
     // first we bump the json files
-    stream.queue(gulp.src(srcjson)
+    gulp.src(srcjson)
         .pipe(gulpif(args.ver !== undefined, bump({
             version: args.ver
         }), bump({
@@ -81,24 +61,30 @@ gulp.task('bump', false, function() {
                 version = json.version;
             }
         }))
-        .pipe(gulp.dest('./')));
+        .pipe(gulp.dest('./'))
+        .on('end', function() {
+            // then after we have the correct value for version, we take care of the xml files
+            if(srcxml.length > 0) {
+                gulp.src(srcxml)
+                    .pipe(tap(function(file) {
+                        var xml = new XML(String(file.contents));
+                        xml.attribute('version').setValue(version);
+                        file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
+                    }))
+                    .pipe(gulp.dest('./' + constants.clientFolder))
+                    .on('end', function() {
+                        cb();
+                    });
+            } else {
+                cb();
+            }
 
-    // then after we have the correct value for version, we take care of the xml files
-    if(srcxml.length > 0) {
-        stream.queue(gulp.src(srcxml)
-            .pipe(tap(function(file) {
-                var xml = new XML(String(file.contents));
-                xml.attribute('version').setValue(version);
-                file.contents = Buffer.concat([new Buffer(xml.toXMLString())]);
-            }))
-            .pipe(gulp.dest('./' + constants.clientFolder)));
-    }
-    return stream.done();
+        });
 
 });
 
 gulp.task('commit', false, ['bump'], function() {
-    var pkg = readJsonFile('./package.json');
+    var pkg = helper.readJsonFile('./package.json');
     var message = 'docs(changelog): version ' + pkg.version;
     return gulp.src(constants.versionFiles)
         .pipe(git.add({
@@ -108,7 +94,7 @@ gulp.task('commit', false, ['bump'], function() {
 });
 
 gulp.task('tag', false, ['commit'], function() {
-    var pkg = readJsonFile('./package.json');
+    var pkg = helper.readJsonFile('./package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
     git.tag(v, message, function(err) {

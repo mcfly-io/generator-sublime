@@ -3,6 +3,9 @@
 var fs = require('fs');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
+var stripJsonComments = require('strip-json-comments');
+var _ = require('lodash');
+var path = require('path');
 
 /**
  * Returns true if the target application is mobile
@@ -30,4 +33,20 @@ var execHandler = exports.execHandler = function(err, stdout, stderr) {
     if(stderr) {
         gutil.log(chalk.red('Error: ') + stderr);
     }
+};
+
+var readTextFile = exports.readTextFile = function(filename) {
+    var body = fs.readFileSync(filename, 'utf8');
+    return body;
+};
+
+var readJsonFile = exports.readJsonFile = function(filename) {
+    var body = readTextFile(filename);
+    return JSON.parse(stripJsonComments(body));
+};
+
+var filterFiles = exports.filterFiles = function(files, extension) {
+    return _.filter(files, function(file) {
+        return path.extname(file) === extension;
+    });
 };
