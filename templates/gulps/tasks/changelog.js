@@ -7,11 +7,11 @@ var argv = require('yargs').argv;
 var marked = require('marked');
 var fs = require('fs');
 var q = require('q');
-var pkg = require('../../package.json');
 var path = require('path');
 var gutil = require('gulp-util');
 var exec = $.exec;
 var concat = $.concat;
+var helper = require('../common/helper');
 var constants = require('../common/constants')();
 
 var repository = constants.repository;
@@ -20,6 +20,7 @@ if(repository.length <= 0) {
 }
 
 var makeChangelog = function(options) {
+    var pkg = helper.readJsonFile('./package.json');
     var codename = pkg.codename;
     var file = options.standalone ? '' : path.join(__dirname, 'CHANGELOG.md');
     var subtitle = options.subtitle || '"' + codename + '"';
@@ -57,6 +58,7 @@ gulp.task('changelog:conventional', false, function() {
 });
 
 gulp.task('changelog:script', false, function() {
+    var pkg = helper.readJsonFile('./package.json');
     var options = argv;
     var version = options.version || pkg.version;
     var from = options.from || '';
