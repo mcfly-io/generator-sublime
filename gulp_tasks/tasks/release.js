@@ -17,8 +17,11 @@ var gutil = require('gulp-util');
 var GitHubApi = require('github');
 var runSequence = require('run-sequence').use(gulp);
 var del = require('del');
+var inquirer = require('inquirer');
 var helper = require('../common/helper');
 var constants = require('../common/constants')();
+
+var github = {};
 
 /**
  * Bumps any version in the constants.versionFiles
@@ -125,9 +128,8 @@ gulp.task('push', false, ['tag'], function(cb) {
 
 gulp.task('release', 'Publish a new release version.', ['push']);
 
-gulp.task('release:createRelease', false, ['push'], function(cb) {
-
-    var github = new GitHubApi({
+gulp.task('githubAuth', false, function(cb) {
+    github = new GitHubApi({
         // required
         version: '3.0.0',
         // optional
@@ -136,15 +138,42 @@ gulp.task('release:createRelease', false, ['push'], function(cb) {
         timeout: 5000
     });
 
-    if(args.username && args.password) {
-        var username = args.username;
-        var password = args.password;
-        github.authenticate({
-            type: 'basic',
-            username: username,
-            password: password
+    // var username;
+
+    git.exec({args: 'config --get user.email'}, function(err, email) {
+        if(err) {
+            throw new Error(err);
+        }
+        github.search.users({
+            q: email + 'in:email'
+        }, function(err, res) {
+            if(err) {
+                throw new Error(err);
+            }
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'Enter your GitHub username',
+                    name: 'username',
+                    default: res.items[0].login
+                },
+                {
+                    type: 'password',
+                    message: 'Enter your GitHub password',
+                    name: 'password'
+                }
+            ], function(answers) {
+                github.authenticate({
+                    type: 'basic',
+                    username: answers.username,
+                    password: answers.password
+                });
+                cb();
+            });
         });
-    }
+    });
+});
+gulp.task('release:createRelease', false, function(cb) {
 
     var pkg = helper.readJsonFile('./package.json');
     var v = 'v' + pkg.version;
@@ -173,5 +202,5 @@ gulp.task('release:createRelease', false, ['push'], function(cb) {
 });
 
 gulp.task('release:full', 'Publish a new release version.', function() {
-    return runSequence('changelog', 'release:createRelease');
+    return runSequence('changelog', 'push', 'githubAuth', 'release:createRelease');
 });
