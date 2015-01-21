@@ -130,17 +130,87 @@ gulp.task('release', 'Publish a new release version.', ['push']);
 
 gulp.task('githubAuth', false, function(cb) {
     github = new GitHubApi({
-        // required
         version: '3.0.0',
-        // optional
-        debug: true,
+        // use `--ghDebug` command line flag to display github api debug messages.
+        debug: args.ghDebug,
         protocol: 'https',
         timeout: 5000
     });
 
     // var username;
 
-    git.exec({args: 'config --get user.email'}, function(err, email) {
+    var questions = {
+        username: function(def, message, when) {
+            message = message ? message + ' ' : '';
+            return {
+                type: 'input',
+                message: message + gutil.colors.bgCyan('GitHub username'),
+                name: 'username',
+                default: def,
+                validate: function(input) {
+                    return input !== '';
+                }
+            };
+        },
+        password: function(message, when) {
+            message = message ? message + ' ' : '';
+            return {
+                type: 'password',
+                message: message + gutil.colors.bgCyan('GitHub password'),
+                name: 'password',
+                validate: function(input) {
+                    return input !== '';
+                }
+            };
+        }
+    };
+
+    var inquire = function(username, badAuth, answers, cb) {
+        var askPrefix;
+        var output = [];
+        if(badAuth) {
+            gutil.log(gutil.colors.red('BAD AUTHORIZATION REQUEST!\n'));
+            askPrefix = gutil.colors.cyan('Please re-enter your');
+            output = output.concat([{
+                    type: 'confirm',
+                    message: 'Do you want to try again?',
+                    name: 'retry'
+                },
+                questions.username(false, askPrefix),
+                questions.password(askPrefix)
+            ]);
+        } else {
+            askPrefix = gutil.colors.cyan('Please enter your');
+            if(!username) {
+                output.push(questions.username(false, askPrefix));
+            }
+            output.push(questions.password(askPrefix));
+        }
+
+        inquirer.prompt(output,
+            function(answers) {
+                if(!answers.password) {
+                    gutil.log(gutil.colors.red('Unable to authenticate. Exiting.'));
+                    throw new Error('User aborted GitHub authentication.');
+                }
+                github.authenticate({
+                    type: 'basic',
+                    username: answers.username || username,
+                    password: answers.password
+                });
+                github.misc.rateLimit({}, function(err, res) {
+                    if(err) {
+                        inquire(false, true, answers, cb);
+                    } else {
+                        cb();
+                    }
+                });
+            });
+    };
+
+    git.exec({
+        args: 'config --get user.email'
+    }, function(err, email) {
         if(err) {
             throw new Error(err);
         }
@@ -149,27 +219,11 @@ gulp.task('githubAuth', false, function(cb) {
         }, function(err, res) {
             if(err) {
                 throw new Error(err);
+            } else if(res.items.length === 0) {
+                inquire(false, false, {}, cb);
+            } else {
+                inquire(res.items[0].login, false, {}, cb);
             }
-            inquirer.prompt([
-                {
-                    type: 'input',
-                    message: 'Enter your GitHub username',
-                    name: 'username',
-                    default: res.items[0].login
-                },
-                {
-                    type: 'password',
-                    message: 'Enter your GitHub password',
-                    name: 'password'
-                }
-            ], function(answers) {
-                github.authenticate({
-                    type: 'basic',
-                    username: answers.username,
-                    password: answers.password
-                });
-                cb();
-            });
         });
     });
 });
