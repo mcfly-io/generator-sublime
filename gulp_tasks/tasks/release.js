@@ -18,10 +18,10 @@ var GitHubApi = require('github');
 var runSequence = require('run-sequence').use(gulp);
 var del = require('del');
 var inquirer = require('inquirer');
+var Q = require('q');
+var githubUsername = require('github-username');
 var helper = require('../common/helper');
 var constants = require('../common/constants')();
-
-var github = {};
 
 /**
  * Bumps any version in the constants.versionFiles
@@ -120,115 +120,83 @@ gulp.task('push', false, ['tag'], function(cb) {
     });
 });
 
-// gulp.task('npm', ['push'], function(done) {
-//     spawm('npm', ['publish'], {
-//         stdio: 'inherit'
-//     }).on('close', done);
-// });
-
 gulp.task('release', 'Publish a new release version.', ['push']);
 
-gulp.task('githubAuth', false, function(cb) {
-    github = new GitHubApi({
-        version: '3.0.0',
-        // use `--ghDebug` command line flag to display github api debug messages.
-        debug: args.ghDebug,
-        protocol: 'https',
-        timeout: 5000
-    });
+// ############GITHUB SECTION#########
 
-    // var username;
+var github = new GitHubApi({
+    version: '3.0.0',
+    protocol: 'https',
+    timeout: 5000
+});
 
-    var questions = {
-        username: function(def, message, when) {
-            message = message ? message + ' ' : '';
-            return {
-                type: 'input',
-                message: message + gutil.colors.bgCyan('GitHub username'),
-                name: 'username',
-                default: def,
-                validate: function(input) {
-                    return input !== '';
-                }
-            };
-        },
-        password: function(message, when) {
-            message = message ? message + ' ' : '';
-            return {
-                type: 'password',
-                message: message + gutil.colors.bgCyan('GitHub password'),
-                name: 'password',
-                validate: function(input) {
-                    return input !== '';
-                }
-            };
-        }
-    };
+var gitGetEmailAsync = Q.nbind(git.exec, git, {
+    args: 'config --get user.email',
+    quiet: true
+});
+var githubUsernameAsync = Q.nfbind(githubUsername);
 
-    var inquire = function(username, badAuth, answers, cb) {
-        var askPrefix;
-        var output = [];
-        if(badAuth) {
-            gutil.log(gutil.colors.red('BAD AUTHORIZATION REQUEST!\n'));
-            askPrefix = gutil.colors.cyan('Please re-enter your');
-            output = output.concat([{
-                    type: 'confirm',
-                    message: 'Do you want to try again?',
-                    name: 'retry'
-                },
-                questions.username(false, askPrefix),
-                questions.password(askPrefix)
-            ]);
-        } else {
-            askPrefix = gutil.colors.cyan('Please enter your');
-            if(!username) {
-                output.push(questions.username(false, askPrefix));
-            }
-            output.push(questions.password(askPrefix));
-        }
-
-        inquirer.prompt(output,
-            function(answers) {
-                if(!answers.password) {
-                    gutil.log(gutil.colors.red('Unable to authenticate. Exiting.'));
-                    throw new Error('User aborted GitHub authentication.');
-                }
-                github.authenticate({
-                    type: 'basic',
-                    username: answers.username || username,
-                    password: answers.password
-                });
-                github.misc.rateLimit({}, function(err, res) {
-                    if(err) {
-                        inquire(false, true, answers, cb);
-                    } else {
-                        cb();
-                    }
-                });
-            });
-    };
-
-    git.exec({
-        args: 'config --get user.email'
-    }, function(err, email) {
-        if(err) {
-            throw new Error(err);
-        }
-        github.search.users({
-            q: email + 'in:email'
-        }, function(err, res) {
-            if(err) {
-                throw new Error(err);
-            } else if(res.items.length === 0) {
-                inquire(false, false, {}, cb);
-            } else {
-                inquire(res.items[0].login, false, {}, cb);
-            }
+var inquireAsync = function(result) {
+    var deferred = Q.defer();
+    inquirer.prompt(result.questions, function(answers) {
+        // only resolving what we need
+        deferred.resolve({
+            username: answers.username || result.username,
+            password: answers.password
         });
     });
-});
-gulp.task('release:createRelease', false, function(cb) {
+    return deferred.promise;
+};
 
+var githubAuthSetupAndTestAsync = function(result) {
+    var deferred = Q.defer();
+    github.authenticate({
+        type: 'basic',
+        username: result.username,
+        password: result.password
+    });
+    github.misc.rateLimit({}, function(err, res) {
+        if(err) {
+            deferred.reject(gutil.colors.red('GitHub auth failed! ') + 'Response from server: ' + gutil.colors.yellow(JSON.parse(err).message));
+        }
+        deferred.resolve(gutil.colors.green('GitHub auth successful!'));
+    });
+    return deferred.promise;
+};
+
+gulp.task('githubAuth', false, function(cb) {
+    return gitGetEmailAsync()
+        .then(githubUsernameAsync)
+        .then(function(username) {
+            return {
+                username: username,
+                questions: [{
+                    type: 'input',
+                    message: 'Please enter your' + gutil.colors.cyan('GitHub username'),
+                    name: 'username',
+                    default: username,
+                    validate: function(input) {
+                        return input !== '';
+                    },
+                    when: function() {
+                        return username === null;
+                    }
+                }, {
+                    type: 'password',
+                    message: 'Please enter your' + gutil.colors.cyan('GitHub password'),
+                    name: 'password',
+                    validate: function(input) {
+                        return input !== '';
+                    }
+                }]
+            };
+        })
+        .then(inquireAsync)
+        .then(githubAuthSetupAndTestAsync)
+        .tap(gutil.log);
+});
+
+gulp.task('release:createRelease', false, function(cb) {
     var pkg = helper.readJsonFile('./package.json');
     var v = 'v' + pkg.version;
     var message = pkg.version;
@@ -256,5 +224,5 @@ gulp.task('release:createRelease', false, function(cb) {
 });
 
 gulp.task('release:full', 'Publish a new release version.', function() {
-    return runSequence('changelog', 'push', 'githubAuth', 'release:createRelease');
+    return runSequence('githubAuth', 'changelog', 'push', 'release:createRelease');
 });
