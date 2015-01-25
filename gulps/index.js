@@ -35,6 +35,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'event-stream': '3.1.7',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.3',
+            'github-username': '1.1.1',
             'growly': '1.1.1',
             'gulp': '3.8.10',
             'gulp-autoprefixer': '2.0.0',
@@ -66,6 +67,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-util': '3.0.1',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
+            'inquirer': '0.8.0',
             'jadeify': '3.0.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '1.0.1',
@@ -348,11 +350,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'del',
                     'github',
+                    'github-username',
                     'gulp-bump',
                     'gulp-git',
                     'gulp-if',
                     'gulp-tap',
+                    'inquirer',
                     'node-jsxml',
+                    'q',
                     'yargs'
                 ]);
             }
