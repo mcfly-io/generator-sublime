@@ -86,7 +86,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'lodash': '2.4.1',
 
             'map-stream': '0.0.5',
-            'marked': '0.3.2',
             'mocha': '2.0.1',
             'mocha-lcov-reporter': '0.0.1',
             'node-jsxml': '0.6.0',
@@ -370,7 +369,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-exec',
                     'gulp-concat',
                     'gulp-tap',
-                    'marked',
                     'q',
                     'streamqueue',
                     'yargs'
