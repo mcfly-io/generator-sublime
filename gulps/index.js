@@ -282,6 +282,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             var npmPackages = [
+                'chalk',
                 'gulp',
                 'gulp-help',
                 'gulp-if',
@@ -305,7 +306,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.lint || this.test) {
                 this.template('tasks/lint.js', gulpFolder + '/tasks/lint.js');
                 npmPackages = npmPackages.concat([
-                    'chalk',
                     'growly',
                     'gulp-eslint',
                     'gulp-jshint',
@@ -319,9 +319,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/serve.js', gulpFolder + '/tasks/serve.js');
                 npmPackages = npmPackages.concat([
                     //'gulp-webserver',
-                    'browser-sync',
                     //'open',
-                    'chalk'
+                    'browser-sync'
                 ]);
             }
             if(this.browserify) {
@@ -332,7 +331,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'browserify',
                     'browserify-istanbul',
                     'browserify-shim',
-                    'chalk',
                     'cssify',
                     'deamdify',
                     'gulp-uglify',
@@ -378,7 +376,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
                 npmPackages = npmPackages.concat([
                     'chai',
-                    'chalk',
                     'gulp-mocha',
                     'gulp-istanbul',
                     'gulp-plumber',
