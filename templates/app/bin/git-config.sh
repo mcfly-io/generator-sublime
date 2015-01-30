@@ -85,6 +85,5 @@ git config --global --add alias.pr-clean '!git for-each-ref refs/heads/pr-* --fo
 #########
 # hooks
 #########
-directory=$(dirname $(readlink -f $0))
-ln $directory/validate-commit-msg.js $directory/../.git/hooks/commit-msg
+# ln $directory/validate-commit-msg.js $directory/../.git/hooks/commit-msg
 
