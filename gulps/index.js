@@ -394,7 +394,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'mocha-lcov-reporter',
                     'protractor',
                     'protractor-html-screenshot-reporter',
-                    'sinon'
+                    'sinon',
+                    'yargs'
 
                 ]);
             }

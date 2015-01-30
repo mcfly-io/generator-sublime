@@ -8,6 +8,7 @@ var karma = $.karma;
 //var plumber = $.plumber;
 var gutil = require('gulp-util');
 var chalk = require('chalk');
+var args = require('yargs').argv;
 
 var constants = require('../common/constants')();
 
@@ -34,7 +35,7 @@ gulp.task('karma', 'Runs karma unit tests.', function() {
     return gulp.src(['no need to supply files because everything is in config file'])
         .pipe(karma({
             configFile: 'karma.conf.js',
-            action: 'run'
+            action: args.start ? 'start' : 'run'
         })).on('error', function() {
             gutil.log(chalk.red('(ERROR)'), 'karma');
         });
