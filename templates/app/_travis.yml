@@ -1,5 +1,5 @@
 language: node_js
-
+sudo: false
 node_js:
   - <%=shortNodeVersion%>
 
@@ -11,7 +11,7 @@ after_success:
 #  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
 #  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 #  - cat ./coverage/lcov.info | codeclimate
-  - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate < ./coverage/lcov.info
+  - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate < ./coverage/**/lcov.info
 
 <% if (NpmPublish) { %>
 deploy:
