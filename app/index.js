@@ -257,7 +257,7 @@ var SublimeGenerator = Class.extend({
                 this.template('bin/validate-commit-msg.js', 'bin/validate-commit-msg.js');
             }
             if(this.ReadmeMd) {
-                this.template('_README.md', 'README.md');
+                this.template('_README.md', 'readme.md');
             }
             if(this.Settings) {
                 this.template('_settings', '.settings');
