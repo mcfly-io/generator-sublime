@@ -35,7 +35,8 @@ gulp.task('karma', 'Runs karma unit tests.', function() {
     return gulp.src(['no need to supply files because everything is in config file'])
         .pipe(karma({
             configFile: 'karma.conf.js',
-            action: args.start ? 'start' : 'run'
+            action: args.start ? 'start' : 'run',
+            debug: args.debug
         })).on('error', function() {
             gutil.log(chalk.red('(ERROR)'), 'karma');
         });
