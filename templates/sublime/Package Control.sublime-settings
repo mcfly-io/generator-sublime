@@ -1,0 +1,28 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_dependencies":
+	[
+		"0_package_control_loader",
+		"bz2"
+	],
+	"installed_packages":
+	[
+		"Color Highlighter",
+		"Emmet",
+		"HTML-CSS-JS Prettify",
+		"Package Control",
+		"SCSS",
+		"Seti_UI",
+		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeLinter-annotations",
+		"SublimeLinter-contrib-eslint",
+		"SublimeLinter-jscs",
+		"SublimeLinter-jshint",
+		"Sublimerge Pro",
+		"TernJS",
+		"Theme - Cobalt2"
+	]
+}
