@@ -112,6 +112,20 @@ gulp.task('html:watch', false, function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
+var taskImageWatch = function(constants) {
+    gulp.watch(gmux.sanitizeWatchFolders(constants.images.src), ['image']);
+};
+
+gulp.task('image:watch', false, function() {
+
+    var taskname = 'image:watch';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    gmux.createAndRunTasks(gulp, taskImageWatch, taskname, global.options.target, global.options.mode, constants);
+});
+
 gulp.task('image', false, ['image:cordova'], function() {
     var taskname = 'image';
     gmux.targets.setClientFolder(constants.clientFolder);
