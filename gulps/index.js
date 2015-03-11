@@ -41,7 +41,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-autoprefixer': '2.0.0',
             'gulp-bump': '0.1.11',
             'gulp-concat': '2.4.2',
-            'gulp-eslint': '0.1.8', // version 2.0.0 has a bug with multiple eslintrc files
+            'gulp-eslint': '0.6.0',
             'gulp-exec': '2.1.1',
             'gulp-git': '0.5.5',
             'gulp-help': '1.3.1',
@@ -52,7 +52,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-jshint': '1.9.0',
             'gulp-karma': '0.0.4',
             'gulp-load-plugins': '0.7.1',
-            'gulp-minify-css': '0.3.11',
+            'gulp-minify-css': '0.5.1',
             'gulp-mocha': '2.0.0',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
@@ -130,6 +130,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             type: 'Boolean',
             defaults: false
         });
+        this.option('material', {
+            desc: 'angular-material',
+            type: 'Boolean',
+            defaults: false
+        });
 
         _.forEach(this.allTasks, function(task) {
             this.option(task, {
@@ -158,6 +163,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         this.famous = this.options.famous;
         this.fontawesome = this.options.fontawesome;
         this.bootstrap = this.options.bootstrap;
+        this.material = this.options.material;
 
         _.forEach(this.allTasks, function(task) {
             this[task] = this.options[task];
@@ -176,6 +182,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(this.bootstrap) {
             css.push('\'./bower_components/bootstrap/dist/css/bootstrap.css\'');
             css.push('\'./bower_components/bootstrap/dist/css/bootstrap-theme.css\'');
+        }
+        if(this.material) {
+            css.push('\'./bower_components/angular-material/angular-material.css\'');
         }
         css = css.length > 0 ? css : ['\'\''];
         this.css = '[' + css.join(', ') + ']';
