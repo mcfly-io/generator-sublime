@@ -112,6 +112,20 @@ gulp.task('html:watch', false, function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
+var taskAngulari18n = function(constants) {
+    gulp.src('./bower_components/angular-i18n/*.js')
+        .pipe(gulp.dest(constants.dist.distFolder + '/angular/i18n'));
+};
+
+gulp.task('angular:i18n', false, function() {
+    var taskname = 'angular:i18n';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    gmux.createAndRunTasks(gulp, taskAngulari18n, taskname, global.options.target, global.options.mode, constants);
+});
+
 var taskImageWatch = function(constants) {
     gulp.watch(gmux.sanitizeWatchFolders(constants.images.src), ['image']);
 };
@@ -163,7 +177,7 @@ gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function()
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('html', 'image', 'browserify', 'style', done);
+    return runSequence('html', 'image', 'angular:i18n', 'browserify', 'style', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {
