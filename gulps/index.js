@@ -21,88 +21,88 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
-            'brfs': '1.2.0',
-            'browser-sync': '1.7.2',
-            'browserify': '6.3.3',
-            'browserify-istanbul': '0.1.2',
-            'browserify-shim': '3.8.0',
-            'chai': '1.10.0',
-            'chalk': '0.5.1',
-            'conventional-changelog': '0.0.11',
-            'cssify': '0.6.0',
+            'brfs': '1.4.0',
+            'browser-sync': '2.2.4',
+            'browserify': '9.0.3',
+            'browserify-istanbul': '0.2.1',
+            'browserify-shim': '3.8.3',
+            'chai': '2.1.2',
+            'chalk': '1.0.0',
+            'conventional-changelog': '0.0.14',
+            'cssify': '0.7.0',
             'deamdify': '0.1.1',
             'del': '1.1.1',
-            'event-stream': '3.1.7',
+            'event-stream': '3.3.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.3',
             'github-username': '1.1.1',
-            'growly': '1.1.1',
-            'gulp': '3.8.10',
-            'gulp-autoprefixer': '2.0.0',
-            'gulp-bump': '0.1.11',
-            'gulp-concat': '2.4.2',
-            'gulp-eslint': '0.1.8', // version 2.0.0 has a bug with multiple eslintrc files
+            'growly': '1.2.0',
+            'gulp': '3.8.11',
+            'gulp-autoprefixer': '2.1.0',
+            'gulp-bump': '0.3.0',
+            'gulp-concat': '2.5.2',
+            'gulp-eslint': '0.7.0',
             'gulp-exec': '2.1.1',
-            'gulp-git': '0.5.5',
-            'gulp-help': '1.3.1',
+            'gulp-git': '1.1.0',
+            'gulp-help': '1.3.4',
             'gulp-if': '1.2.5',
-            'gulp-imagemin': '2.1.0',
-            'gulp-istanbul': '0.4.0',
-            'gulp-jscs': '1.3.1',
-            'gulp-jshint': '1.9.0',
+            'gulp-imagemin': '2.2.1',
+            'gulp-istanbul': '0.6.0',
+            'gulp-jscs': '1.4.0',
+            'gulp-jshint': '1.9.2',
             'gulp-karma': '0.0.4',
-            'gulp-load-plugins': '0.7.1',
-            'gulp-minify-css': '0.3.11',
+            'gulp-load-plugins': '0.8.1',
+            'gulp-minify-css': '1.0.0',
             'gulp-mocha': '2.0.0',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
-            'gulp-plumber': '0.6.6',
+            'gulp-plumber': '1.0.0',
             'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.0',
-            'gulp-sass': '1.1.0',
-            'gulp-size': '1.1.0',
-            'gulp-sourcemaps': '1.2.8',
+            'gulp-sass': '1.3.3',
+            'gulp-size': '1.2.1',
+            'gulp-sourcemaps': '1.5.0',
             'gulp-tap': '0.1.3',
-            'gulp-uglify': '1.0.2',
-            'gulp-util': '3.0.1',
+            'gulp-uglify': '1.1.0',
+            'gulp-util': '3.0.4',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
             'inquirer': '0.8.0',
-            'jadeify': '3.0.0', // cannot accept browserify >= 7.0.0
+            'jadeify': '4.1.0', // cannot accept browserify >= 7.0.0
 
-            'jasmine-reporters': '1.0.1',
-            'jasmine-spec-reporter': '1.1.0',
+            'jasmine-reporters': '2.0.5',
+            'jasmine-spec-reporter': '2.1.0',
 
-            'jshint-stylish': '1.0.0',
+            'jshint-stylish': '1.0.1',
 
-            'karma': '0.12.28',
-            'karma-browserify': '2.0.0',
-            'karma-coverage': '0.2.6', // version 0.2.7 has an issue : https://github.com/karma-runner/karma-coverage/issues/119
+            'karma': '0.12.31',
+            'karma-browserify': '4.0.0',
+            'karma-coverage': '0.2.6', // version 0.2.7 has an issue — github.com/karma-runner/karma-coverage/issues/119
             'karma-growl-reporter': '0.1.1',
-            'karma-jasmine': '0.3.2',
-            'karma-mocha-reporter': '0.3.1',
+            'karma-jasmine': '0.3.5',
+            'karma-mocha-reporter': '1.0.2',
             'karma-phantomjs-launcher': '0.1.4',
 
-            'lodash': '2.4.1',
+            'lodash': '3.5.0',
 
             'map-stream': '0.0.5',
-            'mocha': '2.0.1',
-            'mocha-lcov-reporter': '0.0.1',
+            'mocha': '2.2.1',
+            'mocha-lcov-reporter': '0.0.2',
             'node-jsxml': '0.6.0',
             'open': '0.0.5',
-            'protractor': '1.5.0',
-            'protractor-html-screenshot-reporter': '0.0.17',
-            'q': '1.1.2',
+            'protractor': '1.8.0',
+            'protractor-html-screenshot-reporter': '0.0.19',
+            'q': '1.2.0',
             'require-dir': '0.1.0',
             'run-sequence': '1.0.2',
-            'sinon': '1.12.1',
+            'sinon': '1.14.0',
             'stream-combiner': '0.2.1',
-            'streamqueue': '0.1.1',
+            'streamqueue': '0.1.3',
             'strip-json-comments': '1.0.2',
-            'vinyl-source-stream': '1.0.0',
             'vinyl-buffer': '1.0.0',
-            'watchify': '2.1.1',
-            'yargs': '1.3.3'
+            'vinyl-source-stream': '1.1.0',
+            'watchify': '2.4.0',
+            'yargs': '3.5.4'
         };
 
         this.option('clientFolder', {
@@ -127,6 +127,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         });
         this.option('bootstrap', {
             desc: 'bootstrap',
+            type: 'Boolean',
+            defaults: false
+        });
+        this.option('material', {
+            desc: 'angular-material',
             type: 'Boolean',
             defaults: false
         });
@@ -158,6 +163,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         this.famous = this.options.famous;
         this.fontawesome = this.options.fontawesome;
         this.bootstrap = this.options.bootstrap;
+        this.material = this.options.material;
 
         _.forEach(this.allTasks, function(task) {
             this[task] = this.options[task];
@@ -176,6 +182,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         if(this.bootstrap) {
             css.push('\'./bower_components/bootstrap/dist/css/bootstrap.css\'');
             css.push('\'./bower_components/bootstrap/dist/css/bootstrap-theme.css\'');
+        }
+        if(this.material) {
+            css.push('\'./bower_components/angular-material/angular-material.css\'');
         }
         css = css.length > 0 ? css : ['\'\''];
         this.css = '[' + css.join(', ') + ']';

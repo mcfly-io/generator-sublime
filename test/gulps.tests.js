@@ -283,6 +283,32 @@ describe('sublime:gulps', function() {
                 });
         });
 
+        it('should include proper css when material framework', function(done) {
+            this.runGen.withOptions({
+                    'skip-install': true,
+                    'ionic': false,
+                    'bootstrap': false,
+                    'material': true
+                })
+                .withPrompts({
+                    Tasks: ['style']
+                })
+                .on('end', function() {
+                    assert.file('gulp_tasks/common/constants.js');
+                    var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
+
+                    // make sure the file is not cached by node as we are requiring it
+                    delete require.cache[require.resolve(constantPath)];
+
+                    var constants = require(constantPath)();
+
+                    assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
+                        './bower_components/angular-material/angular-material.css'
+                    ]);
+                    done();
+                });
+        });
+
         it('should include proper fonts when ionic framework', function(done) {
             this.runGen.withOptions({
                     'skip-install': true,

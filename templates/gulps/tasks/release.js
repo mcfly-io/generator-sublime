@@ -1,13 +1,13 @@
 'use strict';
 
-var _ = require('lodash');
-var path = require('path');
+// var _ = require('lodash');
+// var path = require('path');
 var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')();
 var exec = require('child_process').exec;
-var fs = require('fs');
-var stripJsonComments = require('strip-json-comments');
+// var fs = require('fs');
+// var stripJsonComments = require('strip-json-comments');
 var bump = $.bump;
 var tap = $.tap;
 var XML = require('node-jsxml').XML;

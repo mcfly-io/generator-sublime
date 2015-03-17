@@ -28,7 +28,7 @@ module.exports = function() {
             iconBackground: '#3D4860'
         },
         lint: [
-            './' + clientFolder + '/scripts/*/**/*.js',
+            './' + clientFolder + '/scripts/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
         ],

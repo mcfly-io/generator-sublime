@@ -36,7 +36,7 @@ gulp.task('karma', 'Runs karma unit tests.', function() {
         .pipe(karma({
             configFile: 'karma.conf.js',
             action: args.start ? 'start' : 'run',
-            autowatch: !args.start, 
+            autowatch: !args.start,
             debug: args.debug
         })).on('error', function() {
             gutil.log(chalk.red('(ERROR)'), 'karma');

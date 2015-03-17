@@ -1,6 +1,6 @@
 'use strict';
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+// var $ = require('gulp-load-plugins')();
 //var webserver = $.webserver;
 var browserSync = require('browser-sync');
 //var openBrowser = require('open');
