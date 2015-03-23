@@ -320,6 +320,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-jshint',
                     'gulp-jscs',
                     'gulp-plumber',
+                    'jshint-stylish',
                     'map-stream',
                     'stream-combiner'
                 ]);
