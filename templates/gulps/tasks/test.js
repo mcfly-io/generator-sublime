@@ -13,21 +13,25 @@ var args = require('yargs').argv;
 var constants = require('../common/constants')();
 
 gulp.task('mocha', 'Runs mocha unit tests.', function() {
+    process.env.NODE_ENV = 'mocha';
     return gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
         }))
+        .pipe(istanbul.hookRequire()) // Force `require` to return covered files
         .on('finish', function() {
             gulp.src(constants.mocha.tests)
-                //.pipe(plumber())
                 .pipe(mocha({
                     reporter: 'spec',
-                    globals: './test/helpers/global.js',
+                    globals: constants.mocha.globals,
                     timeout: constants.mocha.timeout
                 }))
                 .pipe(istanbul.writeReports({
                     reporters: ['lcov', 'json', 'text', 'text-summary', 'cobertura']
-                }));
+                }))
+                .once('end', function() {
+                    process.exit();
+                });
         });
 });
 
