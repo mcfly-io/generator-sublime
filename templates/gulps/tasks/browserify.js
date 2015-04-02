@@ -1,5 +1,4 @@
 'use strict';
-
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
@@ -10,12 +9,17 @@ var browserify = require('browserify');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
+var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 
 var bundleShare = function(b, dest, bundleName, mode) {
-    var bundle = b.bundle();
+    var bundle = b;
+    if(mode === 'prod') {
+        bundle.plugin(collapse);
+    }
     bundle
+        .bundle()
         .on('error', function(err) {
             gutil.log(chalk.red('Browserify failed', '\n', err.message));
             bundle.end();
@@ -33,8 +37,9 @@ var browserifyShare = function(singleRun, src, dest, bundleName, mode) {
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: true
+        fullPaths: mode === 'prod' ? false : true
     });
+
     if(singleRun) {
         b = watchify(b);
     }

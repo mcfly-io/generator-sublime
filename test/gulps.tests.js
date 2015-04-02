@@ -250,7 +250,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
+                    assert.deepEqual(constants.style.css.src, [
                         './bower_components/famous-angular/dist/famous-angular.css'
                     ]);
                     done();
@@ -275,7 +275,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
+                    assert.deepEqual(constants.style.css.src, [
                         './bower_components/bootstrap/dist/css/bootstrap.css',
                         './bower_components/bootstrap/dist/css/bootstrap-theme.css'
                     ]);
@@ -302,7 +302,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert.deepEqual(constants.style.css.src, [ //'./bower_components/famous/famous.css',
+                    assert.deepEqual(constants.style.css.src, [
                         './bower_components/angular-material/angular-material.css'
                     ]);
                     done();
