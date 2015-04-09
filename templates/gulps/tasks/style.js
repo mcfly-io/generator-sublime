@@ -14,6 +14,7 @@ var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var gmux = require('gulp-mux');
+var gutil = $.util;
 
 var taskFont = function(constants) {
 
@@ -46,7 +47,15 @@ var taskStyle = function(constants) {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         //.pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass({
+            errLogToConsole: false,
+            onError: function(err) {
+                gutil.beep();
+                gutil.log(gutil.colors.red('Sass failed'));
+                gutil.log(gutil.colors.red(err.message));
+                gutil.log(gutil.colors.red(err.file + ':' + err.line + ':' + err.column));
+            }
+        }))
         .pipe(concat('sass.css'));
     //.pipe(sourcemaps.write());
 
