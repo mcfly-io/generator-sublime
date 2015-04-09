@@ -21,8 +21,12 @@ var bundleShare = function(b, dest, bundleName, mode) {
     bundle
         .bundle()
         .on('error', function(err) {
-            gutil.log(chalk.red('Browserify failed', '\n', err.message));
-            bundle.end();
+            gutil.beep();
+            gutil.log(gutil.colors.red('Browserify failed'));
+            gutil.log(gutil.colors.red(err.message));
+            // if(err.filename) {
+            //     gutil.log(gutil.colors.red(err.filename + ':' + err.loc.line + ':' + err.loc.column));
+            // }
         })
         .pipe(source(bundleName))
         .pipe(buffer())
