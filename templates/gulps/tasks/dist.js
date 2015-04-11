@@ -11,6 +11,7 @@ var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var fs = require('fs');
+var _ = require('lodash');
 
 var taskClean = function(constants) {
     del([constants.dist.distFolder]);
@@ -75,11 +76,11 @@ var taskImageCordova = function(constants) {
         if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
             gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
                 .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + _.camelCase(constants.appname) + '/Resources/icons'));
 
             gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
                 .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + _.camelCase(constants.appname) + '/Resources/splash'));
         }
         if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
