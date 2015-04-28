@@ -433,7 +433,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'del',
                     'gulp-rename',
-                    'gulp-imagemin'
+                    'gulp-imagemin',
+                    'node-jsxml',
+                    'gulp-tap'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);

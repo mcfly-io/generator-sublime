@@ -81,6 +81,9 @@ module.exports = function() {
         },
         dist: {
             distFolder: './dist/{{targetName}}/{{mode}}'
+        },
+        testfairy: {
+            api_key: ''
         }
     };
 
