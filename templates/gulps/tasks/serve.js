@@ -11,11 +11,16 @@ var gmux = require('gulp-mux');
 var exec = require('child_process').exec;
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
+var args = require('yargs').argv;
+var _  = require('lodash');
 
 var taskBrowsersyncstart = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
-
+    var open = constants.serve.open;
+    if(!_.isUndefined(args.browser)) {
+        open = args.browser;
+    }
     var config = {
         files: [dest + '/index.html', dest + '/scripts/bundle.js', dest + '/styles/main.css'],
         tunnel: constants.serve.localtunnel,
@@ -31,7 +36,7 @@ var taskBrowsersyncstart = function(constants) {
         host: constants.serve.host,
         port: constants.serve.port,
         logLevel: 'info', // info, debug , silent
-        open: constants.serve.open,
+        open: open,
         browser: constants.serve.browser, //['google chrome'], // ['google chrome', 'firefox'],
         notify: true,
         logConnections: false

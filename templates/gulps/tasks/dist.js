@@ -5,13 +5,15 @@ var rename = $.rename;
 var imagemin = $.imagemin;
 var del = require('del');
 var exec = require('child_process').exec;
-// var gutil = require('gulp-util');
+var spawn = require('child_process').spawn;
 var gmux = require('gulp-mux');
 var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var fs = require('fs');
-var _ = require('lodash');
+var XML = require('node-jsxml').XML;
+var tap = $.tap;
+var gutil = require('gulp-util');
 
 var taskClean = function(constants) {
     del([constants.dist.distFolder]);
@@ -76,11 +78,11 @@ var taskImageCordova = function(constants) {
         if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
             gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
                 .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + _.camelCase(constants.appname) + '/Resources/icons'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
 
             gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
                 .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + _.camelCase(constants.appname) + '/Resources/splash'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
         }
         if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
@@ -187,4 +189,108 @@ gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', f
     var targets = gmux.targets.getAllTargets();
     gmux.createAndRunTasks(gulp, taskClean, taskname, targets, 'dev', constants);
     gmux.createAndRunTasks(gulp, taskClean, taskname, targets, 'prod', constants);
+});
+
+var taskCordovaTestFairyPlatform = function(constants) {
+    var appname = null;
+    if(!helper.isMobile(constants)) {
+        return;
+    }
+    var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+    gulp.src(srcxml)
+        .pipe(tap(function(file) {
+            var xml = new XML(String(file.contents));
+            appname = xml.child('name').getValue();
+        }))
+        .on('end', function() {
+            exec('ionic platform add ios && ionic platform add android', {
+                cwd: constants.dist.distFolder
+            }, function(err, stdout, stderr) {
+                gutil.log(stdout);
+                exec('cordova build ios --device && cordova build android --device', {
+                    cwd: constants.dist.distFolder
+                }, function(err, stdout, stderr) {
+                    helper.execHandler(err, stdout, stderr);
+                    exec('/usr/bin/xcrun -sdk iphoneos PackageApplication "$(pwd)/' + appname + '.app" -o "$(pwd)/' + appname + '.ipa"', {
+                        cwd: constants.dist.distFolder + '/platforms/ios/build/device'
+                    }, function(err, stdout, stderr) {
+                        helper.execHandler(err, stdout, stderr);
+                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/android/ant-build/MainActivity-debug.apk -F metrics=\'cpu,network,logcat\'  -F testers_groups=\'all\' -F max-duration=\'15m\' -F auto-update=\'on\' ', {
+                            cwd: constants.dist.distFolder
+                        }, function(err, stdout, stderr) {
+                            gutil.log(stdout);
+                        });
+
+                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/ios/build/device/' + appname + '.ipa -F metrics=\'cpu,network,logcat\' -F testers_groups=\'all\' -F max-duration=\'15m\'  -F auto-update=\'on\' ', {
+                            cwd: constants.dist.distFolder
+                        }, function(err, stdout, stderr) {
+                            gutil.log(stdout);
+                        });
+
+                    });
+                });
+            });
+
+        });
+};
+
+gulp.task('cordova:testfairy:platform', 'Build a testfairy binary for android (.pka) and ios (.ipa)', function() {
+    var taskname = 'cordova:testfairy:platform';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    if(!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
+        gutil.log(gutil.colors.red('The testfairy.api_key is missing or empty in gulp_tasks/common/constants.js'));
+        return;
+    }
+    return gmux.createAndRunTasks(gulp, taskCordovaTestFairyPlatform, taskname, global.options.target, global.options.mode, constants);
+});
+
+gulp.task('cordova:testfairy', 'Bump version and Build a testfairy binary.', function(done) {
+    if(!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
+        gutil.log(gutil.colors.red('The testfairy.api_key is missing or empty in gulp_tasks/common/constants.js'));
+        return;
+    }
+    return runSequence('bump', 'wait', 'dist', 'wait', 'cordova:testfairy:platform', done);
+});
+
+var taskCordovaInstallIOS = function(constants, done) {
+    if(!helper.isMobile(constants)) {
+        return;
+    }
+    var task = spawn('cordova', ['run', 'ios', '--device'], {
+        cwd: constants.dist.distFolder
+    });
+    task.stdout.on('data', function(data) {
+        gutil.log(' ' + data);
+    });
+    task.stderr.on('data', function(data) {
+        gutil.log(gutil.colors.red(data));
+    });
+    task.on('exit', function() {
+        done();
+    });
+
+};
+
+gulp.task('cordova:install:ios', 'Install the app on ios', function(done) {
+    var taskname = 'cordova:install';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        //global.options = gmux.targets.askForMultipleTargets(taskname);
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskCordovaInstallIOS, taskname, global.options.target, global.options.mode, constants);
+
+});
+
+gulp.task('cordova:install', function(done) {
+    return runSequence('dist', 'wait', 'cordova:install:ios', done);
+});
+
+gulp.task('wait', function(done) {
+    setTimeout(function() {
+        done();
+    }, 3000);
 });
