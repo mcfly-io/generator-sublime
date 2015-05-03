@@ -12,7 +12,7 @@ var exec = require('child_process').exec;
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var args = require('yargs').argv;
-var _  = require('lodash');
+var _ = require('lodash');
 
 var taskBrowsersyncstart = function(constants) {
     var dest = constants.dist.distFolder;

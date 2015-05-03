@@ -1,3 +1,4 @@
+/*eslint handle-callback-err:0*/
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
