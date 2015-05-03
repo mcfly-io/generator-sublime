@@ -2,6 +2,22 @@
 
 var path = require('path');
 
+var getRepository = function() {
+    var repository = '<%= Repository %>';
+    try {
+        var helper = require('./helper');
+        var packageJson = helper.readJsonFile('./package.json');
+        var _ = require('lodash');
+        var appname = packageJson.name;
+        if(_.isString(packageJson.repository)) {
+            repository = packageJson.repository.replace('.git', '');
+        } else {
+            repository = packageJson.repository.url.replace('.git', '');
+        }
+    } catch(err) {}
+    return repository;
+};
+
 module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var clientFolder = '<%= clientFolder%>'; // the source file folder
@@ -14,7 +30,7 @@ module.exports = function() {
         targetSuffix: '{{targetSuffix}}',
         mode: '{{mode}}',
         clientFolder: clientFolder,
-        repository: '<%= Repository %>',
+        repository: getRepository(),
         versionFiles: ['./package.json', './bower.json', './' + clientFolder + '/config*.xml'],
         growly: {
             notify: false,
