@@ -8,7 +8,6 @@ var getRepository = function() {
         var helper = require('./helper');
         var packageJson = helper.readJsonFile('./package.json');
         var _ = require('lodash');
-        var appname = packageJson.name;
         if(_.isString(packageJson.repository)) {
             repository = packageJson.repository.replace('.git', '');
         } else {
