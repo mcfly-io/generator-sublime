@@ -38,6 +38,12 @@ var taskHtml = function(constants) {
         .pipe(rename('index.html'))
         .pipe(gulp.dest(dest));
 
+    gulp.src('./' + constants.clientFolder + '/*' + constants.targetSuffix + '.html')
+        .pipe(rename(function(path) {
+            path.basename = path.basename.replace(constants.targetSuffix, '');
+        }))
+        .pipe(gulp.dest(dest));
+
     gulp.src('./' + constants.clientFolder + '/404' + constants.targetSuffix + '.html')
         .pipe(rename('404.html'))
         .pipe(gulp.dest(dest));
