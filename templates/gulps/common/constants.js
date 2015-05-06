@@ -39,8 +39,9 @@ module.exports = function() {
         cordova: {
             src: './' + clientFolder + '/cordova/{{targetName}}',
             icon: './' + clientFolder + '/icons/{{targetName}}/icon.png',
+            splash: './' + clientFolder + '/icons/{{targetName}}/splash.png',
             platform: 'ios',
-            iconBackground: '#3D4860'
+            iconBackground: '#fff'
         },
         lint: [
             './' + clientFolder + '/scripts/**/*.js',

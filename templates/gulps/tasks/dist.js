@@ -174,7 +174,7 @@ var taskCordovaIcon = function(constants) {
         return;
     }
     exec('./bin/cordova-generate-icons ' + constants.cordova.icon + ' ' + constants.cordova.src, helper.execHandler);
-    exec('./bin/cordova-generate-splashes ' + constants.cordova.icon + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, helper.execHandler);
+    exec('./bin/cordova-generate-splashes ' + constants.cordova.splash + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, helper.execHandler);
 };
 
 gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function() {
