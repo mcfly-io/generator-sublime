@@ -123,8 +123,10 @@ gulp.task('html:watch', false, function() {
 });
 
 var taskAngulari18n = function(constants) {
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www' : dest;
     gulp.src('./bower_components/angular-i18n/*.js')
-        .pipe(gulp.dest(constants.dist.distFolder + '/angular/i18n'));
+        .pipe(gulp.dest(dest + '/angular/i18n'));
 };
 
 gulp.task('angular:i18n', false, function() {
