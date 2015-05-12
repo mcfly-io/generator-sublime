@@ -2,8 +2,9 @@
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-var rename = $.rename;
 var imagemin = $.imagemin;
+var rename = $.rename;
+var tap = $.tap;
 var del = require('del');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -13,8 +14,8 @@ var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var fs = require('fs');
 var XML = require('node-jsxml').XML;
-var tap = $.tap;
 var gutil = require('gulp-util');
+var inquirer = require('inquirer');
 
 var taskClean = function(constants) {
     del([constants.dist.distFolder]);
@@ -125,6 +126,7 @@ gulp.task('html:watch', false, function() {
 var taskAngulari18n = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
+
     gulp.src('./bower_components/angular-i18n/*.js')
         .pipe(gulp.dest(dest + '/angular/i18n'));
 };
@@ -212,7 +214,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
             appname = xml.child('name').getValue();
         }))
         .on('end', function() {
-            exec('ionic platform add ios && ionic platform add android', {
+            exec('cordova platform add ios && cordova platform add android', {
                 cwd: constants.dist.distFolder
             }, function(err, stdout, stderr) {
                 gutil.log(stdout);
@@ -243,7 +245,38 @@ var taskCordovaTestFairyPlatform = function(constants) {
         });
 };
 
-gulp.task('cordova:testfairy:platform', 'Build a testfairy binary for android (.pka) and ios (.ipa)', function() {
+var taskCordovaAllPlatform = function(constants) {
+    var appname = null;
+    if(!helper.isMobile(constants)) {
+        return;
+    }
+    var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+    gulp.src(srcxml)
+        .pipe(tap(function(file) {
+            var xml = new XML(String(file.contents));
+            appname = xml.child('name').getValue();
+        }))
+        .on('end', function() {
+            exec('cordova platform add ios && cordova platform add android', {
+                cwd: constants.dist.distFolder
+            }, function(err, stdout, stderr) {
+                gutil.log(stdout);
+                exec('cordova build ios --device && cordova build android --device', {
+                    cwd: constants.dist.distFolder
+                }, function(err, stdout, stderr) {
+                    helper.execHandler(err, stdout, stderr);
+                    exec('/usr/bin/xcrun -sdk iphoneos PackageApplication "$(pwd)/' + appname + '.app" -o "$(pwd)/' + appname + '.ipa"', {
+                        cwd: constants.dist.distFolder + '/platforms/ios/build/device'
+                    }, function(err, stdout, stderr) {
+                        helper.execHandler(err, stdout, stderr);
+                    });
+                });
+            });
+
+        });
+};
+
+gulp.task('cordova:testfairy:platform', false, function() {
     var taskname = 'cordova:testfairy:platform';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -261,7 +294,32 @@ gulp.task('cordova:testfairy', 'Bump version and Build a testfairy binary.', fun
         gutil.log(gutil.colors.red('The testfairy.api_key is missing or empty in gulp_tasks/common/constants.js'));
         return;
     }
-    return runSequence('bump', 'wait', 'dist', 'wait', 'cordova:testfairy:platform', done);
+    var questions = [{
+        type: 'confirm',
+        message: 'Do you want to bump the version',
+        name: 'bump',
+        default: true
+    }];
+    inquirer.prompt(questions, function(answers) {
+        if(answers.bump === true) {
+            return runSequence('bump', 'wait', 'dist', 'wait', 'cordova:testfairy:platform', done);
+        } else {
+            return runSequence('dist', 'wait', 'cordova:testfairy:platform', done);
+        }
+    });
+});
+
+gulp.task('cordova:all', 'Build android and ios packages', function(done) {
+    return runSequence('dist', 'wait', 'cordova:all:platform', done);
+});
+
+gulp.task('cordova:all:platform', 'Build a binary for android (.pka) and ios (.ipa)', function() {
+    var taskname = 'cordova:all:platform';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskCordovaAllPlatform, taskname, global.options.target, global.options.mode, constants);
 });
 
 var taskCordovaInstallIOS = function(constants, done) {

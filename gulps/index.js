@@ -34,6 +34,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'deamdify': '0.1.1',
             'del': '1.1.1',
             'event-stream': '3.3.0',
+            'exorcist': '0.3.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.3',
             'github-username': '1.1.1',
@@ -64,7 +65,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-size': '1.2.1',
             'gulp-sourcemaps': '1.5.0',
             'gulp-tap': '0.1.3',
-            'gulp-uglify': '1.1.0',
+            // 'gulp-uglify': '1.1.0',
             'gulp-util': '3.0.4',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
@@ -100,8 +101,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'stream-combiner': '0.2.1',
             'streamqueue': '0.1.3',
             'strip-json-comments': '1.0.2',
+            'uglifyify': '3.0.1',
             'vinyl-buffer': '1.0.0',
             'vinyl-source-stream': '1.1.0',
+            'vinyl-transform': '1.0.0',
             'watchify': '2.4.0',
             'yargs': '3.5.4'
         };
@@ -345,11 +348,14 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'bundle-collapser',
                     'cssify',
                     'deamdify',
-                    'gulp-uglify',
+                    'exorcist',
+                    // 'gulp-uglify',
                     'html2js-browserify',
                     'jadeify',
-                    'vinyl-source-stream',
+                    'uglifyify',
                     'vinyl-buffer',
+                    'vinyl-source-stream',
+                    'vinyl-transform',
                     'watchify'
                 ]);
             }
@@ -434,8 +440,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'del',
                     'gulp-rename',
                     'gulp-imagemin',
-                    'node-jsxml',
-                    'gulp-tap'
+                    'gulp-tap',
+                    'inquirer',
+                    'node-jsxml'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);

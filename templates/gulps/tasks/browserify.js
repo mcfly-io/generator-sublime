@@ -2,7 +2,10 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
-var uglify = require('gulp-uglify');
+// var uglify = require('gulp-uglify');
+var transform = require('vinyl-transform');
+var exorcist = require('exorcist');
+var path = require('path');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
@@ -12,6 +15,7 @@ var gulpif = require('gulp-if');
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
+var version = helper.readJsonFile('./package.json').version;
 
 var bundleShare = function(b, dest, bundleName, mode) {
     var bundle = b;
@@ -30,22 +34,31 @@ var bundleShare = function(b, dest, bundleName, mode) {
         })
         .pipe(source(bundleName))
         .pipe(buffer())
-        .pipe(gulpif(mode === 'prod', uglify()))
+        .pipe(gulpif(mode ==='prod', transform(function() {
+            return exorcist(path.join(constants.exorcist.dest, bundleName + '.' + version + '.map'), path.join(dest, bundleName + '.' + version + '.map'));
+        })))
+        // .pipe(gulpif(mode === 'prod', uglify()))
         .pipe(gulp.dest(dest));
 };
 
-var browserifyShare = function(singleRun, src, dest, bundleName, mode) {
+var browserifyShare = function(shouldWatch, src, dest, bundleName, mode) {
     bundleName = bundleName || 'bundle.js';
     // we need to pass these config options to browserify
     var b = browserify({
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: mode === 'prod' ? false : true
+        fullPaths: mode === 'prod' ? false : true,
     });
 
-    if(singleRun) {
+    if(shouldWatch) {
         b = watchify(b);
+    }
+    if(mode === 'prod') {
+        b.transform({
+            'global': true,
+            'exts': ['.js']
+        }, 'uglifyify');
     }
     b.on('update', function() {
         bundleShare(b, dest, bundleName, mode);
