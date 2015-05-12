@@ -81,7 +81,9 @@ module.exports = function() {
             dest: 'scripts',
             bundleName: 'bundle.js'
         },
-
+        exorcist: {
+            dest: './srcmaps'
+        },
         serve: {
             host: 'localhost', //'0.0.0.0',
             port: 5000,
