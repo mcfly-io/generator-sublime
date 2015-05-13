@@ -46,6 +46,7 @@ module.exports = function() {
         lint: [
             './' + clientFolder + '/scripts/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
+            '!./' + clientFolder + '/scripts/lbServices.js',
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
         ],
         fonts: {

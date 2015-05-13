@@ -38,7 +38,12 @@ var bundleShare = function(b, dest, bundleName, mode, target, done) {
             return exorcist(path.join(constants.exorcist.dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
         })))
         // .pipe(gulpif(mode === 'prod', uglify()))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(dest))
+        .on('end', function() {
+            if(done) {
+                done();
+            }
+        });
 };
 
 var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
