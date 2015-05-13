@@ -17,7 +17,7 @@ var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var version = helper.readJsonFile('./package.json').version;
 
-var bundleShare = function(b, dest, bundleName, mode) {
+var bundleShare = function(b, dest, bundleName, mode, target, done) {
     var bundle = b;
     if(mode === 'prod') {
         bundle.plugin(collapse);
@@ -34,21 +34,21 @@ var bundleShare = function(b, dest, bundleName, mode) {
         })
         .pipe(source(bundleName))
         .pipe(buffer())
-        .pipe(gulpif(mode ==='prod', transform(function() {
-            return exorcist(path.join(constants.exorcist.dest, bundleName + '.' + version + '.map'), path.join(dest, bundleName + '.' + version + '.map'));
+        .pipe(gulpif(mode === 'prod', transform(function() {
+            return exorcist(path.join(constants.exorcist.dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
         })))
         // .pipe(gulpif(mode === 'prod', uglify()))
         .pipe(gulp.dest(dest));
 };
 
-var browserifyShare = function(shouldWatch, src, dest, bundleName, mode) {
+var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
     bundleName = bundleName || 'bundle.js';
     // we need to pass these config options to browserify
     var b = browserify({
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: mode === 'prod' ? false : true,
+        fullPaths: mode === 'prod' ? false : true
     });
 
     if(shouldWatch) {
@@ -69,25 +69,25 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode) {
     });
 
     b.add(src);
-    bundleShare(b, dest, bundleName, mode);
+    bundleShare(b, dest, bundleName, mode, target, done);
 
 };
 
-var taskBrowserify = function(constants) {
+var taskBrowserify = function(constants, done) {
     //browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
 
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
-    browserifyShare(false, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode);
+    browserifyShare(false, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode, constants.targetName, done);
 
 };
 
-var taskWatchify = function(constants) {
+var taskWatchify = function(constants, done) {
     //browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
 
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
-    browserifyShare(true, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode);
+    browserifyShare(true, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode, constants.targetName, done);
 
 };
 

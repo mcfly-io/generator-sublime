@@ -6,7 +6,7 @@ module.exports = function() {
     var constants = {
         repository: 'https://github.com/thaiat/generator-sublime',
         versionFiles: ['./package.json', './bower.json'],
-        lint: ['app/**/*.js', 'bash/**/*.js', 'gulps/**/*.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karma.conf.js', 'test/**/*.js'],
+        lint: ['app/**/*.js', 'bash/**/*.js', 'gulps/**/*.js', 'templates/gulps/tasks/**/*.js', '!templates/gulps/tasks/serve.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karma.conf.js', 'test/**/*.js'],
         mocha: {
             libs: ['app/**/*.js', 'gulps/**/*.js', 'bash/**/*.js', 'class/**/*.js'],
             tests: ['test/**/*.js'],
