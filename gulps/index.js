@@ -3,6 +3,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 var chalk = require('chalk');
+var fs = require('fs');
 
 var GulpsGenerator = yeoman.generators.Base.extend({
 
@@ -70,6 +71,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
             'inquirer': '0.8.0',
+            'imagemin-pngquant': '4.1.0',
             'jadeify': '4.1.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '2.0.5',
@@ -442,10 +444,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-imagemin',
                     'gulp-tap',
                     'inquirer',
+                    'imagemin-pngquant',
                     'node-jsxml'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
+
+            var gulpsDeps = {
+                'devDependencies': _(this.npmPackagesVersion)
+                    .pick(this.npmPackages)
+                    .value()
+            };
+            this.gulpsDepsString = JSON.stringify(gulpsDeps, null, 4);
+            this.template('_gulpsDeps-package.json', '.gulpsDeps-package.json');
             done();
         }
 

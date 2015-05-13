@@ -8,6 +8,7 @@ var os = require('os');
 
 var generator = '../gulps';
 var error;
+
 describe('sublime:gulps npm', function() {
     before(function() {
         testHelper.startMock(mockery);
