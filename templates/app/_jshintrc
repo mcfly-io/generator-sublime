@@ -70,5 +70,6 @@
     "trailing": true,
     "undef": true,
     "unused": false,
+    "esnext": true,
     "strict": true
 }
