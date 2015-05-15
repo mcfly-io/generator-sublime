@@ -3,6 +3,7 @@
     "amd": true,
     "browser": true,
     "mocha": true,
+    "es6": true,
     "node": true
   },
   "globals": {
