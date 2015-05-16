@@ -226,13 +226,20 @@ var taskCordovaTestFairyPlatform = function(constants) {
                         cwd: constants.dist.distFolder + '/platforms/ios/build/device'
                     }, function(err, stdout, stderr) {
                         helper.execHandler(err, stdout, stderr);
-                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/android/ant-build/MainActivity-debug.apk -F metrics=\'cpu,network,logcat\'  -F testers_groups=\'all\' -F max-duration=\'15m\' -F auto-update=\'on\' ', {
+
+                        var metrics = '\'cpu,network,logcat,memory,battery,gps\'';
+                        var testersGroups = '\'all\'';
+                        var maxDuration = '\'15m\'';
+                        var autoUpdate = '\'on\'';
+                        var iconWatermark = '\'on\'';
+
+                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/android/ant-build/MainActivity-debug.apk -F metrics=' + metrics + '  -F testers_groups=' + testersGroups + ' -F max-duration=' + maxDuration + ' -F auto-update=' + autoUpdate + ' -F icon-watermark=' + iconWatermark + ' ', {
                             cwd: constants.dist.distFolder
                         }, function(err, stdout, stderr) {
                             gutil.log(stdout);
                         });
 
-                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/ios/build/device/' + appname + '.ipa -F metrics=\'cpu,network,logcat\' -F testers_groups=\'all\' -F max-duration=\'15m\'  -F auto-update=\'on\' ', {
+                        exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/ios/build/device/' + appname + '.ipa -F metrics=' + metrics + ' -F testers_groups=' + testersGroups + ' -F max-duration=' + maxDuration + '  -F auto-update=' + autoUpdate + ' -F icon-watermark=' + iconWatermark + ' ', {
                             cwd: constants.dist.distFolder
                         }, function(err, stdout, stderr) {
                             gutil.log(stdout);
@@ -241,7 +248,6 @@ var taskCordovaTestFairyPlatform = function(constants) {
                     });
                 });
             });
-
         });
 };
 
