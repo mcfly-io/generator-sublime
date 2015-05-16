@@ -456,7 +456,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     .value()
             };
             this.gulpsDepsString = JSON.stringify(gulpsDeps, null, 4);
-            this.template('_gulpsDeps-package.json', '.gulpsDeps-package.json');
+            this.template('_gulps-package.json', '.gulps-package.json');
             done();
         }
 

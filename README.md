@@ -10,6 +10,8 @@
 
 ## Usage
 
+This generator is mainly used as a sub generator of [generator-angular-famous-ionic](https://github.com/thaiat/generator-angular-famous-ionic)
+
 ### sublime:app
 Install `generator-sublime`:
 ```

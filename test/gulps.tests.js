@@ -62,7 +62,7 @@ describe('sublime:gulps', function() {
 
                 if(expectedTasks.length > 0) {
                     assert.file('gulpfile.js');
-                    assert.file('.gulpsDeps-package.json');
+                    assert.file('.gulps-package.json');
                     assert.file('gulp_tasks/common/constants.js');
                     assert.file('gulp_tasks/common/helper.js');
                 } else {
