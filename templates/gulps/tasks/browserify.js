@@ -16,29 +16,26 @@ var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var version = helper.readJsonFile('./package.json').version;
 
-var bundleShare = function(b, dest, bundleName, mode, target, done) {
-    var bundle = b;
-    if(mode === 'prod') {
-        bundle.plugin(collapse);
-    }
-    bundle
-        .bundle()
+var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
+
+    b.bundle()
         .on('error', function(err) {
             gutil.beep();
             gutil.log(gutil.colors.red('Browserify failed'));
             gutil.log(gutil.colors.red(err.message));
-            // if(err.filename) {
-            //     gutil.log(gutil.colors.red(err.filename + ':' + err.loc.line + ':' + err.loc.column));
-            // }
         })
         .pipe(source(bundleName))
         .pipe(buffer())
         .pipe(gulpif(mode === 'prod', transform(function() {
             // in prod mode we save the source map file in a special folder
-            return exorcist(path.join(constants.exorcist.dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
+            var rootUrl = constants.exorcist.rootUrl || '';
+            var basePath = constants.exorcist.rootUrl || constants.cwd;
+            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMap, rootUrl, basePath);
         }), transform(function() {
             // in dev mode we save the source map file along with bundle.js
-            return exorcist(path.join(dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
+            var rootUrl = '';
+            var basePath = constants.cwd;
+            return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
         })))
         .pipe(gulp.dest(dest))
         .on('end', function() {
@@ -50,6 +47,8 @@ var bundleShare = function(b, dest, bundleName, mode, target, done) {
 
 var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
     bundleName = bundleName || 'bundle.js';
+    var sourceMap = target + '-v' + version + '.map.js';
+
     // we need to pass these config options to browserify
     var b = browserify({
         debug: true,
@@ -66,9 +65,12 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
             'global': true,
             'exts': ['.js']
         }, 'uglifyify');
+
+        // convert bundle paths to IDSs to save bytes in browserify bundles
+        b.plugin(collapse);
     }
     b.on('update', function() {
-        bundleShare(b, dest, bundleName, mode);
+        bundleShare(b, dest, bundleName, mode, sourceMap);
     });
 
     b.on('log', function(msg) {
@@ -76,7 +78,7 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
     });
 
     b.add(src);
-    bundleShare(b, dest, bundleName, mode, target, done);
+    bundleShare(b, dest, bundleName, mode, sourceMap, done);
 
 };
 

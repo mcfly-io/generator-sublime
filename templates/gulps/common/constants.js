@@ -82,7 +82,8 @@ module.exports = function() {
             bundleName: 'bundle.js'
         },
         exorcist: {
-            dest: './srcmaps'
+            dest: './srcmaps',
+            rootUrl: null // or dummy url like 'http://yoobic.com'
         },
         serve: {
             host: 'localhost', //'0.0.0.0',
