@@ -22,7 +22,6 @@ module.exports = function() {
     var clientFolder = '<%= clientFolder%>'; // the source file folder
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
-        appname: '<%= appname%>',
         cwd: cwd,
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
