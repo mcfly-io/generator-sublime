@@ -22,6 +22,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
+            'babelify': '6.1.1',
             'brfs': '1.4.0',
             'browser-sync': '2.2.4',
             'browserify': '9.0.3',
@@ -347,6 +348,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'browserify-istanbul',
                     'browserify-shim',
                     'bundle-collapser',
+                    'babelify',
                     'cssify',
                     'deamdify',
                     'exorcist',
