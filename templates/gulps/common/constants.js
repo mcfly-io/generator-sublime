@@ -90,7 +90,12 @@ module.exports = function() {
             port: 5000,
             open: true,
             browser: ['google chrome'], // ['google chrome', 'firefox'],
-            localtunnel: false // true, false or '<%= appname %>'
+            localtunnel: false, // true, false or '<%= appname %>'
+            ghostMode: {
+                clicks: false,
+                forms: false,
+                scroll: false
+            }
         },
         mocha: {
             libs: ['server/**/*.js'],

@@ -39,7 +39,8 @@ var taskBrowsersyncstart = function(constants) {
         open: open,
         browser: constants.serve.browser, //['google chrome'], // ['google chrome', 'firefox'],
         notify: true,
-        logConnections: false
+        logConnections: false,
+        ghostMode: constants.serve.ghostMode
     };
 
     browserSync(config);
