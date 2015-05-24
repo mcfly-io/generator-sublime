@@ -2,7 +2,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
-// var uglify = require('gulp-uglify');
 var transform = require('vinyl-transform');
 var exorcist = require('exorcist');
 var path = require('path');
@@ -35,9 +34,12 @@ var bundleShare = function(b, dest, bundleName, mode, target, done) {
         .pipe(source(bundleName))
         .pipe(buffer())
         .pipe(gulpif(mode === 'prod', transform(function() {
+            // in prod mode we save the source map file in a special folder
             return exorcist(path.join(constants.exorcist.dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
+        }), transform(function() {
+            // in dev mode we save the source map file along with bundle.js
+            return exorcist(path.join(dest, target + '.' + bundleName + '.' + version + '.map'), target + '.' + bundleName + '.' + version + '.map', '', path.join(constants.cwd));
         })))
-        // .pipe(gulpif(mode === 'prod', uglify()))
         .pipe(gulp.dest(dest))
         .on('end', function() {
             if(done) {
