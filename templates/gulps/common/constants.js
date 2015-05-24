@@ -22,7 +22,6 @@ module.exports = function() {
     var clientFolder = '<%= clientFolder%>'; // the source file folder
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
-        appname: '<%= appname%>',
         cwd: cwd,
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
@@ -83,14 +82,20 @@ module.exports = function() {
             bundleName: 'bundle.js'
         },
         exorcist: {
-            dest: './srcmaps'
+            dest: './srcmaps',
+            rootUrl: null // or dummy url like 'http://yoobic.com'
         },
         serve: {
             host: 'localhost', //'0.0.0.0',
             port: 5000,
             open: true,
             browser: ['google chrome'], // ['google chrome', 'firefox'],
-            localtunnel: false // true, false or '<%= appname %>'
+            localtunnel: false, // true, false or '<%= appname %>'
+            ghostMode: {
+                clicks: false,
+                forms: false,
+                scroll: false
+            }
         },
         mocha: {
             libs: ['server/**/*.js'],

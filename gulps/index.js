@@ -22,6 +22,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
+            'babelify': '6.1.1',
             'brfs': '1.4.0',
             'browser-sync': '2.2.4',
             'browserify': '9.0.3',
@@ -66,7 +67,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-size': '1.2.1',
             'gulp-sourcemaps': '1.5.0',
             'gulp-tap': '0.1.3',
-            // 'gulp-uglify': '1.1.0',
             'gulp-util': '3.0.4',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '0.0.2',
@@ -348,10 +348,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'browserify-istanbul',
                     'browserify-shim',
                     'bundle-collapser',
+                    'babelify',
                     'cssify',
                     'deamdify',
                     'exorcist',
-                    // 'gulp-uglify',
                     'html2js-browserify',
                     'jadeify',
                     'uglifyify',

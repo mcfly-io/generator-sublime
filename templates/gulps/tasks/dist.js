@@ -84,17 +84,21 @@ var taskImage = function(constants) {
 var taskImageCordova = function(constants) {
     if(helper.isMobile(constants)) {
         if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
+
+            var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+
+            var configFileContent = helper.readTextFile(srcxml);
+            var xml = new XML(configFileContent);
+            var appname = xml.child('name').getValue();
+
             gulp.src(constants.cordova.src + '/resources/ios/icons/**/*')
-                .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/icons'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + appname + '/Resources/icons'));
 
             gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
-                .pipe(imagemin())
-                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + constants.appname + '/Resources/splash'));
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + appname + '/Resources/splash'));
         }
         if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
-                .pipe(imagemin())
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
         }
     }
