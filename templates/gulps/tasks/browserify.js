@@ -11,6 +11,7 @@ var browserify = require('browserify');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
+var mkdirp = require('mkdirp');
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
@@ -31,9 +32,13 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
         .pipe(buffer())
         .pipe(gulpif(mode === 'prod', transform(function() {
             // in prod mode we save the source map file in a special folder
+            // we first need to make sure the destination folder exists
+            mkdirp.sync(constants.exorcist.dest);
             return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMap, rootUrl, basePath);
         }), transform(function() {
             // in dev mode we save the source map file along with bundle.js
+            // we first need to make sure the destination folder exists
+            mkdirp.sync(dest);
             return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
         })))
         .pipe(gulp.dest(dest))
