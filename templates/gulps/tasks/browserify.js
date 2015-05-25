@@ -18,6 +18,9 @@ var version = helper.readJsonFile('./package.json').version;
 
 var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 
+    var rootUrl = '';
+    var basePath = path.join(constants.clientFolder, constants.browserify.dest);
+
     b.bundle()
         .on('error', function(err) {
             gutil.beep();
@@ -28,13 +31,9 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
         .pipe(buffer())
         .pipe(gulpif(mode === 'prod', transform(function() {
             // in prod mode we save the source map file in a special folder
-            var rootUrl = constants.exorcist.rootUrl || '';
-            var basePath = constants.exorcist.rootUrl || constants.cwd;
             return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMap, rootUrl, basePath);
         }), transform(function() {
             // in dev mode we save the source map file along with bundle.js
-            var rootUrl = '';
-            var basePath = constants.cwd;
             return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
         })))
         .pipe(gulp.dest(dest))
