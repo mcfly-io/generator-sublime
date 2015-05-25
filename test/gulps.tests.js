@@ -116,14 +116,16 @@ describe('sublime:gulps', function() {
                 assert.file('gulp_tasks/tasks/lint.js');
                 done();
             }, ['test'], false);
-
         });
         it('with option style should scaffold style.js', function(done) {
             projectFiles.call(this, done, ['style']);
         });
 
-        it('with option dist should scaffold dist.js', function(done) {
-            projectFiles.call(this, done, ['dist']);
+        it('with option dist should scaffold dist.js and sentry.js', function(done) {
+            projectFiles.call(this, function() {
+                assert.file('gulp_tasks/tasks/sentry.js');
+                done();
+            }, ['dist']);
         });
 
         var checkOption = function(ctx, option, done) {
@@ -170,11 +172,22 @@ describe('sublime:gulps', function() {
         it('should success with option style', function(done) {
             checkOption(this, 'style', done);
         });
+
+        it('should success with option dist', function(done) {
+            checkOption(this, 'dist', done);
+        });
     });
 
     describe('constants.js', function() {
-        beforeEach(function(done) {
+        // before(function() {
+        //     testHelper.startMock(mockery);
+        //     mockery.registerMock('gulp-util', require('gulp-util'));
+        //     mockery.registerMock('chalk', require('chalk'));
+        //     mockery.registerMock('strip-json-comments', require('strip-json-comments'));
+        //     mockery.registerMock('lodash', require('lodash'));
+        // });
 
+        beforeEach(function(done) {
             this.runGen = helpers.run(path.join(__dirname, generator))
                 .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
                 .withOptions({

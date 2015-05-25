@@ -8,10 +8,12 @@ var path = require('path');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
+var envify = require('envify/custom');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
 var mkdirp = require('mkdirp');
+var XML = require('node-jsxml').XML;
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
@@ -51,7 +53,25 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 
 var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
     bundleName = bundleName || 'bundle.js';
-    var sourceMap = target + '-v' + version + '.map.js';
+    var releaseName = target + '-v' + version;
+    var sourceMap = releaseName + '.map.js';
+    var envifyVars = {
+        APP_VERSION: version,
+        SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
+        SENTRY_RELEASE_NAME: releaseName,
+        SENTRY_MODE: mode,
+        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL
+    };
+    if(helper.isMobile(constants)) {
+        var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+        var configFileContent = helper.readTextFile(srcxml);
+        var xml = new XML(configFileContent);
+        envifyVars.APP_NAME = xml.child('name').getValue();
+        envifyVars.APP_ID = xml.child('widget').attribute('id').getValue();
+        envifyVars.APP_AUTHOR = xml.child('author').getValue();
+    } else {
+        envifyVars.APP_NAME = constants.appname;
+    }
 
     // we need to pass these config options to browserify
     var b = browserify({
@@ -73,6 +93,7 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
         // convert bundle paths to IDSs to save bytes in browserify bundles
         b.plugin(collapse);
     }
+    b.transform(envify(envifyVars));
     b.on('update', function() {
         bundleShare(b, dest, bundleName, mode, sourceMap);
     });

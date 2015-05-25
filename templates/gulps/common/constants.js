@@ -1,7 +1,6 @@
 'use strict';
 
 var path = require('path');
-var helper = require('../common/helper');
 
 var getRepository = function() {
     var repository = '<%= Repository %>';
@@ -18,13 +17,23 @@ var getRepository = function() {
     return repository;
 };
 
+var getAppname = function() {
+    var appname;
+    try {
+        var helper = require('./helper');
+        var packageJson = helper.readJsonFile('./package.json');
+        appname = packageJson.name;
+    } catch(err) {}
+    return appname;
+};
+
 module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var clientFolder = '<%= clientFolder%>'; // the source file folder
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
-        appname: helper.readJsonFile('./package.json').name,
+        appname: getAppname(),
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
         targetSuffix: '{{targetSuffix}}',
@@ -51,7 +60,7 @@ module.exports = function() {
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
         ],
         fonts: {
-            src: <%= fonts %> , // you can also add a specific src_appname
+            src: <%= fonts %>, // you can also add a specific src_appname
             dest: 'fonts'
         },
         html: {
@@ -77,7 +86,6 @@ module.exports = function() {
                 src: <%= css %> // you can also add a specific src_appname
             }
         },
-
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
             dest: 'scripts',

@@ -7,7 +7,7 @@ var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var gutil = require('gulp-util');
-var chalk = gutil.colors;
+var chalk = require('chalk');
 var path = require('path');
 var version = helper.readJsonFile('./package.json').version;
 
@@ -52,7 +52,8 @@ var taskSentry = function(constants, done) {
         ' -H "Content-Type: multipart/form-data"';
     var execHandler = function(err, stdout, stderr, title, curlString) {
         if(err) {
-            helper.execHandler(err);
+            //helper.execHandler(err);
+            gutil.log(chalk.red('An error occured executing a command line action'));
         } else if(stdout === '{"detail": ""}') {
             gutil.log(chalk.red('Failed: ' + title));
             gutil.log('Curl command:\n' + curlString);
