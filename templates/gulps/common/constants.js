@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var helper = require('../common/helper');
 
 var getRepository = function() {
     var repository = '<%= Repository %>';
@@ -23,6 +24,7 @@ module.exports = function() {
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
+        appname: helper.readJsonFile('./package.json').name,
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
         targetSuffix: '{{targetSuffix}}',
@@ -49,7 +51,7 @@ module.exports = function() {
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
         ],
         fonts: {
-            src: <%= fonts %>, // you can also add a specific src_appname
+            src: <%= fonts %> , // you can also add a specific src_appname
             dest: 'fonts'
         },
         html: {
@@ -82,8 +84,13 @@ module.exports = function() {
             bundleName: 'bundle.js'
         },
         exorcist: {
-            dest: './srcmaps',
-            rootUrl: null // or dummy url like 'http://yoobic.com'
+            dest: 'srcmaps'
+        },
+        sentry: {
+            targetKeys: {},
+            normalizedURL: 'http://www.dummyurl.com',
+            organizationName: '',
+            auth: ''
         },
         serve: {
             host: 'localhost', //'0.0.0.0',
