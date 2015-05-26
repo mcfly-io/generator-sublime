@@ -17,12 +17,23 @@ var getRepository = function() {
     return repository;
 };
 
+var getAppname = function() {
+    var appname;
+    try {
+        var helper = require('./helper');
+        var packageJson = helper.readJsonFile('./package.json');
+        appname = packageJson.name;
+    } catch(err) {}
+    return appname;
+};
+
 module.exports = function() {
     var cwd = process.env.INIT_CWD || '';
     var clientFolder = '<%= clientFolder%>'; // the source file folder
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
+        appname: getAppname(),
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',
         targetSuffix: '{{targetSuffix}}',
@@ -75,15 +86,19 @@ module.exports = function() {
                 src: <%= css %> // you can also add a specific src_appname
             }
         },
-
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
             dest: 'scripts',
             bundleName: 'bundle.js'
         },
         exorcist: {
-            dest: './srcmaps',
-            rootUrl: null // or dummy url like 'http://yoobic.com'
+            dest: 'srcmaps'
+        },
+        sentry: {
+            targetKeys: {},
+            normalizedURL: 'http://www.dummyurl.com',
+            organizationName: '',
+            auth: ''
         },
         serve: {
             host: 'localhost', //'0.0.0.0',

@@ -35,6 +35,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'cssify': '0.7.0',
             'deamdify': '0.1.1',
             'del': '1.1.1',
+            'envify': '3.4.0',
             'event-stream': '3.3.0',
             'exorcist': '0.3.0',
             'glob-to-regexp': '0.0.1',
@@ -90,6 +91,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'lodash': '3.5.0',
 
             'map-stream': '0.0.5',
+            'mkdirp': '0.5.1',
             'mocha': '2.2.1',
             'mocha-lcov-reporter': '0.0.2',
             'node-jsxml': '0.6.0',
@@ -351,9 +353,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'babelify',
                     'cssify',
                     'deamdify',
+                    'envify',
                     'exorcist',
                     'html2js-browserify',
                     'jadeify',
+                    'mkdirp',
                     'uglifyify',
                     'vinyl-buffer',
                     'vinyl-source-stream',
@@ -438,6 +442,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             if(this.dist) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
+                this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
                 npmPackages = npmPackages.concat([
                     'del',
                     'gulp-rename',
