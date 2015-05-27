@@ -175,7 +175,7 @@ gulp.task('githubAuth', false, function(cb) {
     return gitGetEmailAsync()
         .then(githubUsernameAsync)
         .fail(function() {
-            gutil.log(gutil.colors.red('Username not found'));
+            //gutil.log(gutil.colors.red('Username not found'));
             return null;
         })
         .then(function(username) {
