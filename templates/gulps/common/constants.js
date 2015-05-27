@@ -122,7 +122,12 @@ module.exports = function() {
             distFolder: './dist/{{targetName}}/{{mode}}'
         },
         testfairy: {
-            api_key: ''
+            api_key: '',
+            metrics: 'cpu,network,logcat,memory,battery,gps',
+            testersGroups: 'all',
+            maxDuration: '15m',
+            autoUpdate: 'on',
+            iconWatermark: 'on'
         }
     };
 

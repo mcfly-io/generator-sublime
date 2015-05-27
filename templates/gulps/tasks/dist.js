@@ -231,11 +231,11 @@ var taskCordovaTestFairyPlatform = function(constants) {
                     }, function(err, stdout, stderr) {
                         helper.execHandler(err, stdout, stderr);
 
-                        var metrics = '\'cpu,network,logcat,memory,battery,gps\'';
-                        var testersGroups = '\'all\'';
-                        var maxDuration = '\'15m\'';
-                        var autoUpdate = '\'on\'';
-                        var iconWatermark = '\'on\'';
+                        var metrics = '\'' + constants.testfairy.metrics + '\'';
+                        var testersGroups = '\'' + constants.testfairy.testersGroups + '\'';
+                        var maxDuration = '\'' + constants.testfairy.maxDuration + '\'';
+                        var autoUpdate = '\'' + constants.testfairy.autoUpdate + '\'';
+                        var iconWatermark = '\'' + constants.testfairy.iconWatermark + '\'';
 
                         exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@platforms/android/ant-build/MainActivity-debug.apk -F metrics=' + metrics + '  -F testers_groups=' + testersGroups + ' -F max-duration=' + maxDuration + ' -F auto-update=' + autoUpdate + ' -F icon-watermark=' + iconWatermark + ' ', {
                             cwd: constants.dist.distFolder
