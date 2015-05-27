@@ -9,9 +9,9 @@ var helper = require('../common/helper');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
 var path = require('path');
-var version = helper.readJsonFile('./package.json').version;
 
 var taskSentry = function(constants, done) {
+    var version = helper.readJsonFile('./package.json').version;
     var target = constants.targetName;
     var appname = constants.appname;
     var slug = (appname + '-' + target).toLowerCase();

@@ -17,7 +17,6 @@ var XML = require('node-jsxml').XML;
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
-var version = helper.readJsonFile('./package.json').version;
 
 var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 
@@ -52,6 +51,7 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 };
 
 var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
+    var version = helper.readJsonFile('./package.json').version;
     bundleName = bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
     var sourceMap = releaseName + '.map.js';
