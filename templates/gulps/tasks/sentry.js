@@ -84,7 +84,7 @@ var taskSentry = function(constants, done) {
     });
 };
 
-var checkSentryConfig = function() {
+var checkSentryConfig = function(constants) {
     var checkConfig = function(keyValue, keyName) {
         if(!keyValue || keyValue.length <= 0) {
             gutil.log(gutil.colors.red('The constant ' + keyName + ' is missing or empty in gulp_tasks/common/constants.js'));
@@ -99,7 +99,7 @@ var checkSentryConfig = function() {
     return configOK;
 };
 
-gulp.task('sentry:upload', 'Upload sourcemaps and bundles to sentry', function(done) {
+gulp.task('sentry:upload', false, function(done) {
     var taskname = 'sentry:upload';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -109,13 +109,20 @@ gulp.task('sentry:upload', 'Upload sourcemaps and bundles to sentry', function(d
     } else {
         global.options.mode = 'prod';
     }
-    if(!checkSentryConfig()) {
+    var configOK = true;
+    global.options.target.forEach(function(target) {
+        var targetObject = helper.targetToTemplateData(target, global.options.mode);
+        var resolvedConstants = gmux.resolveConstants(constants, targetObject);
+        configOK = configOK && checkSentryConfig(resolvedConstants);
+
+    });
+    if(!configOK) {
         return;
     }
     return gmux.createAndRunTasksSequential(gulp, taskSentry, taskname, global.options.target, global.options.mode, constants, done);
 });
 
-gulp.task('sentry', 'dist & upload to sentry', function(done) {
+gulp.task('sentry', 'dist and upload bundles and sourcemaps to sentry.', function(done) {
     var runSeq = runSequence.use(gulp);
     var taskname = 'sentry';
     if(global.options === null) {
@@ -125,7 +132,14 @@ gulp.task('sentry', 'dist & upload to sentry', function(done) {
     } else {
         global.options.mode = 'prod';
     }
-    if(!checkSentryConfig()) {
+    var configOK = true;
+    global.options.target.forEach(function(target) {
+        var targetObject = helper.targetToTemplateData(target, global.options.mode);
+        var resolvedConstants = gmux.resolveConstants(constants, targetObject);
+        configOK = configOK && checkSentryConfig(resolvedConstants);
+
+    });
+    if(!configOK) {
         return;
     }
     runSeq('dist', 'sentry:upload', done);

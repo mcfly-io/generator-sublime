@@ -6,6 +6,7 @@ var chalk = require('chalk');
 var stripJsonComments = require('strip-json-comments');
 var _ = require('lodash');
 var path = require('path');
+var gmux = require('gmux');
 
 /**
  * Returns true if the target application is mobile
@@ -51,10 +52,19 @@ var filterFiles = function(files, extension) {
     });
 };
 
+var targetToTemplateData = function(target, mode) {
+    return {
+        targetName: target,
+        targetSuffix: gmux.targets.targetToSuffix(target),
+        mode: mode
+    };
+};
+
 module.exports = {
     isMobile: isMobile,
     execHandler: execHandler,
     readTextFile: readTextFile,
     readJsonFile: readJsonFile,
-    filterFiles: filterFiles
+    filterFiles: filterFiles,
+    targetToTemplateData: targetToTemplateData
 };
