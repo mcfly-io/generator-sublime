@@ -40,7 +40,8 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
             // in dev mode we save the source map file along with bundle.js
             // we first need to make sure the destination folder exists
             mkdirp.sync(dest);
-            return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
+            var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
+            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
         })))
         .pipe(gulp.dest(dest))
         .on('end', function() {
