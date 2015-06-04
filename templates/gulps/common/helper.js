@@ -6,7 +6,7 @@ var chalk = require('chalk');
 var stripJsonComments = require('strip-json-comments');
 var _ = require('lodash');
 var path = require('path');
-var gmux = require('gmux');
+var gmux = require('gulp-mux');
 
 /**
  * Returns true if the target application is mobile
