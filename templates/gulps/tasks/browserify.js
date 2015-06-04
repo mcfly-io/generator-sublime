@@ -35,13 +35,13 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
             // in prod mode we save the source map file in a special folder
             // we first need to make sure the destination folder exists
             mkdirp.sync(constants.exorcist.dest);
-            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMap, rootUrl, basePath);
+            var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
+            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
         }), transform(function() {
             // in dev mode we save the source map file along with bundle.js
             // we first need to make sure the destination folder exists
             mkdirp.sync(dest);
-            var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
-            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
+            return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
         })))
         .pipe(gulp.dest(dest))
         .on('end', function() {
