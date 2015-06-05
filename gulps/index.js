@@ -22,7 +22,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
-            'babelify': '6.1.1',
+            'babelify': 'thaiat/babelify',  // TODO: revert to babelify when issue #88 is closed
             'brfs': '1.4.0',
             'browser-sync': '2.2.4',
             'browserify': '9.0.3',
