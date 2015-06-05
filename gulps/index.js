@@ -5,6 +5,25 @@ var _ = require('lodash');
 var chalk = require('chalk');
 var fs = require('fs');
 
+var sortObject = function(object) {
+    var sortedObj = {};
+    var keys = _.keys(object);
+
+    keys = _.sortBy(keys, function(key) {
+        return key;
+    });
+
+    _.each(keys, function(key) {
+        if(typeof object[key] === 'object' && !(object[key] instanceof Array)) {
+            sortedObj[key] = sortObject(object[key]);
+        } else {
+            sortedObj[key] = object[key];
+        }
+    });
+
+    return sortedObj;
+};
+
 var GulpsGenerator = yeoman.generators.Base.extend({
 
     constructor: function() {
@@ -22,7 +41,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
-            'babelify': 'thaiat/babelify',  // TODO: revert to babelify when issue #88 is closed
+            'babelify': 'thaiat/babelify', // TODO: revert to babelify when issue #88 is closed
             'brfs': '1.4.0',
             'browser-sync': '2.2.4',
             'browserify': '9.0.3',
@@ -460,7 +479,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     .pick(this.npmPackages)
                     .value()
             };
-            this.gulpsDepsString = JSON.stringify(gulpsDeps, null, 4);
+            this.gulpsDepsString = JSON.stringify(sortObject(gulpsDeps), null, 2);
             this.template('_gulps-package.json', '.gulps-package.json');
             done();
         }
