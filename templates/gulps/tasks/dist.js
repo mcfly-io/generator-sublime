@@ -319,11 +319,11 @@ gulp.task('cordova:testfairy', 'Bump version and Build a testfairy binary.', fun
     });
 });
 
-gulp.task('cordova:all', 'Build android and ios packages', function(done) {
+gulp.task('cordova:all', 'Build a binary for android (.pka) and ios (.ipa)', function(done) {
     return runSequence('dist', 'wait', 'cordova:all:platform', done);
 });
 
-gulp.task('cordova:all:platform', 'Build a binary for android (.pka) and ios (.ipa)', function() {
+gulp.task('cordova:all:platform', false, function() {
     var taskname = 'cordova:all:platform';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -351,7 +351,7 @@ var taskCordovaInstallIOS = function(constants, done) {
 
 };
 
-gulp.task('cordova:install:ios', 'Install the app on ios', function(done) {
+gulp.task('cordova:install:ios', false, function(done) {
     var taskname = 'cordova:install';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
@@ -362,11 +362,11 @@ gulp.task('cordova:install:ios', 'Install the app on ios', function(done) {
 
 });
 
-gulp.task('cordova:install', function(done) {
+gulp.task('cordova:install', 'Install the app on ios', function(done) {
     return runSequence('dist', 'wait', 'cordova:install:ios', done);
 });
 
-gulp.task('wait', function(done) {
+gulp.task('wait', false, function(done) {
     setTimeout(function() {
         done();
     }, 3000);
