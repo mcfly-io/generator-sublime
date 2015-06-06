@@ -1,13 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-var path = require('path');
 var gulp = require('gulp');
 var args = require('yargs').argv;
 var $ = require('gulp-load-plugins')();
 var exec = require('child_process').exec;
-var fs = require('fs');
-var stripJsonComments = require('strip-json-comments');
 var bump = $.bump;
 var tap = $.tap;
 var XML = require('node-jsxml').XML;
@@ -130,11 +126,11 @@ var github = new GitHubApi({
     timeout: 0
 });
 
-var gitGetEmailAsync = Q.nbind(git.exec, git, {
+var gitGetEmailAsync = Q.denodeify(git.exec, {
     args: 'config --get user.email',
     quiet: true
 });
-var githubUsernameAsync = Q.nfbind(githubUsername);
+var githubUsernameAsync = Q.denodeify(githubUsername);
 
 var inquireAsync = function(result) {
     var deferred = Q.defer();

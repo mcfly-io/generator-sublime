@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 module.exports = function() {
     var constants = {
         repository: 'https://github.com/thaiat/generator-sublime',

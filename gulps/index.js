@@ -3,7 +3,6 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var _ = require('lodash');
 var chalk = require('chalk');
-var fs = require('fs');
 
 var sortObject = function(object) {
     var sortedObj = {};

@@ -4,7 +4,6 @@ var yosay = require('yosay');
 var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
-var exec = require('child_process').exec;
 var Class = require('../class');
 
 var githubOptions = {
