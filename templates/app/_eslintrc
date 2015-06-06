@@ -42,7 +42,7 @@
     "no-debugger": 1,
     "no-delete-var": 2,
     "no-dupe-keys": 2,
-    "no-empty": 2,
+    "no-empty": 0,
     "no-empty-class": 2,
     "no-empty-label": 2,
     "no-ex-assign": 2,
