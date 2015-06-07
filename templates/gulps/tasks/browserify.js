@@ -35,8 +35,13 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
             // in prod mode we save the source map file in a special folder
             // we first need to make sure the destination folder exists
             mkdirp.sync(constants.exorcist.dest);
-            var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
-            return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
+            if(constants.sentry.normalizedURL && constants.sentry.normalizedURL.length > 0) {
+                var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
+                return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
+            } else {
+                // when no normalizedURL we copy the source map along with the bundle
+                return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
+            }
         }), transform(function() {
             // in dev mode we save the source map file along with bundle.js
             // we first need to make sure the destination folder exists
