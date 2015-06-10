@@ -54,7 +54,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'deamdify': '0.1.1',
             'del': '1.2.0',
             'envify': '3.4.0',
-            'event-stream': '3.3.1',
+            //'event-stream': '3.3.1',
             'exorcist': '0.4.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.4',
@@ -78,7 +78,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-minify-css': '1.1.6',
             'gulp-mocha': '2.1.1',
             'gulp-mux': '', // always take latest version as this is our package
-            'gulp-order': '1.1.1',
+            //'gulp-order': '1.1.1',
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.2',
@@ -195,27 +195,27 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             this[task] = this.options[task];
         }.bind(this));
 
-        this._buildCssList();
+        //this._buildCssList();
         this._buildFontsList();
     },
 
-    _buildCssList: function() {
-        var css = [];
-        if(this.famous) {
-            //css.push('\'./bower_components/famous/famous.css\'');
-            css.push('\'./bower_components/famous-angular/dist/famous-angular.css\'');
-        }
-        if(this.bootstrap) {
-            css.push('\'./bower_components/bootstrap/dist/css/bootstrap.css\'');
-            css.push('\'./bower_components/bootstrap/dist/css/bootstrap-theme.css\'');
-        }
-        if(this.material) {
-            css.push('\'./bower_components/angular-material/angular-material.css\'');
-        }
-        css = css.length > 0 ? css : ['\'\''];
-        this.css = '[' + css.join(', ') + ']';
+    // _buildCssList: function() {
+    //     var css = [];
+    //     if(this.famous) {
+    //         //css.push('\'./bower_components/famous/famous.css\'');
+    //         css.push('\'./bower_components/famous-angular/dist/famous-angular.css\'');
+    //     }
+    //     if(this.bootstrap) {
+    //         css.push('\'./bower_components/bootstrap/dist/css/bootstrap.css\'');
+    //         css.push('\'./bower_components/bootstrap/dist/css/bootstrap-theme.css\'');
+    //     }
+    //     if(this.material) {
+    //         css.push('\'./bower_components/angular-material/angular-material.css\'');
+    //     }
+    //     css = css.length > 0 ? css : ['\'\''];
+    //     this.css = '[' + css.join(', ') + ']';
 
-    },
+    // },
 
     _buildFontsList: function() {
         var fonts = [];
@@ -371,6 +371,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'babelify',
                     'cssify',
                     'deamdify',
+                    'del',
                     'envify',
                     'exorcist',
                     'html2js-browserify',
@@ -445,12 +446,12 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.style) {
                 this.template('tasks/style.js', gulpFolder + '/tasks/style.js');
                 npmPackages = npmPackages.concat([
-                    'event-stream',
+                    //'event-stream',
                     'gulp-sass',
                     'gulp-sourcemaps',
                     'gulp-autoprefixer',
                     'gulp-minify-css',
-                    'gulp-order',
+                    //'gulp-order',
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
