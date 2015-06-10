@@ -81,9 +81,6 @@ module.exports = function() {
             destName: 'main.css',
             sass: {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
-            },
-            css: {
-                src: <%= css %> // you can also add a specific src_appname
             }
         },
         browserify: {

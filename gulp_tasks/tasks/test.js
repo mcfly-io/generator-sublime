@@ -10,7 +10,7 @@ var gutil = require('gulp-util');
 var chalk = require('chalk');
 var constants = require('../common/constants')();
 
-gulp.task('mocha', 'Runs mocha unit tests', function(done) {
+gulp.task('mocha', 'Runs mocha unit tests', function() {
     gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
@@ -27,7 +27,9 @@ gulp.task('mocha', 'Runs mocha unit tests', function(done) {
                 .pipe(istanbul.writeReports({
                     reporters: ['lcov', 'json', 'text', 'text-summary', 'cobertura']
                 }))
-                .on('end', done);
+                .once('end', function() {
+                    process.exit();
+                });
         });
 });
 

@@ -1,13 +1,13 @@
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-var es = require('event-stream');
+//var es = require('event-stream');
 var sass = $.sass;
 //var sourcemaps = $.sourcemaps;
 var autoprefixer = $.autoprefixer;
 // var rename = $.rename;
 var concat = $.concat;
-var order = $.order;
+//var order = $.order;
 // var size = $.size;
 var minifycss = require('gulp-minify-css');
 var gulpif = require('gulp-if');
@@ -45,7 +45,7 @@ var taskStyle = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.style.dest : dest + '/' + constants.style.dest;
 
-    var sassFiles = gulp.src(constants.style.sass.src)
+    return gulp.src(constants.style.sass.src)
         //.pipe(sourcemaps.init())
         .pipe(sass({
             errLogToConsole: false,
@@ -56,21 +56,7 @@ var taskStyle = function(constants) {
                 gutil.log(gutil.colors.red(err.file + ':' + err.line + ':' + err.column));
             }
         }))
-        .pipe(concat('sass.css'));
-    //.pipe(sourcemaps.write());
-
-    var srcCss = constants.style.css['src_' + constants.targetName];
-    if(!srcCss) {
-        srcCss = constants.style.css.src;
-    }
-    var cssFiles = gulp.src(srcCss)
-        .pipe(concat('css.css'));
-
-    return es.concat(cssFiles, sassFiles)
-        //.pipe(sourcemaps.init({
-        //    loadMaps: true
-        //}))
-        .pipe(order(['css.css', 'sass.css']))
+        //.pipe(concat('sass.css'));
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         //.pipe(sourcemaps.write())
@@ -80,6 +66,28 @@ var taskStyle = function(constants) {
             title: 'css files',
             showFiles: true
         }));
+
+    // var srcCss = constants.style.css['src_' + constants.targetName];
+    // if(!srcCss) {
+    //     srcCss = constants.style.css.src;
+    // }
+    // var cssFiles = gulp.src(srcCss)
+    //     .pipe(concat('css.css'));
+
+    // return es.concat(cssFiles, sassFiles)
+    //     //.pipe(sourcemaps.init({
+    //     //    loadMaps: true
+    //     //}))
+    //     .pipe(order(['css.css', 'sass.css']))
+    //     .pipe(concat(constants.style.destName))
+    //     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    //     //.pipe(sourcemaps.write())
+    //     .pipe(gulpif(constants.mode === 'prod', minifycss()))
+    //     .pipe(gulp.dest(dest))
+    //     .pipe($.size({
+    //         title: 'css files',
+    //         showFiles: true
+    //     }));
     /*
     .pipe(minifycss())
     .pipe(rename({
