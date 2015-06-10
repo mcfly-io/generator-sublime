@@ -57,10 +57,14 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
         });
 };
 
-var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
+var browserifyShare = function(shouldWatch, constants, done) {
     var version = helper.readJsonFile('./package.json').version;
+    var dest = constants.dist.distFolder;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    var mode = constants.mode;
+    var target = constants.targetName;
     var mapExtension = '.map.js';
-    bundleName = bundleName || 'bundle.js';
+    var bundleName = constants.browserify.bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
     var sourceMap = releaseName + mapExtension;
     var envifyVars = {
@@ -75,7 +79,7 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
         var configFileContent = helper.readTextFile(srcxml);
         var xml = new XML(configFileContent);
         envifyVars.APP_NAME = xml.child('name').getValue();
-        envifyVars.APP_ID = xml.child('widget').attribute('id').getValue();
+        envifyVars.APP_ID = xml.attribute('id').getValue();
         envifyVars.APP_AUTHOR = xml.child('author').getValue();
     } else {
         envifyVars.APP_NAME = constants.appname;
@@ -112,27 +116,17 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
         gutil.log(chalk.green('browserify'), msg);
     });
 
-    b.add(src);
+    b.add(constants.browserify.src);
     bundleShare(b, dest, bundleName, mode, sourceMap, done);
 
 };
 
 var taskBrowserify = function(constants, done) {
-    //browserifyShare(false, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
-
-    var dest = constants.dist.distFolder;
-    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
-    browserifyShare(false, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode, constants.targetName, done);
-
+    browserifyShare(false, constants, done);
 };
 
 var taskWatchify = function(constants, done) {
-    //browserifyShare(true, constants.browserify.src, constants.browserify.dest, constants.browserify.bundleName, constants.mode);
-
-    var dest = constants.dist.distFolder;
-    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
-    browserifyShare(true, constants.browserify.src, dest, constants.browserify.bundleName, constants.mode, constants.targetName, done);
-
+    browserifyShare(true, constants, done);
 };
 
 gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {
