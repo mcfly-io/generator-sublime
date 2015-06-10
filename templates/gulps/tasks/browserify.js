@@ -13,6 +13,7 @@ var chalk = require('chalk');
 var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
 var mkdirp = require('mkdirp');
+var del = require('del');
 var XML = require('node-jsxml').XML;
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
@@ -58,9 +59,10 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 
 var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target, done) {
     var version = helper.readJsonFile('./package.json').version;
+    var mapExtension = '.map.js';
     bundleName = bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
-    var sourceMap = releaseName + '.map.js';
+    var sourceMap = releaseName + mapExtension;
     var envifyVars = {
         APP_VERSION: version,
         SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
@@ -78,6 +80,8 @@ var browserifyShare = function(shouldWatch, src, dest, bundleName, mode, target,
     } else {
         envifyVars.APP_NAME = constants.appname;
     }
+    // we delete the old sourcemaps if any
+    del.sync([dest + '/*' + mapExtension]);
 
     // we need to pass these config options to browserify
     var b = browserify({
