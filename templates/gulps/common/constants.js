@@ -73,14 +73,14 @@ module.exports = function() {
             ]
         },
         style: {
-            src: [
-                './' + clientFolder + '/styles/main{{targetSuffix}}.scss'
-            ],
-            watchFolder: './' + clientFolder + '/styles/**/*.scss',
+            watchFolder: ['./' + clientFolder + '/styles/**/*.scss', './' + clientFolder + '/styles/**/*.less'],
             dest: 'styles',
             destName: 'main.css',
             sass: {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.scss']
+            },
+            less: {
+                src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.less']
             }
         },
         browserify: {

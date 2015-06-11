@@ -42,7 +42,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         this.npmPackagesVersion = {
             'babelify': '6.1.2',
             'brfs': '1.4.0',
-            'browser-sync': '2.7.6',
+            'browser-sync': '2.7.7',
             'browserify': '10.2.3',
             'browserify-istanbul': '0.2.1',
             'browserify-shim': '3.8.8',
@@ -54,7 +54,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'deamdify': '0.1.1',
             'del': '1.2.0',
             'envify': '3.4.0',
-            //'event-stream': '3.3.1',
+            'event-stream': '3.3.1',
             'exorcist': '0.4.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.4',
@@ -67,18 +67,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-eslint': '0.13.2',
             'gulp-exec': '2.1.1',
             'gulp-git': '1.2.4',
-            'gulp-help': '1.3.4',
+            'gulp-help': '1.6.0',
             'gulp-if': '1.2.5',
-            'gulp-imagemin': '2.2.1',
-            'gulp-istanbul': '0.9.0',
+            //'gulp-imagemin': '2.2.1', has some issue with installation on node 10
+            'gulp-istanbul': '0.10.0',
             'gulp-jscs': '1.6.0',
             'gulp-jshint': '1.11.0',
             'gulp-karma': '0.0.4',
-            'gulp-load-plugins': '0.10.0',
+            'gulp-less': '3.0.3',
+            'gulp-load-plugins': '1.0.0-rc.1',
             'gulp-minify-css': '1.1.6',
             'gulp-mocha': '2.1.1',
             'gulp-mux': '', // always take latest version as this is our package
-            //'gulp-order': '1.1.1',
+            'gulp-order': '1.1.1',
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '0.0.12',
             'gulp-rename': '1.2.2',
@@ -90,7 +91,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '1.0.0',
             'inquirer': '0.8.5',
-            'imagemin-pngquant': '4.1.0',
+            //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10
             'jadeify': '4.3.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '2.0.6',
@@ -100,7 +101,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             'karma': '0.12.36',
             'karma-browserify': '4.2.1',
-            'karma-coverage': '0.2.6', // version 0.2.7 has an issue — github.com/karma-runner/karma-coverage/issues/119
+            'karma-coverage': '0.4.1', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
             'karma-growl-reporter': '0.1.1',
             'karma-jasmine': '0.3.5',
             'karma-mocha-reporter': '1.0.2',
@@ -119,15 +120,15 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'q': '1.4.1',
             'require-dir': '0.3.0',
             'run-sequence': '1.1.0',
-            'sinon': '1.14.1',
+            'sinon': '1.15.1',
             'stream-combiner': '0.2.2',
-            'streamqueue': '0.1.3',
+            'streamqueue': '1.1.0',
             'strip-json-comments': '1.0.2',
             'uglifyify': '3.0.1',
             'vinyl-buffer': '1.0.0',
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
-            'watchify': '3.2.1',
+            'watchify': '3.2.2',
             'yargs': '3.10.0'
         };
 
@@ -446,12 +447,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.style) {
                 this.template('tasks/style.js', gulpFolder + '/tasks/style.js');
                 npmPackages = npmPackages.concat([
-                    //'event-stream',
+                    'event-stream',
                     'gulp-sass',
+                    'gulp-less',
                     'gulp-sourcemaps',
                     'gulp-autoprefixer',
                     'gulp-minify-css',
-                    //'gulp-order',
+                    'gulp-order',
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
@@ -465,10 +467,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'del',
                     'gulp-rename',
-                    'gulp-imagemin',
+                    //'gulp-imagemin',
                     'gulp-tap',
                     'inquirer',
-                    'imagemin-pngquant',
+                    //'imagemin-pngquant',
                     'node-jsxml'
                 ]);
             }
