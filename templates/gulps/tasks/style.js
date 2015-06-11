@@ -1,14 +1,14 @@
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-//var es = require('event-stream');
+var es = require('event-stream');
 var sass = $.sass;
+var less = $.less;
 //var sourcemaps = $.sourcemaps;
 var autoprefixer = $.autoprefixer;
 // var rename = $.rename;
 var concat = $.concat;
-//var order = $.order;
-// var size = $.size;
+var order = $.order;
 var minifycss = require('gulp-minify-css');
 var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
@@ -45,8 +45,7 @@ var taskStyle = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.style.dest : dest + '/' + constants.style.dest;
 
-    return gulp.src(constants.style.sass.src)
-        //.pipe(sourcemaps.init())
+    var sassFiles = gulp.src(constants.style.sass.src)
         .pipe(sass({
             errLogToConsole: false,
             onError: function(err) {
@@ -56,50 +55,22 @@ var taskStyle = function(constants) {
                 gutil.log(gutil.colors.red(err.file + ':' + err.line + ':' + err.column));
             }
         }))
-        //.pipe(concat('sass.css'));
+        .pipe(concat('sass.css'));
+
+    var lessFiles = gulp.src(constants.style.less.src)
+        .pipe(less())
+        .pipe(concat('less.css'));
+
+    return es.concat(lessFiles, sassFiles)
+        .pipe(order(['less.css', 'sass.css']))
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        //.pipe(sourcemaps.write())
         .pipe(gulpif(constants.mode === 'prod', minifycss()))
         .pipe(gulp.dest(dest))
         .pipe($.size({
             title: 'css files',
             showFiles: true
         }));
-
-    // var srcCss = constants.style.css['src_' + constants.targetName];
-    // if(!srcCss) {
-    //     srcCss = constants.style.css.src;
-    // }
-    // var cssFiles = gulp.src(srcCss)
-    //     .pipe(concat('css.css'));
-
-    // return es.concat(cssFiles, sassFiles)
-    //     //.pipe(sourcemaps.init({
-    //     //    loadMaps: true
-    //     //}))
-    //     .pipe(order(['css.css', 'sass.css']))
-    //     .pipe(concat(constants.style.destName))
-    //     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    //     //.pipe(sourcemaps.write())
-    //     .pipe(gulpif(constants.mode === 'prod', minifycss()))
-    //     .pipe(gulp.dest(dest))
-    //     .pipe($.size({
-    //         title: 'css files',
-    //         showFiles: true
-    //     }));
-    /*
-    .pipe(minifycss())
-    .pipe(rename({
-        suffix: '.min'
-    }))
-    .pipe($.size())
-    .pipe(gulp.dest(constants.style.dest))
-    .pipe(size({
-        title: 'css files:' + constants.targetName,
-        showFiles: true
-    }));
-    */
 };
 
 gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
