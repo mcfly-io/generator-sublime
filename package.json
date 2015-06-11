@@ -1,6 +1,6 @@
 {
   "name": "generator-sublime",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Yeoman generator for scaffolfding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...",
   "license": "BSD",
   "main": "app/index.js",
