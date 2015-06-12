@@ -12,6 +12,7 @@ before_script:
   - npm install -g bower
   - npm install -g gulp
   - npm install -g codeclimate-test-reporter
+  - bower install
 
 after_success:
 #  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
