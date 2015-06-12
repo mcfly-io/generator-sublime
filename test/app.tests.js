@@ -16,6 +16,7 @@ var allFiles = [
     '.jsbeautifyrc',
     '.gitignore',
     '.travis.yml',
+    '.codeclimate.yml',
     'shippable.yml',
     'readme.md',
     '.settings',
@@ -138,8 +139,8 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, ['shippable.yml']);
     });
 
-    it('with Files anwser TravisYml should only create .travis.yml file', function(done) {
-        projectFiles.call(this, done, ['.travis.yml']);
+    it('with Files anwser TravisYml should only create .travis.yml and .codeclimate.yml file', function(done) {
+        projectFiles.call(this, done, ['.travis.yml', '.codeclimate.yml']);
     });
 
     xit('.travis.yml with NpmPublish false does not contains github info', function(done) {
@@ -150,7 +151,7 @@ describe('sublime:app', function() {
             assert.equal(body.indexOf('email: ' + testHelper.githubUserMock.email) < 0, true);
             assert.equal(body.indexOf('repo: ' + testHelper.githubUserMock.user + '/temp') < 0, true);
             done();
-        }, ['.travis.yml'], {
+        }, ['.travis.yml', '.codeclimate.yml'], {
             NpmPublish: false
         });
     });
@@ -164,7 +165,7 @@ describe('sublime:app', function() {
             assert.equal(body.indexOf('email: ' + testHelper.githubUserMock.email) > 0, true);
             assert.equal(body.indexOf('repo: ' + testHelper.githubUserMock.user + '/temp') > 0, true);
             done();
-        }, ['.travis.yml'], {
+        }, ['.travis.yml', '.codeclimate.yml'], {
             NpmPublish: true
         });
     });
@@ -174,7 +175,7 @@ describe('sublime:app', function() {
             var body = testHelper.readTextFile('.travis.yml');
             assert.equal(body.indexOf('- 0.10\n') > 0, true);
             done();
-        }, ['.travis.yml']);
+        }, ['.travis.yml', '.codeclimate.yml']);
     });
 
     it('with Files anwser ReadmeMd should only create readme.md file', function(done) {

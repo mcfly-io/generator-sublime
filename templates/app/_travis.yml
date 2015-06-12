@@ -3,9 +3,15 @@ sudo: false
 node_js:
   - <%=shortNodeVersion%>
 
+cache:
+   directories:
+     - node_modules
+     - bower_components
+
 before_script:
-#  - npm link
-#  - mkdir -p shippable/codecoverage
+  - npm install -g bower
+  - npm install -g gulp
+  - npm install -g codeclimate-test-reporter
 
 after_success:
 #  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
