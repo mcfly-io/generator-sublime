@@ -41,7 +41,7 @@ var SublimeGenerator = Class.extend({
         this.option('nodeVersion', {
             desc: 'Node.js version',
             type: 'String',
-            defaults: '0.10.33'
+            defaults: '0.12.4'
         });
 
         this.option('githubUser', {
@@ -250,6 +250,7 @@ var SublimeGenerator = Class.extend({
                 var nodeVersion = this.options.nodeVersion;
                 this.shortNodeVersion = _.first(nodeVersion.split('.'), 2).join('.');
                 this.template('_travis.yml', '.travis.yml');
+                this.template('_codeclimate.yml', '.codeclimate.yml');
             }
             if(this.Gitconfig) {
                 this.template('bin/git-config.sh', 'bin/git-config.sh');
