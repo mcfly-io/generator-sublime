@@ -173,7 +173,7 @@ describe('sublime:app', function() {
     it('.travis.yml should have short node version', function(done) {
         projectFiles.call(this, function() {
             var body = testHelper.readTextFile('.travis.yml');
-            assert.equal(body.indexOf('- 0.10\n') > 0, true);
+            assert.equal(body.indexOf('- 0.12\n') > 0, true);
             done();
         }, ['.travis.yml', '.codeclimate.yml']);
     });
