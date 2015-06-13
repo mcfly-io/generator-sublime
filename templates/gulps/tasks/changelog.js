@@ -15,11 +15,11 @@ var helper = require('../common/helper');
 var constants = require('../common/constants')();
 
 var repository = constants.repository;
-if(repository.length <= 0) {
-    throw new Error('The repository cannot be empty');
-}
 
 var makeChangelog = function(options) {
+    if(repository.length <= 0) {
+        throw new Error('The repository cannot be empty');
+    }
     var pkg = helper.readJsonFile('./package.json');
     var codename = pkg.codename;
     var file = options.standalone ? '' : path.join(__dirname, 'CHANGELOG.md');
