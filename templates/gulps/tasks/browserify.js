@@ -69,6 +69,7 @@ var browserifyShare = function(shouldWatch, constants, done) {
     var sourceMap = releaseName + mapExtension;
     var envifyVars = {
         APP_VERSION: version,
+        TESTFAIRY_IOS_APP_TOKEN: constants.testfairy.ios_app_token,
         SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
         SENTRY_RELEASE_NAME: releaseName,
         SENTRY_MODE: mode,

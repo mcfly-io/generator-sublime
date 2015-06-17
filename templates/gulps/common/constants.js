@@ -120,6 +120,7 @@ module.exports = function() {
         },
         testfairy: {
             api_key: '',
+            ios_app_token: '',
             metrics: 'cpu,network,logcat,memory,battery,gps',
             testersGroups: 'all',
             maxDuration: '15m',
