@@ -1,7 +1,7 @@
 # Sublime Generator 
 [![NPM version](https://badge.fury.io/js/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime) [![Downloads](http://img.shields.io/npm/dm/generator-sublime.svg)](http://badge.fury.io/js/generator-sublime)   
-[![Build Status](https://travis-ci.org/thaiat/generator-sublime.svg?branch=master)](https://travis-ci.org/thaiat/generator-sublime) [![Test Coverage](https://codeclimate.com/github/thaiat/generator-sublime/badges/coverage.svg)](https://codeclimate.com/github/thaiat/generator-sublime) [![Code Climate](https://codeclimate.com/github/thaiat/generator-sublime/badges/gpa.svg)](https://codeclimate.com/github/thaiat/generator-sublime)   
-[![Dependency Status](https://david-dm.org/thaiat/generator-sublime.svg)](https://david-dm.org/thaiat/generator-sublime) [![devDependency Status](https://david-dm.org/thaiat/generator-sublime/dev-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=devDependencies) [![peerDependency Status](https://david-dm.org/thaiat/generator-sublime/peer-status.svg)](https://david-dm.org/thaiat/generator-sublime#info=peerDependencies)    
+[![Build Status](https://travis-ci.org/mcfly-io/generator-sublime.svg?branch=master)](https://travis-ci.org/mcfly-io/generator-sublime) [![Test Coverage](https://codeclimate.com/github/mcfly-io/generator-sublime/badges/coverage.svg)](https://codeclimate.com/github/mcfly-io/generator-sublime) [![Code Climate](https://codeclimate.com/github/mcfly-io/generator-sublime/badges/gpa.svg)](https://codeclimate.com/github/mcfly-io/generator-sublime)   
+[![Dependency Status](https://david-dm.org/mcfly-io/generator-sublime.svg)](https://david-dm.org/mcfly-io/generator-sublime) [![devDependency Status](https://david-dm.org/mcfly-io/generator-sublime/dev-status.svg)](https://david-dm.org/mcfly-io/generator-sublime#info=devDependencies) [![peerDependency Status](https://david-dm.org/mcfly-io/generator-sublime/peer-status.svg)](https://david-dm.org/mcfly-io/generator-sublime#info=peerDependencies)    
 
 
 > Yeoman generator for scaffolding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...
@@ -10,7 +10,7 @@
 
 ## Usage
 
-This generator-sublime is mainly used as a sub generator of [generator-angular-famous-ionic](https://github.com/thaiat/generator-angular-famous-ionic)
+This generator-sublime is mainly used as a sub generator of [generator-mcfly](https://github.com/mcfly-io/generator-mcfly)
 
 ### sublime:app
 Install `generator-sublime`:
@@ -82,7 +82,7 @@ yo sublime:gulps
 * fontawesome : true to include font-awesome
 * bootstrap : true to include the bootstrap library
 
-To better understand the gulp task system have a look at the docs of [`gulp-mux`](https://github.com/thaiat/gulp-mux).
+To better understand the gulp task system have a look at the docs of [`gulp-mux`](https://github.com/mcfly-io/gulp-mux).
 
 #### Results
 This will scaffold some common gulp tasks:
@@ -101,7 +101,7 @@ Running `npm test` will run the unit tests with mocha.
 
 ## Changelog
 
-Recent changes can be viewed on Github on the [Releases Page](https://github.com/thaiat/generator-sublime/releases)
+Recent changes can be viewed on Github on the [Releases Page](https://github.com/mcfly-io/generator-sublime/releases)
 
 ## License
 

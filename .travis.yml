@@ -27,4 +27,4 @@ deploy:
   on:
     tags: true
     all_branches: true
-    repo: thaiat/generator-sublime
+    repo: mcfly-io/generator-sublime

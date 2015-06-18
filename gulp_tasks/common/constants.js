@@ -2,7 +2,7 @@
 
 module.exports = function() {
     var constants = {
-        repository: 'https://github.com/thaiat/generator-sublime',
+        repository: 'https://github.com/mcfly-io/generator-sublime',
         versionFiles: ['./package.json', './bower.json'],
         lint: ['app/**/*.js', 'bash/**/*.js', 'gulps/**/*.js', 'templates/gulps/tasks/**/*.js', '!templates/gulps/tasks/serve.js', 'gulpfile.js', 'gulp_tasks/**/*.js', 'karma.conf.js', 'test/**/*.js'],
         mocha: {
