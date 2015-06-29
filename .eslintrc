@@ -28,7 +28,7 @@
     "max-nested-callbacks": [0, 2],
     "max-params": [0, 10],
     "max-statements": [0, 10],
-    "new-cap": true,
+    "new-cap": [2],
     "new-parens": 2,
     "no-alert": 2,
     "no-array-constructor": 2,
@@ -105,6 +105,6 @@
     "valid-jsdoc": [2, { "prefer": { "return": "returns" }, "requireReturn": false }],
     "valid-typeof": 2,
     "wrap-iife": [2, "any"],
-    "yoda": "never"
+    "yoda": [2, "never", { "exceptRange": true }]
   }
 }
