@@ -2,9 +2,10 @@
 'use strict';
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-//var imagemin = $.imagemin;
 var rename = $.rename;
 var tap = $.tap;
+var Q = require('q');
+var imagemin = $.imagemin;
 var del = require('del');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -76,7 +77,7 @@ var taskImage = function(constants) {
     gulp.src(constants.images.src, {
             base: constants.clientFolder
         })
-        //.pipe(imagemin())
+        .pipe(imagemin())
         .pipe(gulp.dest(dest));
 
 };

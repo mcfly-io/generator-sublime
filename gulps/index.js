@@ -69,7 +69,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-git': '1.2.4',
             'gulp-help': '1.6.0',
             'gulp-if': '1.2.5',
-            //'gulp-imagemin': '2.2.1', has some issue with installation on node 10
+            'gulp-imagemin': '2.3.0', // may have some issue with installation on node 10
             'gulp-istanbul': '0.10.0',
             'gulp-jscs': '1.6.0',
             'gulp-jshint': '1.11.0',
@@ -91,7 +91,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '1.0.0',
             'inquirer': '0.8.5',
-            //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10
+            //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10. UPDATED: it is now a dependency of gulp-imagemin
             'jadeify': '4.3.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '2.0.6',
@@ -467,7 +467,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'del',
                     'gulp-rename',
-                    //'gulp-imagemin',
+                    'gulp-imagemin',
                     'gulp-tap',
                     'inquirer',
                     //'imagemin-pngquant',
