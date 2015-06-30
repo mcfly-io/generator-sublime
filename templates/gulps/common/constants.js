@@ -92,10 +92,19 @@ module.exports = function() {
             dest: 'srcmaps'
         },
         sentry: {
-            targetKeys: {},
+            targetKeys: {
+                app: ''
+            },
             normalizedURL: 'http://www.dummyurl.com',
             organizationName: '',
             auth: ''
+        },
+        ionic: {
+            app: {
+                app_id: '',
+                api_key: '',
+                name: ''
+            }
         },
         serve: {
             host: 'localhost', //'0.0.0.0',

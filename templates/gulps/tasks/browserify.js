@@ -69,11 +69,11 @@ var browserifyShare = function(shouldWatch, constants, done) {
     var sourceMap = releaseName + mapExtension;
     var envifyVars = {
         APP_VERSION: version,
-        TESTFAIRY_IOS_APP_TOKEN: constants.testfairy.ios_app_token,
         SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
         SENTRY_RELEASE_NAME: releaseName,
         SENTRY_MODE: mode,
-        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL
+        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
+        TARGET: target
     };
     if(helper.isMobile(constants)) {
         var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
@@ -82,6 +82,12 @@ var browserifyShare = function(shouldWatch, constants, done) {
         envifyVars.APP_NAME = xml.child('name').getValue();
         envifyVars.APP_ID = xml.attribute('id').getValue();
         envifyVars.APP_AUTHOR = xml.child('author').getValue();
+        envifyVars.TESTFAIRY_IOS_APP_TOKEN = constants.testfairy.ios_app_token;
+        if(constants.ionic[target]) {
+            envifyVars.IONIC_APP_ID = constants.ionic[target].app_id;
+            envifyVars.IONIC_API_KEY = constants.ionic[target].api_key;
+        }
+
     } else {
         envifyVars.APP_NAME = constants.appname;
     }
