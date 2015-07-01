@@ -124,6 +124,11 @@ module.exports = function() {
             globals: 'test/mocha/helpers/globals.js',
             timeout: 5000
         },
+        e2e: {
+            src: ['./test/e2e/{{targetName}}/**/*test.js'],
+            port: 5555,
+            configFile: 'protractor.conf.js'
+        },
         dist: {
             distFolder: './dist/{{targetName}}/{{mode}}'
         },

@@ -81,7 +81,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
             'gulp-plumber': '1.0.1',
-            'gulp-protractor': '0.0.12',
+            'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
             'gulp-sass': '2.0.3',
             'gulp-size': '1.2.1',
@@ -419,6 +419,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if(this.test) {
                 this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
                 npmPackages = npmPackages.concat([
+                    'browser-sync',
                     'chai',
                     'gulp-mocha',
                     'gulp-istanbul',
