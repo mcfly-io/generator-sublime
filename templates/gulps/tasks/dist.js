@@ -462,7 +462,7 @@ gulp.task('ionic:upload', 'Upload the app to ionic.io platform', function(done) 
     return gmux.createAndRunTasks(gulp, taskIonicUpload, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('deploy:all', function(done) {
+gulp.task('deploy:all', 'Global task for deploying the application', function(done) {
     var taskname = 'deploy:all';
     var questions = [{
         type: 'confirm',
@@ -522,7 +522,7 @@ gulp.task('deploy:all', function(done) {
     });
 });
 
-gulp.task('wait', function(done) {
+gulp.task('wait', false, function(done) {
     setTimeout(function() {
         done();
     }, 3000);

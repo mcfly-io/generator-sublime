@@ -33,16 +33,6 @@ gulp.task('mocha', 'Runs mocha unit tests', function() {
         });
 });
 
-gulp.task('karma', 'Runs karma unit tests', function() {
-    gulp.src(['no need to supply files because everything is in config file'])
-        .pipe(karma({
-            configFile: 'karma.conf.js',
-            action: 'run'
-        })).on('error', function() {
-            gutil.log(chalk.red('(ERROR)'), 'karma');
-        });
-});
-
 gulp.task('test', 'Lint, then run all unit tests', function(done) {
     runSequence(
         'lint',
