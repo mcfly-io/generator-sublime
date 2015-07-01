@@ -16,9 +16,9 @@ var args = require('yargs').argv;
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 
-gulp.task('mocha', 'Runs mocha unit tests.', function() {
+gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
     process.env.NODE_ENV = 'mocha';
-    return gulp.src(constants.mocha.libs)
+    gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
         }))
@@ -34,7 +34,8 @@ gulp.task('mocha', 'Runs mocha unit tests.', function() {
                     reporters: ['lcov', 'json', 'text', 'text-summary', 'cobertura']
                 }))
                 .once('end', function() {
-                    process.exit();
+                    //process.exit();
+                    done();
                 });
         });
 });
