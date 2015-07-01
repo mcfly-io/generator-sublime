@@ -9,6 +9,66 @@ var helper = require('../common/helper');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
 var path = require('path');
+var _ = require('lodash');
+
+var execHandler = function(err, stdout, stderr, title, curlString) {
+    helper.execHandler(err, stdout, stderr);
+    if(stdout === '{"detail": ""}') {
+        gutil.log(chalk.red('Failed: ' + title));
+        gutil.log('Curl command:\n' + curlString);
+    }
+};
+
+var checkSentryConfig = function(constants) {
+    var checkConfig = function(keyValue, keyName) {
+        if(!keyValue || keyValue.length <= 0) {
+            gutil.log(gutil.colors.red('The constant ' + keyName + ' is missing or empty in gulp_tasks/common/constants.js'));
+            return false;
+        }
+        return true;
+    };
+    var configOK = checkConfig(constants.sentry.auth, 'sentry.auth') &&
+        checkConfig(constants.sentry.organizationName, 'sentry.organizationName') &&
+        checkConfig(constants.sentry.targetKeys[constants.targetName], 'sentry.targetKeys.' + constants.targetName);
+
+    return configOK;
+};
+
+var taskSentryDeleteAllErrors = function(constants) {
+    var target = constants.targetName;
+    var appname = constants.appname;
+    var slug = (appname + '-' + target).toLowerCase();
+
+    var sentryURL = 'https://app.getsentry.com/api/0/projects/' + constants.sentry.organizationName;
+
+    var curlList = 'curl ' + sentryURL + '/' + slug + '/groups/?query= ' +
+        ' -X GET' +
+        ' -u ' + constants.sentry.auth;
+
+    var curlDeleteGroup = 'curl ' +
+        ' -X DELETE' +
+        ' -u ' + constants.sentry.auth +
+        ' https://app.getsentry.com/api/0/groups/';
+
+    exec(curlList, {
+        cwd: constants.cwd
+    }, function(err, stdout, stderr) {
+        execHandler(err, stdout, stderr, 'list sentry error aggregates in project ' + chalk.yellow(target), curlList);
+        if(!stdout) {
+            return;
+        }
+        _(JSON.parse(stdout))
+            .forEach(function(agg) {
+                var curl = curlDeleteGroup + agg.id + '/';
+                exec(curl, {
+                    cwd: constants.cwd
+                }, function(err, stdout, stderr) {
+                    execHandler(err, stdout, stderr, 'delete group ' + chalk.green(agg.id) + ' in project ' + chalk.yellow(target), curl);
+                });
+            })
+            .value();
+    });
+};
 
 var taskSentry = function(constants, done) {
     var version = helper.readJsonFile('./package.json').version;
@@ -19,11 +79,11 @@ var taskSentry = function(constants, done) {
     var srcmapPath = path.join(constants.exorcist.dest, releaseName + '.map.js');
     // var srcmapURL = releaseName + '.map.js';
     var srcmapURL = constants.sentry.normalizedURL + '/' + srcmapPath;
+    var bundleName = constants.browserify.bundleName || 'bundle.js';
     var bundleDest = constants.dist.distFolder;
     bundleDest = helper.isMobile(constants) ? bundleDest + '/www' : bundleDest;
-    var bundlePath = path.join(bundleDest, constants.browserify.dest, constants.browserify.bundleName);
-    // var bundleURL = 'bundle.js';
-    var bundleURL = constants.sentry.normalizedURL + '/' + releaseName + '/bundle.js';
+    var bundlePath = path.join(bundleDest, constants.browserify.dest, bundleName);
+    var bundleURL = constants.sentry.normalizedURL + '/' + releaseName + '/' + bundleName;
 
     var sentryURL = 'https://app.getsentry.com/api/0/projects/' + constants.sentry.organizationName;
 
@@ -50,17 +110,7 @@ var taskSentry = function(constants, done) {
         ' -F file=@' + bundlePath +
         ' -F name=' + bundleURL +
         ' -H "Content-Type: multipart/form-data"';
-    var execHandler = function(err, stdout, stderr, title, curlString) {
-        if(err) {
-            //helper.execHandler(err);
-            gutil.log(chalk.red('An error occured executing a command line action'));
-        } else if(stdout === '{"detail": ""}') {
-            gutil.log(chalk.red('Failed: ' + title));
-            gutil.log('Curl command:\n' + curlString);
-        } else {
-            gutil.log('Suceeded: ' + title);
-        }
-    };
+
     exec(curlClear, {
         cwd: constants.cwd
     }, function(err, stdout, stderr) {
@@ -84,20 +134,29 @@ var taskSentry = function(constants, done) {
     });
 };
 
-var checkSentryConfig = function(constants) {
-    var checkConfig = function(keyValue, keyName) {
-        if(!keyValue || keyValue.length <= 0) {
-            gutil.log(gutil.colors.red('The constant ' + keyName + ' is missing or empty in gulp_tasks/common/constants.js'));
-            return false;
-        }
-        return true;
-    };
-    var configOK = checkConfig(constants.sentry.auth, 'sentry.auth') &&
-        checkConfig(constants.sentry.organizationName, 'sentry.organizationName') &&
-        checkConfig(constants.sentry.targetKeys[constants.targetName], 'sentry.targetKeys.' + constants.targetName);
+gulp.task('sentry:delete', 'Delete all error aggregates onn sentry', function(done) {
+    var taskname = 'sentry:delete';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname, {
+            mode: 'prod'
+        });
+    } else {
+        global.options.mode = 'prod';
+    }
+    var configOK = true;
+    global.options.target = [].concat(global.options.target);
+    global.options.target.forEach(function(target) {
+        var targetObject = helper.targetToTemplateData(target, global.options.mode);
+        var resolvedConstants = gmux.resolveConstants(constants, targetObject);
+        configOK = configOK && checkSentryConfig(resolvedConstants);
 
-    return configOK;
-};
+    });
+    if(!configOK) {
+        return;
+    }
+    return gmux.createAndRunTasksSequential(gulp, taskSentryDeleteAllErrors, taskname, global.options.target, global.options.mode, constants, done);
+});
 
 gulp.task('sentry:upload', false, function(done) {
     var taskname = 'sentry:upload';
@@ -110,6 +169,7 @@ gulp.task('sentry:upload', false, function(done) {
         global.options.mode = 'prod';
     }
     var configOK = true;
+    global.options.target = [].concat(global.options.target);
     global.options.target.forEach(function(target) {
         var targetObject = helper.targetToTemplateData(target, global.options.mode);
         var resolvedConstants = gmux.resolveConstants(constants, targetObject);
@@ -133,6 +193,7 @@ gulp.task('sentry', 'dist and upload bundles and sourcemaps to sentry.', functio
         global.options.mode = 'prod';
     }
     var configOK = true;
+    global.options.target = [].concat(global.options.target);
     global.options.target.forEach(function(target) {
         var targetObject = helper.targetToTemplateData(target, global.options.mode);
         var resolvedConstants = gmux.resolveConstants(constants, targetObject);
