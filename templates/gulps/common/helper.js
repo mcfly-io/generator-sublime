@@ -1,3 +1,4 @@
+/*eslint new-cap:0*/
 'use strict';
 
 var fs = require('fs');

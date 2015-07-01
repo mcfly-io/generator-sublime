@@ -113,6 +113,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'mkdirp': '0.5.1',
             'mocha': '2.2.5',
             'mocha-lcov-reporter': '0.0.2',
+            'moment': '2.10.3',
             'node-jsxml': '0.6.0',
             'open': '0.0.5',
             'protractor': '2.1.0',
@@ -326,6 +327,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp-mux',
                 'gulp-util',
                 'lodash',
+                'moment',
                 'require-dir',
                 'run-sequence',
                 'strip-json-comments'
