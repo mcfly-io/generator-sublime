@@ -73,6 +73,7 @@ var browserifyShare = function(shouldWatch, constants, done) {
         SENTRY_RELEASE_NAME: releaseName,
         SENTRY_MODE: mode,
         SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
+        SENTRY_BUNDLE_NAME: bundleName,
         TARGET: target
     };
     if(helper.isMobile(constants)) {
