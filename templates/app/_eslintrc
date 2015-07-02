@@ -4,6 +4,7 @@
     "browser": true,
     "mocha": true,
     "es6": true,
+    "jasmine": true,
     "node": true
   },
   "globals": {
@@ -17,9 +18,9 @@
   },
   "rules": {
     "camelcase": 0,
-    "complexity": [0,11],
+    "complexity": [0, 11],
     "consistent-return": 2,
-    "consistent-this": [1,  "that"],
+    "consistent-this": [1, "that"],
     "curly": [2, "all"],
     "dot-notation": 2,
     "eol-last": 0,
