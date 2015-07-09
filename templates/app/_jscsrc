@@ -1,6 +1,7 @@
 {
   "excludeFiles": ["node_modules/**", "coverage"],
   "preset": "google",
+  "esnext": true,
   "requireParenthesesAroundIIFE": true,
   "maximumLineLength": 1400,
   "validateIndentation": <%=Indent%>,

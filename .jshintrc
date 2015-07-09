@@ -55,6 +55,7 @@
   "curly": true,
   "debug": false,
   "devel": true,
+  "esnext": true,
   "dojo": true,
   "forin": true,
   "indent": 4,
