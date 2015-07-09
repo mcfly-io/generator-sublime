@@ -17,7 +17,7 @@ var constants = require('../common/constants')();
 var repository = constants.repository;
 
 var makeChangelog = function(options) {
-    if(repository.length <= 0) {
+    if (repository.length <= 0) {
         throw new Error('The repository cannot be empty');
     }
     var pkg = helper.readJsonFile('./package.json');
@@ -34,7 +34,7 @@ var makeChangelog = function(options) {
         file: file,
         from: from
     }, function(err, log) {
-        if(err) {
+        if (err) {
             deferred.reject(err);
         } else {
             gutil.log('LOG', log);

@@ -1,21 +1,14 @@
 {
-    "excludeFiles": ["node_modules/**", "coverage"],
-    "preset": "google",
-    "requireParenthesesAroundIIFE": true,
-    "maximumLineLength": 1400,
-    "validateIndentation": <%=Indent%>,
-    "disallowKeywords": ["with"],
-    "disallowSpacesInsideObjectBrackets": null,
-    "disallowImplicitTypeConversion": ["string"],
-    "disallowSpaceAfterKeywords": [
-       "if",
-       "for",
-       "while",
-       "do",
-       "switch"
-   ],
-   "esnext": true,
-   "requireSpaceAfterKeywords": [],
-   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
-   "requireLineFeedAtFileEnd": null
+  "excludeFiles": ["node_modules/**", "coverage"],
+  "preset": "google",
+  "requireParenthesesAroundIIFE": true,
+  "maximumLineLength": 1400,
+  "validateIndentation": <%=Indent%>,
+  "disallowKeywords": ["with"],
+  "disallowSpacesInsideObjectBrackets": null,
+  "disallowImplicitTypeConversion": ["string"],
+  "esnext": true,
+  "requireSpaceAfterKeywords": [],
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
+  "requireLineFeedAtFileEnd": null
 }

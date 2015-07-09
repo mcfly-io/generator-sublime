@@ -21,7 +21,7 @@ var githubUserInfo = function(name, cb) {
         user: name
     }, function(err, res) {
 
-        if(err) {
+        if (err) {
             throw new Error('Cannot fetch your github profile. Make sure you\'ve typed it correctly.');
         }
         cb(JSON.parse(JSON.stringify(res)));
@@ -67,7 +67,7 @@ var SublimeGenerator = Class.extend({
         var pkgDest = {};
         try {
             pkgDest = this.dest.readJSON('package.json');
-        } catch(e) {}
+        } catch (e) {}
 
         this.pkgDest = pkgDest;
 
@@ -88,7 +88,7 @@ var SublimeGenerator = Class.extend({
     prompting: {
         welcome: function() {
             // Have Yeoman greet the user.
-            if(!this.options['skip-welcome-message']) {
+            if (!this.options['skip-welcome-message']) {
                 this.log(yosay('Welcome to the marvelous Sublime generator!'));
             }
         },
@@ -122,7 +122,7 @@ var SublimeGenerator = Class.extend({
                 validate: function(input) {
                     var value = parseInt(input, 10);
                     var isValid = value !== undefined && value >= 0 && value <= 10;
-                    if(!isValid) {
+                    if (!isValid) {
                         return 'You must choose an integer value between 0 and 10';
                     }
 
@@ -188,7 +188,7 @@ var SublimeGenerator = Class.extend({
                 validate: function(input) {
                     var value = input;
                     var isValid = value !== undefined && value.length > 0;
-                    if(!isValid) {
+                    if (!isValid) {
                         return 'You must provide a valid login';
                     }
                     return true;
@@ -201,7 +201,7 @@ var SublimeGenerator = Class.extend({
             this.prompt(prompts, function(answers) {
 
                 this.githubUser = this.options.githubUser || answers.githubUser;
-                if(this.githubUser === undefined) {
+                if (this.githubUser === undefined) {
                     done();
                     return;
                 }
@@ -221,45 +221,45 @@ var SublimeGenerator = Class.extend({
 
             this.sourceRoot(path.join(__dirname, '../templates/app'));
 
-            if(this.Jshintrc) {
+            if (this.Jshintrc) {
                 this.template('_jshintrc', '.jshintrc');
             }
-            if(this.Jscsrc) {
+            if (this.Jscsrc) {
                 this.template('_jscsrc', '.jscsrc');
             }
-            if(this.Eslintrc) {
+            if (this.Eslintrc) {
                 this.template('_eslintrc', '.eslintrc');
                 this.template('_eslintignore', '.eslintignore');
             }
-            if(this.TernProject) {
+            if (this.TernProject) {
                 this.template('_tern-project', '.tern-project');
             }
-            if(this.Jsbeautifyrc) {
+            if (this.Jsbeautifyrc) {
                 this.template('_jsbeautifyrc', '.jsbeautifyrc');
             }
-            if(this.Gitignore) {
+            if (this.Gitignore) {
                 this.template('_gitignore', '.gitignore');
             }
-            if(this.CodioStartup) {
+            if (this.CodioStartup) {
                 this.template('startup.sh', 'startup.sh');
             }
-            if(this.ShippableYml) {
+            if (this.ShippableYml) {
                 this.template('shippable.yml', 'shippable.yml');
             }
-            if(this.TravisYml) {
+            if (this.TravisYml) {
                 var nodeVersion = this.options.nodeVersion;
                 this.shortNodeVersion = _.first(nodeVersion.split('.'), 2).join('.');
                 this.template('_travis.yml', '.travis.yml');
                 this.template('_codeclimate.yml', '.codeclimate.yml');
             }
-            if(this.Gitconfig) {
+            if (this.Gitconfig) {
                 this.template('bin/git-config.sh', 'bin/git-config.sh');
                 this.template('bin/validate-commit-msg.js', 'bin/validate-commit-msg.js');
             }
-            if(this.ReadmeMd) {
+            if (this.ReadmeMd) {
                 this.template('_README.md', 'readme.md');
             }
-            if(this.Settings) {
+            if (this.Settings) {
                 this.template('_settings', '.settings');
                 this.template('_codio', '.codio');
             }

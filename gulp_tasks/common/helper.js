@@ -24,13 +24,13 @@ var isMobile = function(constants) {
  * @param  {String} stderr - The stderr string
  */
 var execHandler = function(err, stdout, stderr) {
-    if(err) {
+    if (err) {
         gutil.log(chalk.red('An error occured executing a command line action'));
     }
-    if(stdout) {
+    if (stdout) {
         gutil.log(stdout);
     }
-    if(stderr) {
+    if (stderr) {
         gutil.log(chalk.red('Error: ') + stderr);
     }
 };

@@ -33,20 +33,20 @@ var isMobile = function(constants) {
  */
 var execHandler = function(err, stdout, stderr, opts) {
     opts = opts || {};
-    if(stdout) {
+    if (stdout) {
         gutil.log(stdout);
     }
-    if(stderr) {
-        if(opts.stderrIsNotError) {
+    if (stderr) {
+        if (opts.stderrIsNotError) {
             gutil.log(stderr);
         } else {
             gutil.log(chalk.red('Error: ') + stderr);
         }
     }
-    if(err) {
+    if (err) {
         gutil.log(chalk.red('An error occured executing a command line action'));
         gutil.log(chalk.red(err));
-        if(opts.throwOnErr) {
+        if (opts.throwOnErr) {
             throw err;
         }
     }
@@ -87,7 +87,7 @@ var targetToTemplateData = function(target, mode) {
 
 var getLatestBuild = function(dest, builds) {
     return _(builds).map(function(build) {
-            if(fs.existsSync(dest + '/' + build.path)) {
+            if (fs.existsSync(dest + '/' + build.path)) {
                 build.mtime = fs.statSync(dest + '/' + build.path).mtime;
                 build.fullPath = dest + '/' + build.path;
             }
@@ -121,7 +121,7 @@ var checkFileAge = function(file) {
         var stats = fs.statSync(file.fullPath);
         var age = moment().diff(stats.mtime);
 
-        if(age && age >= 5 * 60 * 1000) {
+        if (age && age >= 5 * 60 * 1000) {
 
             gutil.log(gutil.colors.yellow('Warning: the following file ') + file.path);
             gutil.log(gutil.colors.yellow('was modified more than ') + moment(stats.mtime).fromNow());
@@ -132,7 +132,7 @@ var checkFileAge = function(file) {
                 name: 'continue'
             }];
             inquirer.prompt(questions, function(answers) {
-                if(answers.continue === false) {
+                if (answers.continue === false) {
                     reject(new Error('file is old'));
                 }
                 resolve(null);

@@ -60,7 +60,7 @@ describe('sublime:gulps', function() {
                 'Tasks': expectedTasks
             }).on('end', function() {
 
-                if(expectedTasks.length > 0) {
+                if (expectedTasks.length > 0) {
                     assert.file('gulpfile.js');
                     assert.file('.gulps-package.json');
                     assert.file('gulp_tasks/common/constants.js');
@@ -77,7 +77,7 @@ describe('sublime:gulps', function() {
                 var noFiles = allTasks.filter(function(task) {
                     return expectedTasks.indexOf(task) === -1;
                 }).map(taskToFile);
-                if(assertNoFile) {
+                if (assertNoFile) {
                     assert.noFile(noFiles);
                 }
                 done();

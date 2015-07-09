@@ -13,7 +13,7 @@ var _ = require('lodash');
 
 var execHandler = function(err, stdout, stderr, title, curlString) {
     helper.execHandler(err, stdout, stderr);
-    if(stdout === '{"detail": ""}') {
+    if (stdout === '{"detail": ""}') {
         gutil.log(chalk.red('Failed: ' + title));
         gutil.log('Curl command:\n' + curlString);
     }
@@ -21,7 +21,7 @@ var execHandler = function(err, stdout, stderr, title, curlString) {
 
 var checkSentryConfig = function(constants) {
     var checkConfig = function(keyValue, keyName) {
-        if(!keyValue || keyValue.length <= 0) {
+        if (!keyValue || keyValue.length <= 0) {
             gutil.log(gutil.colors.red('The constant ' + keyName + ' is missing or empty in gulp_tasks/common/constants.js'));
             return false;
         }
@@ -54,7 +54,7 @@ var taskSentryDeleteAllErrors = function(constants) {
         cwd: constants.cwd
     }, function(err, stdout, stderr) {
         execHandler(err, stdout, stderr, 'list sentry error aggregates in project ' + chalk.yellow(target), curlList);
-        if(!stdout) {
+        if (!stdout) {
             return;
         }
         _(JSON.parse(stdout))
@@ -137,7 +137,7 @@ var taskSentry = function(constants, done) {
 gulp.task('sentry:delete', 'Delete all error aggregates onn sentry', function(done) {
     var taskname = 'sentry:delete';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname, {
             mode: 'prod'
         });
@@ -152,7 +152,7 @@ gulp.task('sentry:delete', 'Delete all error aggregates onn sentry', function(do
         configOK = configOK && checkSentryConfig(resolvedConstants);
 
     });
-    if(!configOK) {
+    if (!configOK) {
         return;
     }
     return gmux.createAndRunTasksSequential(gulp, taskSentryDeleteAllErrors, taskname, global.options.target, global.options.mode, constants, done);
@@ -161,7 +161,7 @@ gulp.task('sentry:delete', 'Delete all error aggregates onn sentry', function(do
 gulp.task('sentry:upload', false, function(done) {
     var taskname = 'sentry:upload';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname, {
             mode: 'prod'
         });
@@ -176,7 +176,7 @@ gulp.task('sentry:upload', false, function(done) {
         configOK = configOK && checkSentryConfig(resolvedConstants);
 
     });
-    if(!configOK) {
+    if (!configOK) {
         return;
     }
     return gmux.createAndRunTasksSequential(gulp, taskSentry, taskname, global.options.target, global.options.mode, constants, done);
@@ -185,7 +185,7 @@ gulp.task('sentry:upload', false, function(done) {
 gulp.task('sentry', 'dist and upload bundles and sourcemaps to sentry.', function(done) {
     var runSeq = runSequence.use(gulp);
     var taskname = 'sentry';
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname, {
             mode: 'prod'
         });
@@ -200,7 +200,7 @@ gulp.task('sentry', 'dist and upload bundles and sourcemaps to sentry.', functio
         configOK = configOK && checkSentryConfig(resolvedConstants);
 
     });
-    if(!configOK) {
+    if (!configOK) {
         return;
     }
     runSeq('dist', 'sentry:upload', done);

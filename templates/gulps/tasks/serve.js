@@ -18,7 +18,7 @@ var taskBrowsersyncstart = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
     var open = constants.serve.open;
-    if(!_.isUndefined(args.browser)) {
+    if (!_.isUndefined(args.browser)) {
         open = args.browser;
     }
     var config = {
@@ -46,7 +46,7 @@ var taskBrowsersyncstart = function(constants) {
     browserSync(config);
 
     var platform = global.options.platform || constants.cordova.platform;
-    if(helper.isMobile(constants)) {
+    if (helper.isMobile(constants)) {
         gutil.log('Launching ' + platform + ' emulator');
         exec('ionic emulate ' + platform + ' --livereload', {
             cwd: constants.dist.distFolder
@@ -56,7 +56,10 @@ var taskBrowsersyncstart = function(constants) {
 
 var taskBrowsersync = function(constants) {
     runSequence(
-        ['watchify'<% if (style) { %>, 'style', 'style:watch', 'image', 'image:watch', 'html', 'angular:i18n', 'html:watch'<% } %>],
+        ['watchify'
+            <% if (style) { %>, 'style', 'style:watch', 'image', 'image:watch', 'html', 'angular:i18n', 'html:watch'
+            <% } %>
+        ],
         'browsersyncstart'
     );
 };
@@ -64,7 +67,7 @@ var taskBrowsersync = function(constants) {
 gulp.task('browsersyncstart', false, function() {
     var taskname = 'browsersyncstart';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskBrowsersyncstart, taskname, global.options.target, global.options.mode, constants);
@@ -73,14 +76,14 @@ gulp.task('browsersyncstart', false, function() {
 gulp.task('browsersync', 'Launches a browserSync server.', function() {
     var taskname = 'browsersync';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskBrowsersync, taskname, global.options.target, global.options.mode, constants);
 });
 
 var taskCordovaRun = function(constants) {
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         gutil.log(chalk.red('Error: ' + chalk.bold(constants.targetName) + ' is not a cordova application'));
         return;
     }
@@ -94,7 +97,7 @@ var taskCordovaRun = function(constants) {
 gulp.task('cordova:run', 'Execute cordova run', function() {
     var taskname = 'cordova:run';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskCordovaRun, taskname, global.options.target, global.options.mode, constants);

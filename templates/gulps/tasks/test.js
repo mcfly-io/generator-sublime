@@ -99,7 +99,7 @@ var taskE2ERun = function(constants, done) {
 gulp.task('e2e:run', false, function(done) {
     var taskname = 'e2e:run';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskE2ERun, taskname, global.options.target, global.options.mode, constants, done);
@@ -108,7 +108,7 @@ gulp.task('e2e:run', false, function(done) {
 gulp.task('e2e:serve', false, function(done) {
     var taskname = 'e2e:serve';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskE2EServe, taskname, global.options.target, global.options.mode, constants, done);
