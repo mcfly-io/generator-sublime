@@ -11,6 +11,7 @@ var gmux = require('gulp-mux');
 var Q = require('q');
 var inquirer = require('inquirer');
 var moment = require('moment');
+var XML = require('node-jsxml').XML;
 
 /**
  * Returns true if the target application is mobile
@@ -144,6 +145,57 @@ var checkFileAge = function(file) {
     });
 };
 
+var getEnvifyVars = function(constants) {
+    var version = readJsonFile('./package.json').version;
+    var dest = constants.dist.distFolder;
+    dest = isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    var mode = constants.mode;
+    var target = constants.targetName;
+    var bundleName = constants.bundleName || 'bundle.js';
+    var releaseName = target + '-v' + version;
+    var envifyVars = {
+        APP_VERSION: version,
+        SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
+        SENTRY_RELEASE_NAME: releaseName,
+        SENTRY_MODE: mode,
+        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
+        SENTRY_BUNDLE_NAME: bundleName,
+        TARGET: target
+    };
+    if (isMobile(constants)) {
+        var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+        var configFileContent = readTextFile(srcxml);
+        var xml = new XML(configFileContent);
+        envifyVars.APP_NAME = xml.child('name').getValue();
+        envifyVars.APP_ID = xml.attribute('id').getValue();
+        envifyVars.APP_AUTHOR = xml.child('author').getValue();
+        envifyVars.TESTFAIRY_IOS_APP_TOKEN = constants.testfairy.ios_app_token;
+        if (constants.ionic[target]) {
+            envifyVars.IONIC_APP_ID = constants.ionic[target].app_id;
+            envifyVars.IONIC_API_KEY = constants.ionic[target].api_key;
+        }
+
+    } else {
+        envifyVars.APP_NAME = constants.appname;
+    }
+    return envifyVars;
+};
+
+var getBanner = function() {
+    var packageJson = readJsonFile('./package.json');
+    return _.template(['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @date <%= new Date() %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''
+    ].join('\n'))({
+        pkg: packageJson
+    });
+};
+
 module.exports = {
     isMobile: isMobile,
     execHandler: execHandler,
@@ -155,5 +207,7 @@ module.exports = {
     targetToTemplateData: targetToTemplateData,
     checkFileAge: checkFileAge,
     findAndroidFile: findAndroidFile,
-    findIOSFile: findIOSFile
+    findIOSFile: findIOSFile,
+    getEnvifyVars: getEnvifyVars,
+    getBanner: getBanner
 };

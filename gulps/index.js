@@ -32,6 +32,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'lint',
             'serve',
             'browserify',
+            'webpack',
             'release',
             'changelog',
             'test',
@@ -41,15 +42,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         this.npmPackagesVersion = {
             'babel-eslint': '3.1.23',
+            'babel': '5.6.14',
+            'babel-core': '5.6.15',
+            'babel-loader': '5.2.2',
+            'babel-runtime': '5.6.15',
             'babelify': '6.1.2',
             'brfs': '1.4.0',
-            'browser-sync': '2.7.7',
-            'browserify': '10.2.3',
+            'browser-sync': '2.7.13',
+            'browserify': '10.2.4',
             'browserify-istanbul': '0.2.1',
-            'browserify-shim': '3.8.8',
+            'browserify-shim': '3.8.9',
             'bundle-collapser': '1.2.0',
             'chai': '3.0.0',
-            'chalk': '1.0.0',
+            'chalk': '1.1.0',
             'conventional-changelog': '0.0.17',
             'cssify': '0.7.0',
             'deamdify': '0.1.1',
@@ -78,40 +83,48 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-karma': '0.0.4',
             'gulp-less': '3.0.3',
             'gulp-load-plugins': '1.0.0-rc.1',
-            'gulp-minify-css': '1.1.6',
-            'gulp-mocha': '2.1.1',
+            'gulp-minify-css': '1.2.0',
+            'gulp-mocha': '2.1.2',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
             'gulp-sass': '2.0.3',
-            'gulp-size': '1.2.1',
+            'gulp-size': '1.2.3',
             'gulp-sourcemaps': '1.5.2',
             'gulp-tap': '0.1.3',
-            'gulp-util': '3.0.5',
+            'gulp-util': '3.0.6',
             'gulp-webserver': '0.8.7',
             'html2js-browserify': '1.0.0',
             'inquirer': '0.8.5',
             //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10. UPDATED: it is now a dependency of gulp-imagemin
+            'isparta': '3.0.3',
+            'istanbul': '0.3.17',
+            'istanbul-instrumenter-loader': '0.1.3',
+
             'jadeify': '4.3.0', // cannot accept browserify >= 7.0.0
 
-            'jasmine-reporters': '2.0.6',
-            'jasmine-spec-reporter': '2.2.3',
+            'jasmine-reporters': '2.0.7',
+            'jasmine-spec-reporter': '2.3.0',
 
             'jshint-stylish': '2.0.1',
 
-            'karma': '0.12.36',
+            'karma': '0.12.37',
             'karma-browserify': '4.2.1',
-            'karma-coverage': '0.4.1', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
+            'karma-coverage': '0.4.2', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
             'karma-growl-reporter': '0.1.1',
-            'karma-jasmine': '0.3.5',
+            'karma-jasmine': '0.3.6',
             'karma-mocha-reporter': '1.0.2',
             'karma-phantomjs-launcher': '0.2.0',
+            'karma-sourcemap-loader': '0.3.5',
+            'karma-webpack': '1.5.1',
+            'less': '2.5.1',
+            'less-loader': '2.2.0',
 
             'lodash': '3.9.3',
 
-            'map-stream': '0.0.5',
+            'map-stream': '0.0.6',
             'mkdirp': '0.5.1',
             'mocha': '2.2.5',
             'mocha-lcov-reporter': '0.0.2',
@@ -122,8 +135,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'protractor-html-screenshot-reporter': 'mping/protractor-html-screenshot-reporter', // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
             'q': '1.4.1',
             'require-dir': '0.3.0',
-            'run-sequence': '1.1.0',
-            'sinon': '1.15.1',
+            'run-sequence': '1.1.1',
+            'sass-loader': '1.0.2',
+            'sinon': '1.15.4',
             'stream-combiner': '0.2.2',
             'streamqueue': '1.1.0',
             'strip-json-comments': '1.0.2',
@@ -131,8 +145,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'vinyl-buffer': '1.0.0',
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
-            'watchify': '3.2.2',
-            'yargs': '3.10.0'
+            'watchify': '3.2.3',
+            'webpack': '1.10.1',
+            'webpack-dev-server': '1.10.1',
+            'yargs': '3.14.0'
         };
 
         this.option('clientFolder', {
@@ -329,6 +345,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp-mux',
                 'gulp-util',
                 'lodash',
+                'node-jsxml',
                 'moment',
                 'require-dir',
                 'run-sequence',
@@ -382,6 +399,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'envify',
                     'exorcist',
                     'html2js-browserify',
+                    'isparta',
+                    'istanbul',
                     'jadeify',
                     'mkdirp',
                     'uglifyify',
@@ -391,7 +410,35 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'watchify'
                 ]);
             }
-
+            if (this.webpack) {
+                this.template('tasks/webpack.js', gulpFolder + '/tasks/webpack.js');
+                npmPackages = npmPackages.concat([
+                    'babel',
+                    'babel-core',
+                    'babel-loader',
+                    'babel-runtime',
+                    'brfs',
+                    'webpack',
+                    'webpack-dev-server',
+                    'bundle-collapser',
+                    'del',
+                    'envify',
+                    'exorcist',
+                    'isparta',
+                    'istanbul',
+                    'istanbul-instrumenter-loader',
+                    'karma-sourcemap-loader',
+                    'karma-webpack',
+                    'less',
+                    'less-loader',
+                    'sass-loader',
+                    'jadeify',
+                    'mkdirp',
+                    'vinyl-buffer',
+                    'vinyl-source-stream',
+                    'vinyl-transform'
+                ]);
+            }
             if (this.release) {
                 this.template('tasks/release.js', gulpFolder + '/tasks/release.js');
                 npmPackages = npmPackages.concat([
@@ -403,7 +450,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-if',
                     'gulp-tap',
                     'inquirer',
-                    'node-jsxml',
                     'q',
                     'yargs'
                 ]);
@@ -432,6 +478,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-plumber',
                     'gulp-protractor',
                     'gulp-karma',
+                    'istanbul-instrumenter-loader',
+                    'isparta',
                     'jasmine-reporters',
                     'jasmine-spec-reporter',
                     'karma',
@@ -441,13 +489,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma-jasmine',
                     'karma-mocha-reporter',
                     'karma-phantomjs-launcher',
+                    'karma-sourcemap-loader',
                     'mocha',
                     'mocha-lcov-reporter',
                     'protractor',
                     'protractor-html-screenshot-reporter',
                     'sinon',
                     'yargs'
-
                 ]);
             }
 
@@ -476,9 +524,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-rename',
                     'gulp-imagemin',
                     'gulp-tap',
-                    'inquirer',
+                    'inquirer'
                     //'imagemin-pngquant',
-                    'node-jsxml'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);

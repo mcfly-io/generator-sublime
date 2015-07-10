@@ -85,8 +85,10 @@ module.exports = function() {
         },
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            dest: 'scripts',
-            bundleName: 'bundle.js'
+            dest: 'scripts'
+        },
+        webpack: {
+            src: './main{{targetSuffix}}.js'
         },
         exorcist: {
             dest: 'srcmaps'
@@ -95,7 +97,7 @@ module.exports = function() {
             targetKeys: {
                 app: ''
             },
-            normalizedURL: 'http://www.dummyurl.com',
+            normalizedURL: 'http://localhost:5000',
             organizationName: '',
             auth: ''
         },
@@ -140,7 +142,8 @@ module.exports = function() {
             maxDuration: '15m',
             autoUpdate: 'on',
             iconWatermark: 'on'
-        }
+        },
+        moduleManager: 'browserify'
     };
 
     return constants;

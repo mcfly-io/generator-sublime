@@ -196,7 +196,7 @@ gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function()
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('html', 'image', 'angular:i18n', 'browserify', 'style', done);
+    return runSequence('html', 'image', 'angular:i18n', constants.moduleManager === 'webpack' ? 'webpack:run' : 'browserify', 'style', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {

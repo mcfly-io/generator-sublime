@@ -21,11 +21,17 @@ var taskBrowsersyncstart = function(constants) {
     if (!_.isUndefined(args.browser)) {
         open = args.browser;
     }
+    var version = helper.readJsonFile('./package.json').version;
+    var target = constants.targetName;
+    var releaseName = target + '-v' + version;
+    var sourceMap = releaseName + constants.exorcist.mapExtension;
+    var sourceMapDest = constants.exorcist.dest;
     var config = {
         files: [dest + '/index.html', dest + '/scripts/bundle.js', dest + '/styles/main.css'],
         tunnel: constants.serve.localtunnel,
         server: {
             baseDir: dest,
+            routes: {},
             middleware: [
                 function(req, res, next) {
                     //console.log("Hi from middleware");
@@ -43,6 +49,8 @@ var taskBrowsersyncstart = function(constants) {
         ghostMode: constants.serve.ghostMode
     };
 
+    config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
+
     browserSync(config);
 
     var platform = global.options.platform || constants.cordova.platform;
@@ -56,10 +64,7 @@ var taskBrowsersyncstart = function(constants) {
 
 var taskBrowsersync = function(constants) {
     runSequence(
-        ['watchify'
-            <% if (style) { %>, 'style', 'style:watch', 'image', 'image:watch', 'html', 'angular:i18n', 'html:watch'
-            <% } %>
-        ],
+        [constants.moduleManager === 'webpack' ? 'webpack:watch' : 'watchify'<% if (style) { %>, 'style', 'style:watch', 'image', 'image:watch', 'html', 'angular:i18n', 'html:watch'<% } %>],
         'browsersyncstart'
     );
 };

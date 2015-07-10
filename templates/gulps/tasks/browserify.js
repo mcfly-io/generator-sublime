@@ -14,7 +14,6 @@ var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
 var mkdirp = require('mkdirp');
 var del = require('del');
-var XML = require('node-jsxml').XML;
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
@@ -63,37 +62,12 @@ var browserifyShare = function(shouldWatch, constants, done) {
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
     var mode = constants.mode;
     var target = constants.targetName;
-    var mapExtension = '.map.js';
-    var bundleName = constants.browserify.bundleName || 'bundle.js';
+    var bundleName = constants.bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
-    var sourceMap = releaseName + mapExtension;
-    var envifyVars = {
-        APP_VERSION: version,
-        SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
-        SENTRY_RELEASE_NAME: releaseName,
-        SENTRY_MODE: mode,
-        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
-        SENTRY_BUNDLE_NAME: bundleName,
-        TARGET: target
-    };
-    if (helper.isMobile(constants)) {
-        var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
-        var configFileContent = helper.readTextFile(srcxml);
-        var xml = new XML(configFileContent);
-        envifyVars.APP_NAME = xml.child('name').getValue();
-        envifyVars.APP_ID = xml.attribute('id').getValue();
-        envifyVars.APP_AUTHOR = xml.child('author').getValue();
-        envifyVars.TESTFAIRY_IOS_APP_TOKEN = constants.testfairy.ios_app_token;
-        if (constants.ionic[target]) {
-            envifyVars.IONIC_APP_ID = constants.ionic[target].app_id;
-            envifyVars.IONIC_API_KEY = constants.ionic[target].api_key;
-        }
-
-    } else {
-        envifyVars.APP_NAME = constants.appname;
-    }
+    var sourceMap = releaseName + constants.exorcist.mapExtension;
+    var envifyVars = helper.getEnvifyVars(constants);
     // we delete the old sourcemaps if any
-    del.sync([dest + '/*' + mapExtension]);
+    del.sync([dest + '/*' + constants.exorcist.mapExtension]);
 
     // we need to pass these config options to browserify
     var b = browserify({

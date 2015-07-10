@@ -115,6 +115,7 @@ gulp.task('e2e:serve', false, function(done) {
 });
 
 gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
+    global.webpackQuiet = true;
     runSequence(
         'lint',
         'karma',
