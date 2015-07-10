@@ -341,7 +341,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/ionic/release/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/ionic-sdk/release/fonts/*.*'));
                     done();
                 });
         });
@@ -365,7 +365,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/font-awesome/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/font-awesome/fonts/*.*'));
                     done();
                 });
         });
@@ -389,7 +389,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/bootstrap/dist/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/bootstrap/dist/fonts/*.*'));
                     done();
                 });
         });

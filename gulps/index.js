@@ -227,13 +227,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         fonts.push('\'./\' + clientFolder + \'/fonts/{{targetName}}/**/*.*\'');
 
         if (this.ionic) {
-            fonts.push('\'./bower_components/ionic/release/fonts/*.*\'');
+            fonts.push('\'./node_modules/ionic-sdk/release/fonts/*.*\'');
         }
         if (this.fontawesome) {
-            fonts.push('\'./bower_components/font-awesome/fonts/*.*\'');
+            fonts.push('\'./node_modules/font-awesome/fonts/*.*\'');
         }
         if (this.bootstrap) {
-            fonts.push('\'./bower_components/bootstrap/dist/fonts/*.*\'');
+            fonts.push('\'./node_modules/bootstrap/dist/fonts/*.*\'');
         }
         fonts = fonts.length > 0 ? fonts : [];
         this.fonts = '[' + fonts.join(', ') + ']';
