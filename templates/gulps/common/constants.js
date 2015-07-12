@@ -8,7 +8,7 @@ var getRepository = function() {
         var helper = require('./helper');
         var packageJson = helper.readJsonFile('./package.json');
         var _ = require('lodash');
-        if(_.isString(packageJson.repository)) {
+        if (_.isString(packageJson.repository)) {
             repository = packageJson.repository.replace('.git', '');
         } else {
             repository = packageJson.repository.url.replace('.git', '');
@@ -84,7 +84,7 @@ module.exports = function() {
             }
         },
         script: {
-            dest : 'scripts'
+            dest: 'scripts'
         },
         browserify: {
             src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js'
@@ -146,7 +146,7 @@ module.exports = function() {
             autoUpdate: 'on',
             iconWatermark: 'on'
         },
-        moduleManager: 'browserify'
+        moduleManager: 'browserify' // or webpack
     };
 
     return constants;
