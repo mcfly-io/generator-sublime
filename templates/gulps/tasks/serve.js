@@ -21,16 +21,16 @@ var taskBrowsersyncstart = function(constants) {
     if (!_.isUndefined(args.browser)) {
         open = args.browser;
     }
-    var version = helper.readJsonFile('./package.json').version;
-    var target = constants.targetName;
-    var releaseName = target + '-v' + version;
-    var sourceMap = releaseName + constants.exorcist.mapExtension;
-    var sourceMapDest = constants.exorcist.dest;
+    //var version = helper.readJsonFile('./package.json').version;
+    //var target = constants.targetName;
+    //var releaseName = target + '-v' + version;
+    //var sourceMap = releaseName + constants.exorcist.mapExtension;
+    //var sourceMapDest = constants.exorcist.dest;
     var config = {
         files: [dest + '/index.html', dest + '/' + constants.script.dest + '/' + constants.bundleName, dest + '/' + constants.style.dest + '/' + constants.style.destName],
         tunnel: constants.serve.localtunnel,
         server: {
-            baseDir: constants.mode === 'prod' ? [dest, sourceMapDest] : dest,
+            baseDir: constants.mode === 'prod' ? [dest, constants.exorcist.dest] : dest,
             routes: {},
             middleware: [
                 function(req, res, next) {
