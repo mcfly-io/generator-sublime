@@ -30,7 +30,7 @@ var taskBrowsersyncstart = function(constants) {
         files: [dest + '/index.html', dest + '/' + constants.script.dest + '/' + constants.bundleName, dest + '/' + constants.style.dest + '/' + constants.style.destName],
         tunnel: constants.serve.localtunnel,
         server: {
-            baseDir: dest,
+            baseDir: constants.mode === 'prod' ? [dest, sourceMapDest] : dest,
             routes: {},
             middleware: [
                 function(req, res, next) {
@@ -49,7 +49,7 @@ var taskBrowsersyncstart = function(constants) {
         ghostMode: constants.serve.ghostMode
     };
 
-    config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
+    //config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
 
     browserSync(config);
 

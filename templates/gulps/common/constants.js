@@ -146,7 +146,7 @@ module.exports = function() {
             autoUpdate: 'on',
             iconWatermark: 'on'
         },
-        moduleManager: 'browserify'
+        moduleManager: 'browserify' // or webpack
     };
 
     return constants;

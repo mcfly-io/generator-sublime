@@ -38,7 +38,7 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
             var normalizedURL = helper.resolveSentryNormalizedUrl(constants);
             if (normalizedURL.length > 0) {
                 var sourceMapURL = normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
-                return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
+                return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, constants.clientFolder);
             } else {
                 // when no normalizedURL we copy the source map along with the bundle
                 return exorcist(path.join(dest, sourceMap), sourceMap, rootUrl, basePath);
