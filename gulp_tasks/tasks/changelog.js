@@ -11,6 +11,8 @@ var path = require('path');
 var gutil = require('gulp-util');
 var exec = $.exec;
 var concat = $.concat;
+var helper = require('../common/helper');
+var order = $.order;
 var constants = require('../common/constants')();
 
 var repository = constants.repository;
@@ -50,23 +52,22 @@ gulp.task('changelog:conventional', false, function(cb) {
     });
 });
 
-gulp.task('changelog:script', false, function() {
+gulp.task('changelog:script', false, function(done) {
+    var pkg = helper.readJsonFile('./package.json');
     var options = argv;
     var version = options.version || pkg.version;
     var from = options.from || '';
-    var streamqueue = require('streamqueue');
-    var stream = streamqueue({
-        objectMode: true
-    });
 
-    stream.queue(gulp.src('').pipe(exec('node ./gulp_tasks/common/changelog-script.js ' + version + ' ' + from, {
-        pipeStdout: true
-    })));
-    stream.queue(gulp.src('CHANGELOG.md'));
-
-    return stream.done()
+    gulp.src('')
+        .pipe(exec('node ./gulp_tasks/common/changelog-script.js ' + version + ' ' + from, {
+            pipeStdout: true
+        }))
+        .pipe(concat('updates.md'))
+        .pipe(helper.addSrc('CHANGELOG.md'))
+        .pipe(order(['updates.md', 'CHANGELOG.md']))
         .pipe(concat('CHANGELOG.md'))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('./'))
+        .on('end', done);
 });
 
 gulp.task('changelog', 'Generate a CHANGELOG.md file', ['changelog:script']);
