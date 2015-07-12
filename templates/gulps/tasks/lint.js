@@ -20,7 +20,7 @@ gulp.task('jshint', false, function() {
     var hasError = false;
     var hasShown = false;
     var successReporter = map(function(file, cb) {
-        if(!file.jshint.success) {
+        if (!file.jshint.success) {
             hasError = true;
         }
         cb(null, file);
@@ -35,7 +35,7 @@ gulp.task('jshint', false, function() {
         .pipe(jshint.reporter('fail'))
         .on('error', function() {
             gutil.log(chalk.red('Jshint failed'));
-            if(notifyGrowly) {
+            if (notifyGrowly) {
                 growly.notify('One or more jshint error', {
                     title: 'FAILED - JsHint',
                     icon: constants.growly.failedIcon
@@ -44,10 +44,10 @@ gulp.task('jshint', false, function() {
             throw new Error('jshint failed');
         })
         .pipe(map(function() {
-            if(!hasError && !hasShown) {
+            if (!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All Jshint files passed'));
-                if(notifyGrowly) {
+                if (notifyGrowly) {
                     growly.notify('All files passed', {
                         title: 'PASSED - JsHint',
                         icon: constants.growly.successIcon
@@ -69,7 +69,7 @@ gulp.task('jscs', false, function() {
 
         gutil.log(err.toString());
         gutil.log(chalk.red('Jscs failed'));
-        if(notifyGrowly) {
+        if (notifyGrowly) {
             growly.notify('One or more jscs error', {
                 title: 'FAILED - Jscs',
                 icon: constants.growly.failedIcon
@@ -79,9 +79,9 @@ gulp.task('jscs', false, function() {
     });
 
     combined.on('end', function() {
-        if(!hasError) {
+        if (!hasError) {
             gutil.log(chalk.green('All Jscs files passed'));
-            if(notifyGrowly) {
+            if (notifyGrowly) {
                 growly.notify('All files passed', {
                     title: 'PASSED - Jscs',
                     icon: constants.growly.successIcon
@@ -100,17 +100,17 @@ gulp.task('eslint', false, function() {
         .pipe(eslint.format())
         .on('data', function(file) {
 
-            if(file.eslint.messages && file.eslint.messages.length && _.any(file.eslint.messages, function(item) {
+            if (file.eslint.messages && file.eslint.messages.length && _.any(file.eslint.messages, function(item) {
                     return item.severity === 2;
                 })) {
-                    hasError = true;
-                }
+                hasError = true;
+            }
         })
         .on('end', function() {
-            if(!hasError && !hasShown) {
+            if (!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All EsLint files passed'));
-                if(notifyGrowly) {
+                if (notifyGrowly) {
                     growly.notify('All files passed', {
                         title: 'PASSED - EsLint',
                         icon: constants.growly.successIcon
@@ -119,7 +119,7 @@ gulp.task('eslint', false, function() {
 
             } else {
                 gutil.log(chalk.red('EsLint failed'));
-                if(notifyGrowly) {
+                if (notifyGrowly) {
                     growly.notify('One or more eslint error', {
                         title: 'FAILED - EsLint',
                         icon: constants.growly.failedIcon
@@ -142,14 +142,14 @@ gulp.task('static', false, function() {
     return gulp.src(constants.lint)
         .pipe(plumber({
             errorHandler: function(err) {
-                if(err.plugin === 'gulp-jscs') {
+                if (err.plugin === 'gulp-jscs') {
                     gutil.log(err.toString());
                 }
                 status.hasError = true;
                 status.errs.push(err);
-                if(!status.hasShown) {
+                if (!status.hasShown) {
                     status.hasShown = true;
-                    if(notifyGrowly) {
+                    if (notifyGrowly) {
                         growly.notify('One or more lint error', {
                             title: 'FAILED - lint',
                             icon: constants.growly.failedIcon
@@ -169,13 +169,13 @@ gulp.task('static', false, function() {
         .pipe(jshint.reporter('fail'))
         .pipe(eslint.failOnError())
         .on('end', function() {
-            if(status.hasError) {
+            if (status.hasError) {
                 gutil.log(chalk.red('lint failed'));
                 throw new Error('lint_error');
 
             } else {
                 gutil.log(chalk.green('All lint files passed'));
-                if(notifyGrowly) {
+                if (notifyGrowly) {
                     growly.notify('All files passed', {
                         title: 'PASSED - lint',
                         icon: constants.growly.successIcon

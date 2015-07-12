@@ -16,6 +16,10 @@
     "xdescribe": true,
     "xit": true
   },
+  "plugins": [
+    "nodeca"
+  ],
+  "parser": "babel-eslint",
   "rules": {
     "camelcase": 0,
     "complexity": [0, 11],
@@ -25,6 +29,8 @@
     "dot-notation": 2,
     "eol-last": 0,
     "eqeqeq": [2, "smart"],
+    "indent": [2, <%= Indent %>, {"indentSwitchCase": true}],
+    "nodeca/indent": [ 2, "spaces", <%= Indent %>],
     "max-depth": [0, 4],
     "max-len": [0, 80, 4],
     "max-nested-callbacks": [0, 2],
@@ -64,6 +70,7 @@
     "no-loop-func": 2,
     "no-mixed-spaces-and-tabs": [2, true],
     "no-multi-str": 2,
+    "no-multiple-empty-lines": [2, {"max": 1}],
     "no-native-reassign": 2,
     "no-negated-in-lhs": 2,
     "no-nested-ternary": 0,
@@ -102,6 +109,7 @@
     "no-wrap-func": 2,
     "quotes": [2, "single"],
     "semi": 2,
+    "space-after-keywords": [2, "always"],
     "strict": 2,
     "use-isnan": 2,
     "valid-jsdoc": [2, { "prefer": { "return": "returns" }, "requireReturn": false }],

@@ -1,6 +1,7 @@
 /*eslint new-cap:0*/
 'use strict';
 
+var gulp = require('gulp');
 var fs = require('fs');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
@@ -11,6 +12,8 @@ var gmux = require('gulp-mux');
 var Q = require('q');
 var inquirer = require('inquirer');
 var moment = require('moment');
+var es = require('event-stream');
+var XML = require('node-jsxml').XML;
 
 /**
  * Returns true if the target application is mobile
@@ -33,20 +36,20 @@ var isMobile = function(constants) {
  */
 var execHandler = function(err, stdout, stderr, opts) {
     opts = opts || {};
-    if(stdout) {
+    if (stdout) {
         gutil.log(stdout);
     }
-    if(stderr) {
-        if(opts.stderrIsNotError) {
+    if (stderr) {
+        if (opts.stderrIsNotError) {
             gutil.log(stderr);
         } else {
             gutil.log(chalk.red('Error: ') + stderr);
         }
     }
-    if(err) {
+    if (err) {
         gutil.log(chalk.red('An error occured executing a command line action'));
         gutil.log(chalk.red(err));
-        if(opts.throwOnErr) {
+        if (opts.throwOnErr) {
             throw err;
         }
     }
@@ -87,7 +90,7 @@ var targetToTemplateData = function(target, mode) {
 
 var getLatestBuild = function(dest, builds) {
     return _(builds).map(function(build) {
-            if(fs.existsSync(dest + '/' + build.path)) {
+            if (fs.existsSync(dest + '/' + build.path)) {
                 build.mtime = fs.statSync(dest + '/' + build.path).mtime;
                 build.fullPath = dest + '/' + build.path;
             }
@@ -121,7 +124,7 @@ var checkFileAge = function(file) {
         var stats = fs.statSync(file.fullPath);
         var age = moment().diff(stats.mtime);
 
-        if(age && age >= 5 * 60 * 1000) {
+        if (age && age >= 5 * 60 * 1000) {
 
             gutil.log(gutil.colors.yellow('Warning: the following file ') + file.path);
             gutil.log(gutil.colors.yellow('was modified more than ') + moment(stats.mtime).fromNow());
@@ -132,7 +135,7 @@ var checkFileAge = function(file) {
                 name: 'continue'
             }];
             inquirer.prompt(questions, function(answers) {
-                if(answers.continue === false) {
+                if (answers.continue === false) {
                     reject(new Error('file is old'));
                 }
                 resolve(null);
@@ -142,6 +145,80 @@ var checkFileAge = function(file) {
             resolve(null);
         }
     });
+};
+var resolveSentryNormalizedUrl = function(constants) {
+    var value = constants.sentry.normalizedURL;
+    if (value === true) {
+        return 'http://' + constants.serve.host + ':' + constants.serve.port;
+    }
+    if (!value) {
+        return '';
+    }
+    return value;
+};
+
+var getEnvifyVars = function(constants) {
+    var version = readJsonFile('./package.json').version;
+    var dest = constants.dist.distFolder;
+    dest = isMobile(constants) ? dest + '/www/' + constants.script.dest : dest + '/' + constants.script.dest;
+    var mode = constants.mode;
+    var target = constants.targetName;
+    var bundleName = constants.bundleName || 'bundle.js';
+    var releaseName = target + '-v' + version;
+    var envifyVars = {
+        APP_VERSION: version,
+        SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
+        SENTRY_RELEASE_NAME: releaseName,
+        SENTRY_MODE: mode,
+        SENTRY_NORMALIZED_URL: resolveSentryNormalizedUrl(constants),
+        SENTRY_BUNDLE_NAME: bundleName,
+        TARGET: target
+    };
+    if (isMobile(constants)) {
+        var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
+        var configFileContent = readTextFile(srcxml);
+        var xml = new XML(configFileContent);
+        envifyVars.APP_NAME = xml.child('name').getValue();
+        envifyVars.APP_ID = xml.attribute('id').getValue();
+        envifyVars.APP_AUTHOR = xml.child('author').getValue();
+        envifyVars.TESTFAIRY_IOS_APP_TOKEN = constants.testfairy.ios_app_token;
+        if (constants.ionic[target]) {
+            envifyVars.IONIC_APP_ID = constants.ionic[target].app_id;
+            envifyVars.IONIC_API_KEY = constants.ionic[target].api_key;
+        }
+
+    } else {
+        envifyVars.APP_NAME = constants.appname;
+    }
+    return envifyVars;
+};
+
+var getBanner = function() {
+    var packageJson = readJsonFile('./package.json');
+    return _.template(['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @date <%= new Date() %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''
+    ].join('\n'))({
+        pkg: packageJson
+    });
+};
+
+/**
+ * Add new sources in a gulp pipeline
+ * @returns {Stream} A gulp stream
+ * @example
+ * gulp.src('')
+ * .pipe(addSrc('CHANGELOG.md'))
+ * .gulp.dest();
+ */
+var addSrc = function() {
+    var pass = es.through();
+    return es.duplex(pass, es.merge(gulp.src.apply(gulp.src, arguments), pass));
 };
 
 module.exports = {
@@ -155,5 +232,9 @@ module.exports = {
     targetToTemplateData: targetToTemplateData,
     checkFileAge: checkFileAge,
     findAndroidFile: findAndroidFile,
-    findIOSFile: findIOSFile
+    findIOSFile: findIOSFile,
+    getEnvifyVars: getEnvifyVars,
+    getBanner: getBanner,
+    resolveSentryNormalizedUrl: resolveSentryNormalizedUrl,
+    addSrc: addSrc
 };

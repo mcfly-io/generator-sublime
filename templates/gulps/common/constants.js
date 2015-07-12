@@ -83,19 +83,24 @@ module.exports = function() {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.less']
             }
         },
+        script: {
+            dest : 'scripts'
+        },
         browserify: {
-            src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            dest: 'scripts',
-            bundleName: 'bundle.js'
+            src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js'
+        },
+        webpack: {
+            src: './main{{targetSuffix}}.js'
         },
         exorcist: {
-            dest: 'srcmaps'
+            dest: 'srcmaps',
+            mapExtension: '.map.js'
         },
         sentry: {
             targetKeys: {
                 app: ''
             },
-            normalizedURL: 'http://www.dummyurl.com',
+            normalizedURL: true, // true, false, or an url. When true it will default to 'http://localhost:' + serve.port
             organizationName: '',
             auth: ''
         },
@@ -140,7 +145,8 @@ module.exports = function() {
             maxDuration: '15m',
             autoUpdate: 'on',
             iconWatermark: 'on'
-        }
+        },
+        moduleManager: 'browserify'
     };
 
     return constants;

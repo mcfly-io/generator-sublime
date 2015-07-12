@@ -25,7 +25,7 @@ var taskClean = function(constants) {
 gulp.task('clean', 'Clean distribution folder.', function(done) {
     var taskname = 'clean';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskClean, taskname, global.options.target, global.options.mode, constants, done);
@@ -83,8 +83,8 @@ var taskImage = function(constants) {
 };
 
 var taskImageCordova = function(constants) {
-    if(helper.isMobile(constants)) {
-        if(fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
+    if (helper.isMobile(constants)) {
+        if (fs.existsSync(constants.dist.distFolder + '/platforms/ios')) {
 
             var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
 
@@ -98,7 +98,7 @@ var taskImageCordova = function(constants) {
             gulp.src(constants.cordova.src + '/resources/ios/splash/**/*')
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/ios/' + appname + '/Resources/splash'));
         }
-        if(fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
+        if (fs.existsSync(constants.dist.distFolder + '/platforms/android')) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
         }
@@ -108,7 +108,7 @@ var taskImageCordova = function(constants) {
 gulp.task('html', false, function() {
     var taskname = 'html';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskHtml, taskname, global.options.target, global.options.mode, constants);
@@ -122,7 +122,7 @@ gulp.task('html:watch', false, function() {
 
     var taskname = 'html:watch';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
@@ -139,7 +139,7 @@ var taskAngulari18n = function(constants) {
 gulp.task('angular:i18n', false, function() {
     var taskname = 'angular:i18n';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskAngulari18n, taskname, global.options.target, global.options.mode, constants);
@@ -153,7 +153,7 @@ gulp.task('image:watch', false, function() {
 
     var taskname = 'image:watch';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskImageWatch, taskname, global.options.target, global.options.mode, constants);
@@ -162,7 +162,7 @@ gulp.task('image:watch', false, function() {
 gulp.task('image', false, ['image:cordova'], function() {
     var taskname = 'image';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskImage, taskname, global.options.target, global.options.mode, constants);
@@ -172,14 +172,14 @@ gulp.task('image:cordova', false, function() {
     // this task copy the cordova icons and splashes to dist, but only if the platforms exist
     var taskname = 'image:cordova';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskImageCordova, taskname, global.options.target, global.options.mode, constants);
 });
 
 var taskCordovaIcon = function(constants) {
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         return;
     }
     exec('./bin/cordova-generate-icons ' + constants.cordova.icon + ' ' + constants.cordova.src, helper.execHandler);
@@ -189,14 +189,14 @@ var taskCordovaIcon = function(constants) {
 gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function() {
     var taskname = 'cordova:icon';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskCordovaIcon, taskname, global.options.target, global.options.mode, constants);
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('html', 'image', 'angular:i18n', 'browserify', 'style', done);
+    return runSequence('html', 'image', 'angular:i18n', constants.moduleManager === 'webpack' ? 'webpack:run' : 'browserify', 'style', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {
@@ -209,7 +209,7 @@ gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', f
 
 var taskCordovaTestFairyPlatform = function(constants) {
     var appname = null;
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         return;
     }
     var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
@@ -222,7 +222,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
         var iconWatermark = '\'' + constants.testfairy.iconWatermark + '\'';
 
         return Q.Promise(function(resolve, reject) {
-            if(!(file && file.path)) {
+            if (!(file && file.path)) {
                 gutil.log(gutil.colors.red('Error: Binary for ') + gutil.colors.yellow(platform) + gutil.colors.red(' was not created.'));
                 reject(new Error('No binary'));
             }
@@ -232,7 +232,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
                     exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@\'' + file.path + '\' -F metrics=' + metrics + '  -F testers_groups=' + testersGroups + ' -F max-duration=' + maxDuration + ' -F auto-update=' + autoUpdate + ' -F icon-watermark=' + iconWatermark + ' ', {
                         cwd: constants.dist.distFolder
                     }, function(err, stdout, stderr) {
-                        if(!err) {
+                        if (!err) {
                             gutil.log(gutil.colors.green('Sucessfully uploaded ') + gutil.colors.cyan(file.path) + gutil.colors.green(' to testfairy.'));
                         }
                         helper.execHandler(err, stdout);
@@ -290,7 +290,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
 
 var taskCordovaAllPlatform = function(constants) {
     var appname = null;
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         return;
     }
     var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
@@ -303,7 +303,7 @@ var taskCordovaAllPlatform = function(constants) {
             exec('cordova platform add ios && cordova platform add android', {
                 cwd: constants.dist.distFolder
             }, function(err, stdout, stderr) {
-                if(err) {
+                if (err) {
                     gutil.log(gutil.colors.red(err.message));
                 }
                 gutil.log(stdout);
@@ -325,10 +325,10 @@ var taskCordovaAllPlatform = function(constants) {
 gulp.task('cordova:testfairy:platform', false, function() {
     var taskname = 'cordova:testfairy:platform';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
-    if(!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
+    if (!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
         gutil.log(gutil.colors.red('The testfairy.api_key is missing or empty in gulp_tasks/common/constants.js'));
         return;
     }
@@ -336,7 +336,7 @@ gulp.task('cordova:testfairy:platform', false, function() {
 });
 
 gulp.task('cordova:testfairy', 'Bump version and Build a testfairy binary.', function(done) {
-    if(!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
+    if (!constants.testfairy.api_key || constants.testfairy.api_key.length <= 0) {
         gutil.log(gutil.colors.red('The testfairy.api_key is missing or empty in gulp_tasks/common/constants.js'));
         return;
     }
@@ -347,7 +347,7 @@ gulp.task('cordova:testfairy', 'Bump version and Build a testfairy binary.', fun
         default: true
     }];
     inquirer.prompt(questions, function(answers) {
-        if(answers.bump === true) {
+        if (answers.bump === true) {
             return runSequence('bump', 'wait', 'dist', 'wait', 'cordova:testfairy:platform', done);
         } else {
             return runSequence('dist', 'wait', 'cordova:testfairy:platform', done);
@@ -362,14 +362,14 @@ gulp.task('cordova:all', 'Build a binary for android (.pka) and ios (.ipa)', fun
 gulp.task('cordova:all:platform', false, function() {
     var taskname = 'cordova:all:platform';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskCordovaAllPlatform, taskname, global.options.target, global.options.mode, constants);
 });
 
 var taskCordovaInstallIOS = function(constants, done) {
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         return;
     }
     var task = spawn('cordova', ['run', 'ios', '--device'], {
@@ -390,7 +390,7 @@ var taskCordovaInstallIOS = function(constants, done) {
 gulp.task('cordova:install:ios', false, function(done) {
     var taskname = 'cordova:install';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         //global.options = gmux.targets.askForMultipleTargets(taskname);
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
@@ -403,7 +403,7 @@ gulp.task('cordova:install', 'Install the app on ios', function(done) {
 });
 
 var taskIonicUpload = function(constants, done) {
-    if(!helper.isMobile(constants)) {
+    if (!helper.isMobile(constants)) {
         return;
     }
     var note = require('yargs').alias('n', 'note').argv.note || '';
@@ -412,7 +412,7 @@ var taskIonicUpload = function(constants, done) {
     var ionicProjectJson = {};
     try {
         ionicProjectJson = helper.readJsonFile(constants.dist.distFolder + '/ionic.project');
-    } catch(e) {
+    } catch (e) {
         gutil.log(gutil.colors.yellow('dist/' + constants.targetName + '/' + constants.mode + '/ionic.project does not exist. It will be created.'));
     }
 
@@ -420,12 +420,12 @@ var taskIonicUpload = function(constants, done) {
     constants.ionic[constants.targetName] = constants.ionic[constants.targetName] || {};
 
     gutil.log('Uploading to apps.ionic.io with the note: "' + gutil.colors.yellow('v' + version + ': ' + note) + '".');
-    if(constants.ionic[constants.targetName].app_id) {
+    if (constants.ionic[constants.targetName].app_id) {
         gutil.log('See this update at ' + gutil.colors.blue('https://apps.ionic.io/app/' + constants.ionic[constants.targetName].app_id + '/deploy') + '.');
     }
 
     ionicProjectJson.name = ionicProjectJson.name || constants.targetName;
-    if(!ionicProjectJson.app_id || !constants.ionic[constants.targetName].app_id || ionicProjectJson.app_id !== constants.ionic[constants.targetName].app_id) {
+    if (!ionicProjectJson.app_id || !constants.ionic[constants.targetName].app_id || ionicProjectJson.app_id !== constants.ionic[constants.targetName].app_id) {
         gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js does not match the app_id in dist/' + constants.targetName + '/' + constants.mode + '/ionic.project.'));
     }
 
@@ -448,14 +448,14 @@ var taskIonicUpload = function(constants, done) {
 };
 
 gulp.task('ionic:upload', 'Upload the app to ionic.io platform', function(done) {
-    if(global.options) {
-        if(!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
+    if (global.options) {
+        if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
         }
     }
     var taskname = 'ionic:upload';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
         // global.options = gmux.targets.askForSingleTarget(taskname);
     }
@@ -492,26 +492,26 @@ gulp.task('deploy:all', 'Global task for deploying the application', function(do
     }];
     inquirer.prompt(questions, function(answers) {
         var runSeq = [];
-        if(answers.bump === true) {
+        if (answers.bump === true) {
             runSeq = runSeq.concat(['bump', 'wait']);
         }
         runSeq = runSeq.concat(['dist', 'wait']);
-        if(answers.testfairy === true) {
+        if (answers.testfairy === true) {
             runSeq = runSeq.concat(['cordova:testfairy:platform', 'wait']);
         } else {
             runSeq = runSeq.concat(['cordova:all:platform', 'wait']);
         }
-        if(answers.sentryDelete === true) {
+        if (answers.sentryDelete === true) {
             runSeq = runSeq.concat(['sentry:delete', 'wait']);
         }
-        if(answers.sentryUpload === true) {
+        if (answers.sentryUpload === true) {
             runSeq = runSeq.concat(['sentry:upload', 'wait']);
         }
-        if(answers.ionicUpload === true) {
+        if (answers.ionicUpload === true) {
             runSeq = runSeq.concat(['ionic:upload', 'wait']);
         }
         runSeq = runSeq.concat([done]);
-        if(global.options === null) {
+        if (global.options === null) {
             global.options = gmux.targets.askForSingleTarget(taskname, {
                 mode: 'prod'
             });

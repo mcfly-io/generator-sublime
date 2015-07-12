@@ -204,9 +204,12 @@ describe('sublime:app', function() {
             .on('end', function() {
                 var jshintrc = testHelper.readJsonFile('.jshintrc');
                 var jscsrc = testHelper.readJsonFile('.jscsrc');
+                var eslintrc = testHelper.readJsonFile('.eslintrc');
                 var jsbeautifyrc = testHelper.readJsonFile('.jsbeautifyrc');
                 var settings = testHelper.readTextFile('.settings');
                 assert.equal(jshintrc.indent, indent);
+                assert.equal(eslintrc.rules.indent[1], indent);
+                assert.equal(eslintrc.rules['nodeca/indent'][2], indent);
                 assert.equal(jscsrc.validateIndentation, indent);
                 assert.equal(jsbeautifyrc.html.indent_size, indent);
                 assert.equal(jsbeautifyrc.css.indent_size, indent);

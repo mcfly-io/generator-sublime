@@ -22,7 +22,7 @@ var taskFont = function(constants) {
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.fonts.dest : dest + '/' + constants.fonts.dest;
 
     var srcFont = constants.fonts['src_' + constants.targetName];
-    if(!srcFont) {
+    if (!srcFont) {
         srcFont = constants.fonts.src;
     }
     return gulp.src(srcFont)
@@ -35,7 +35,7 @@ var taskFont = function(constants) {
 gulp.task('font', 'Copy fonts.', function(done) {
     var taskname = 'font';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskFont, taskname, global.options.target, global.options.mode, constants, done);
@@ -76,7 +76,7 @@ var taskStyle = function(constants) {
 gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
     var taskname = 'style';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     gmux.createAndRunTasks(gulp, taskStyle, taskname, global.options.target, global.options.mode, constants);
@@ -90,7 +90,7 @@ gulp.task('style:watch', 'Watch changes for style files.', function() {
 
     var taskname = 'style:watch';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskStyleWatch, taskname, global.options.target, global.options.mode, constants);

@@ -41,9 +41,9 @@ module.exports = function() {
 
         exec: function(cmd, cb) {
             assert(_.isString(cmd), 'cmd should be a string');
-            if(cmd === 'cat ~/.npmrc | grep \'email\'') {
+            if (cmd === 'cat ~/.npmrc | grep \'email\'') {
                 cb(null, 'email=' + githubUserMock.email);
-            } else if(cmd === 'cat ~/.npmrc | grep \'_auth\'') {
+            } else if (cmd === 'cat ~/.npmrc | grep \'_auth\'') {
                 cb(null, '_auth=dxxsdsdfsd');
             } else {
                 cb(null, '');

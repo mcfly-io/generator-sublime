@@ -3,6 +3,8 @@
     "amd": true,
     "browser": true,
     "mocha": true,
+    "es6": true,
+    "jasmine": true,
     "node": true
   },
   "globals": {
@@ -14,19 +16,25 @@
     "xdescribe": true,
     "xit": true
   },
+  "plugins": [
+    "nodeca"
+  ],
+  "parser": "babel-eslint",
   "rules": {
     "camelcase": 0,
-    "complexity": [0,11],
+    "complexity": [0, 11],
     "consistent-return": 2,
-    "consistent-this": [1,  "that"],
+    "consistent-this": [1, "that"],
     "curly": [2, "all"],
     "dot-notation": 2,
     "eol-last": 0,
     "eqeqeq": [2, "smart"],
+    "indent": [2, 4, {"indentSwitchCase": true}],
+    "nodeca/indent": [ 2, "spaces", 4 ],
     "max-depth": [0, 4],
     "max-len": [0, 80, 4],
     "max-nested-callbacks": [0, 2],
-    "max-params": [0, 10],
+    "max-params": [0, 15],
     "max-statements": [0, 10],
     "new-cap": [2],
     "new-parens": 2,
@@ -62,6 +70,7 @@
     "no-loop-func": 2,
     "no-mixed-spaces-and-tabs": [2, true],
     "no-multi-str": 2,
+    "no-multiple-empty-lines": [2, {"max": 1}],
     "no-native-reassign": 2,
     "no-negated-in-lhs": 2,
     "no-nested-ternary": 0,
@@ -100,6 +109,7 @@
     "no-wrap-func": 2,
     "quotes": [2, "single"],
     "semi": 2,
+    "space-after-keywords": [2, "always"],
     "strict": 2,
     "use-isnan": 2,
     "valid-jsdoc": [2, { "prefer": { "return": "returns" }, "requireReturn": false }],

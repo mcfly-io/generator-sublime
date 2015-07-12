@@ -51,13 +51,13 @@ module.exports = Base.extend({
 
         var deferred = Q.defer();
 
-        if(this.options['check-' + cmd] === false) {
+        if (this.options['check-' + cmd] === false) {
             deferred.resolve(undefined);
         }
 
-        if(!this.utils.shell.which(cmd)) {
+        if (!this.utils.shell.which(cmd)) {
             this.log(chalk.red.bold('(ERROR)') + ' It looks like you do not have ' + cmd + ' installed...');
-            if(exit === true) {
+            if (exit === true) {
                 deferred.reject(new Error(cmd + ' is missing'));
                 this.utils.shell.exit(1);
             } else {
@@ -90,7 +90,7 @@ module.exports = Base.extend({
     checkTravis: function() {
         return this.checkCmd('travis', false)
             .then(function(value) {
-                if(value === false) {
+                if (value === false) {
                     this.utils.shell.exec('gem install travis -v' + this.travisOptions.version + ' --no-rdoc --no-ri');
                     return true;
                 }
@@ -104,8 +104,8 @@ module.exports = Base.extend({
             packageVersion: pkg.version,
             updateCheckInterval: 1
         });
-        if(notifier.update) {
-            if(notifier.update.latest !== pkg.version) {
+        if (notifier.update) {
+            if (notifier.update.latest !== pkg.version) {
                 notifier.notify();
                 this.utils.shell.exit(1);
             }

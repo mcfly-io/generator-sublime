@@ -15,6 +15,7 @@ describe('sublime:gulps', function() {
             'lint',
             'serve',
             'browserify',
+            'webpack',
             'release',
             'changelog',
             'test',
@@ -60,7 +61,7 @@ describe('sublime:gulps', function() {
                 'Tasks': expectedTasks
             }).on('end', function() {
 
-                if(expectedTasks.length > 0) {
+                if (expectedTasks.length > 0) {
                     assert.file('gulpfile.js');
                     assert.file('.gulps-package.json');
                     assert.file('gulp_tasks/common/constants.js');
@@ -77,7 +78,7 @@ describe('sublime:gulps', function() {
                 var noFiles = allTasks.filter(function(task) {
                     return expectedTasks.indexOf(task) === -1;
                 }).map(taskToFile);
-                if(assertNoFile) {
+                if (assertNoFile) {
                     assert.noFile(noFiles);
                 }
                 done();
@@ -98,6 +99,10 @@ describe('sublime:gulps', function() {
 
         it('with option browserify should scaffold browserify.js', function(done) {
             projectFiles.call(this, done, ['browserify']);
+        });
+
+        it('with option webpack should scaffold webpack.js', function(done) {
+            projectFiles.call(this, done, ['webpack']);
         });
 
         it('with option release should scaffold release.js', function(done) {
@@ -155,6 +160,10 @@ describe('sublime:gulps', function() {
 
         it('should success with option browserify', function(done) {
             checkOption(this, 'browserify', done);
+        });
+
+        it('should success with option webpack', function(done) {
+            checkOption(this, 'webpack', done);
         });
 
         it('should success with option release', function(done) {
@@ -341,7 +350,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/ionic/release/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/ionic-sdk/release/fonts/*.*'));
                     done();
                 });
         });
@@ -365,7 +374,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/font-awesome/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/font-awesome/fonts/*.*'));
                     done();
                 });
         });
@@ -389,7 +398,7 @@ describe('sublime:gulps', function() {
 
                     var constants = require(constantPath)();
 
-                    assert(_(constants.fonts.src).contains('./bower_components/bootstrap/dist/fonts/*.*'));
+                    assert(_(constants.fonts.src).contains('./node_modules/bootstrap/dist/fonts/*.*'));
                     done();
                 });
         });

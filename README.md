@@ -86,7 +86,8 @@ To better understand the gulp task system have a look at the docs of [`gulp-mux`
 
 #### Results
 This will scaffold some common gulp tasks:
-* browserify (create a browserify bundle)
+* browserify (creates a browserify bundle)
+* webpack:run, webpack:watch (creates a webpack bundle)
 * changelog (create a CHANGELOG.md file when your commit messages adhere to angular commit guidelines)
 * lint (linting through jshint, jscs, and eslint)
 * release (bump the version, create tag and publish to github)

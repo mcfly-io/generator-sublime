@@ -14,7 +14,6 @@ var gmux = require('gulp-mux');
 var gulpif = require('gulp-if');
 var mkdirp = require('mkdirp');
 var del = require('del');
-var XML = require('node-jsxml').XML;
 var collapse = require('bundle-collapser/plugin');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
@@ -22,7 +21,7 @@ var helper = require('../common/helper');
 var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 
     var rootUrl = '';
-    var basePath = path.join(constants.clientFolder, constants.browserify.dest);
+    var basePath = path.join(constants.clientFolder, constants.script.dest);
 
     b.bundle()
         .on('error', function(err) {
@@ -36,8 +35,9 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
             // in prod mode we save the source map file in a special folder
             // we first need to make sure the destination folder exists
             mkdirp.sync(constants.exorcist.dest);
-            if(constants.sentry.normalizedURL && constants.sentry.normalizedURL.length > 0) {
-                var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
+            var normalizedURL = helper.resolveSentryNormalizedUrl(constants);
+            if (normalizedURL.length > 0) {
+                var sourceMapURL = normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
                 return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
             } else {
                 // when no normalizedURL we copy the source map along with the bundle
@@ -51,7 +51,7 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
         })))
         .pipe(gulp.dest(dest))
         .on('end', function() {
-            if(done) {
+            if (done) {
                 done();
             }
         });
@@ -60,40 +60,15 @@ var bundleShare = function(b, dest, bundleName, mode, sourceMap, done) {
 var browserifyShare = function(shouldWatch, constants, done) {
     var version = helper.readJsonFile('./package.json').version;
     var dest = constants.dist.distFolder;
-    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.script.dest : dest + '/' + constants.script.dest;
     var mode = constants.mode;
     var target = constants.targetName;
-    var mapExtension = '.map.js';
-    var bundleName = constants.browserify.bundleName || 'bundle.js';
+    var bundleName = constants.bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
-    var sourceMap = releaseName + mapExtension;
-    var envifyVars = {
-        APP_VERSION: version,
-        SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
-        SENTRY_RELEASE_NAME: releaseName,
-        SENTRY_MODE: mode,
-        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
-        SENTRY_BUNDLE_NAME: bundleName,
-        TARGET: target
-    };
-    if(helper.isMobile(constants)) {
-        var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';
-        var configFileContent = helper.readTextFile(srcxml);
-        var xml = new XML(configFileContent);
-        envifyVars.APP_NAME = xml.child('name').getValue();
-        envifyVars.APP_ID = xml.attribute('id').getValue();
-        envifyVars.APP_AUTHOR = xml.child('author').getValue();
-        envifyVars.TESTFAIRY_IOS_APP_TOKEN = constants.testfairy.ios_app_token;
-        if(constants.ionic[target]) {
-            envifyVars.IONIC_APP_ID = constants.ionic[target].app_id;
-            envifyVars.IONIC_API_KEY = constants.ionic[target].api_key;
-        }
-
-    } else {
-        envifyVars.APP_NAME = constants.appname;
-    }
+    var sourceMap = releaseName + constants.exorcist.mapExtension;
+    var envifyVars = helper.getEnvifyVars(constants);
     // we delete the old sourcemaps if any
-    del.sync([dest + '/*' + mapExtension]);
+    del.sync([dest + '/*' + constants.exorcist.mapExtension]);
 
     // we need to pass these config options to browserify
     var b = browserify({
@@ -103,10 +78,10 @@ var browserifyShare = function(shouldWatch, constants, done) {
         fullPaths: mode === 'prod' ? false : true
     });
 
-    if(shouldWatch) {
+    if (shouldWatch) {
         b = watchify(b);
     }
-    if(mode === 'prod') {
+    if (mode === 'prod') {
         b.transform({
             'global': true,
             'exts': ['.js']
@@ -140,7 +115,7 @@ var taskWatchify = function(constants, done) {
 gulp.task('browserify', 'Generates a bundle javascript file with browserify.', function(done) {
     var taskname = 'browserify';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskBrowserify, taskname, global.options.target, global.options.mode, constants, done);
@@ -150,7 +125,7 @@ gulp.task('browserify', 'Generates a bundle javascript file with browserify.', f
 gulp.task('watchify', 'Generates a bundle javascript file with watchify.', function(done) {
     var taskname = 'watchify';
     gmux.targets.setClientFolder(constants.clientFolder);
-    if(global.options === null) {
+    if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskWatchify, taskname, global.options.target, global.options.mode, constants, done);
