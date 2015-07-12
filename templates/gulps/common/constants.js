@@ -83,21 +83,24 @@ module.exports = function() {
                 src: ['./' + clientFolder + '/styles/main{{targetSuffix}}.less']
             }
         },
+        script: {
+            dest : 'scripts'
+        },
         browserify: {
-            src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js',
-            dest: 'scripts'
+            src: './' + clientFolder + '/scripts/main{{targetSuffix}}.js'
         },
         webpack: {
             src: './main{{targetSuffix}}.js'
         },
         exorcist: {
-            dest: 'srcmaps'
+            dest: 'srcmaps',
+            mapExtension: '.map.js'
         },
         sentry: {
             targetKeys: {
                 app: ''
             },
-            normalizedURL: 'http://localhost:5000',
+            normalizedURL: true, // true, false, or an url. When true it will default to 'http://localhost:' + serve.port
             organizationName: '',
             auth: ''
         },

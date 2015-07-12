@@ -27,7 +27,7 @@ var taskBrowsersyncstart = function(constants) {
     var sourceMap = releaseName + constants.exorcist.mapExtension;
     var sourceMapDest = constants.exorcist.dest;
     var config = {
-        files: [dest + '/index.html', dest + '/scripts/bundle.js', dest + '/styles/main.css'],
+        files: [dest + '/index.html', dest + '/' + constants.script.dest + '/' + constants.bundleName, dest + '/' + constants.style.dest + '/' + constants.style.destName],
         tunnel: constants.serve.localtunnel,
         server: {
             baseDir: dest,

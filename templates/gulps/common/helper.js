@@ -144,11 +144,21 @@ var checkFileAge = function(file) {
         }
     });
 };
+var resolveSentryNormalizedUrl = function(constants) {
+    var value = constants.sentry.normalizedURL;
+    if (value === true) {
+        return 'http://' + constants.serve.host + ':' + constants.serve.port;
+    }
+    if (!value) {
+        return '';
+    }
+    return value;
+};
 
 var getEnvifyVars = function(constants) {
     var version = readJsonFile('./package.json').version;
     var dest = constants.dist.distFolder;
-    dest = isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    dest = isMobile(constants) ? dest + '/www/' + constants.script.dest : dest + '/' + constants.script.dest;
     var mode = constants.mode;
     var target = constants.targetName;
     var bundleName = constants.bundleName || 'bundle.js';
@@ -158,7 +168,7 @@ var getEnvifyVars = function(constants) {
         SENTRY_CLIENT_KEY: constants.sentry.targetKeys[target],
         SENTRY_RELEASE_NAME: releaseName,
         SENTRY_MODE: mode,
-        SENTRY_NORMALIZED_URL: constants.sentry.normalizedURL,
+        SENTRY_NORMALIZED_URL: resolveSentryNormalizedUrl(constants),
         SENTRY_BUNDLE_NAME: bundleName,
         TARGET: target
     };
@@ -209,5 +219,6 @@ module.exports = {
     findAndroidFile: findAndroidFile,
     findIOSFile: findIOSFile,
     getEnvifyVars: getEnvifyVars,
-    getBanner: getBanner
+    getBanner: getBanner,
+    resolveSentryNormalizedUrl: resolveSentryNormalizedUrl
 };

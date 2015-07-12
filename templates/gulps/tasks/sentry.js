@@ -76,14 +76,14 @@ var taskSentry = function(constants, done) {
     var appname = constants.appname;
     var slug = (appname + '-' + target).toLowerCase();
     var releaseName = target + '-v' + version;
-    var srcmapPath = path.join(constants.exorcist.dest, releaseName + '.map.js');
-    // var srcmapURL = releaseName + '.map.js';
-    var srcmapURL = constants.sentry.normalizedURL + '/' + srcmapPath;
+    var srcmapPath = path.join(constants.exorcist.dest, releaseName + constants.exorcist.mapExtension);
+    var normalizedURL = helper.resolveSentryNormalizedUrl(constants);
+    var srcmapURL = normalizedURL + '/' + srcmapPath;
     var bundleName = constants.bundleName || 'bundle.js';
     var bundleDest = constants.dist.distFolder;
     bundleDest = helper.isMobile(constants) ? bundleDest + '/www' : bundleDest;
-    var bundlePath = path.join(bundleDest, constants.browserify.dest, bundleName);
-    var bundleURL = constants.sentry.normalizedURL + '/' + releaseName + '/' + bundleName;
+    var bundlePath = path.join(bundleDest, constants.script.dest, bundleName);
+    var bundleURL = normalizedURL + '/' + releaseName + '/' + bundleName;
 
     var sentryURL = 'https://app.getsentry.com/api/0/projects/' + constants.sentry.organizationName;
 

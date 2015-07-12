@@ -16,10 +16,10 @@ var webpackConfig = require(path.join(__dirname, '../../webpack.config.js'));
 var webpackShare = function(shouldWatch, constants, done) {
     var version = helper.readJsonFile('./package.json').version;
     var dest = constants.dist.distFolder;
-    dest = helper.isMobile(constants) ? dest + '/www/' + constants.browserify.dest : dest + '/' + constants.browserify.dest;
+    dest = helper.isMobile(constants) ? dest + '/www/' + constants.script.dest : dest + '/' + constants.script.dest;
     var mode = constants.mode;
     var target = constants.targetName;
-    var bundleName = constants.exorcist.bundleName || 'bundle.js';
+    var bundleName = constants.bundleName || 'bundle.js';
     var releaseName = target + '-v' + version;
     var sourceMap = releaseName + constants.exorcist.mapExtension;
 
@@ -34,15 +34,16 @@ var webpackShare = function(shouldWatch, constants, done) {
 
     var webpackHandler = function(err, stats) {
         var rootUrl = '';
-        var basePath = path.join(constants.clientFolder, constants.browserify.dest);
+        var basePath = path.join(constants.clientFolder, constants.script.dest);
 
         gulp.src(dest + '/' + bundleName)
             .pipe(gulpif(mode === 'prod', transform(function() {
                 // in prod mode we save the source map file in a special folder
                 // we first need to make sure the destination folder exists
                 mkdirp.sync(constants.exorcist.dest);
-                if (constants.sentry.normalizedURL && constants.sentry.normalizedURL.length > 0) {
-                    var sourceMapURL = constants.sentry.normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
+                var normalizedURL = helper.resolveSentryNormalizedUrl(constants);
+                if (normalizedURL.length > 0) {
+                    var sourceMapURL = normalizedURL + '/' + constants.exorcist.dest + '/' + sourceMap;
                     return exorcist(path.join(constants.exorcist.dest, sourceMap), sourceMapURL, rootUrl, basePath);
                 } else {
                     // when no normalizedURL we copy the source map along with the bundle
