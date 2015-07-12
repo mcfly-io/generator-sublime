@@ -139,7 +139,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'sass-loader': '1.0.2',
             'sinon': '1.15.4',
             'stream-combiner': '0.2.2',
-            'streamqueue': '1.1.0',
+            //'streamqueue': '1.1.0',
             'strip-json-comments': '1.0.2',
             'uglifyify': '3.0.1',
             'vinyl-buffer': '1.0.0',
@@ -338,6 +338,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             var npmPackages = [
                 'chalk',
+                'event-stream',
                 'gulp',
                 'gulp-help',
                 'gulp-if',
@@ -460,11 +461,11 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('common/changelog-script.js', gulpFolder + '/common/changelog-script.js');
                 npmPackages = npmPackages.concat([
                     'conventional-changelog',
+                    'event-stream',
                     'gulp-exec',
                     'gulp-concat',
-                    'gulp-tap',
+                    'gulp-order',
                     'q',
-                    'streamqueue',
                     'yargs'
                 ]);
             }

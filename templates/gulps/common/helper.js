@@ -1,6 +1,7 @@
 /*eslint new-cap:0*/
 'use strict';
 
+var gulp = require('gulp');
 var fs = require('fs');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
@@ -11,6 +12,7 @@ var gmux = require('gulp-mux');
 var Q = require('q');
 var inquirer = require('inquirer');
 var moment = require('moment');
+var es = require('event-stream');
 var XML = require('node-jsxml').XML;
 
 /**
@@ -206,6 +208,19 @@ var getBanner = function() {
     });
 };
 
+/**
+ * Add new sources in a gulp pipeline
+ * @returns {Stream} A gulp stream
+ * @example
+ * gulp.src('')
+ * .pipe(addSrc('CHANGELOG.md'))
+ * .gulp.dest();
+ */
+var addSrc = function() {
+    var pass = es.through();
+    return es.duplex(pass, es.merge(gulp.src.apply(gulp.src, arguments), pass));
+};
+
 module.exports = {
     isMobile: isMobile,
     execHandler: execHandler,
@@ -220,5 +235,6 @@ module.exports = {
     findIOSFile: findIOSFile,
     getEnvifyVars: getEnvifyVars,
     getBanner: getBanner,
-    resolveSentryNormalizedUrl: resolveSentryNormalizedUrl
+    resolveSentryNormalizedUrl: resolveSentryNormalizedUrl,
+    addSrc: addSrc
 };
