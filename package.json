@@ -87,8 +87,5 @@
     "sinon": "1.15.0",
     "stream-combiner": "0.2.2",
     "yargs": "3.10.0"
-  },
-  "peerDependencies": {
-    "yo": ">=1.0.0"
   }
 }
