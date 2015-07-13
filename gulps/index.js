@@ -566,10 +566,24 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 }
                 return p + version;
             }).value();
+
+        var requiresSocketIo = function(packageString) {
+            return packageString.indexOf('browser-sync') >= 0 || packageString.indexOf('webpack-dev-server') >= 0;
+            // not actuall depending on socket.io@1.3.5
+            // || packageString.indexOf('karma') > 0;
+        };
+        var socketIoPackages = _.remove(packagesToInstall, requiresSocketIo);
+
         this.npmInstall(packagesToInstall, {
             'saveDev': true,
             'saveExact': true
-        }, done);
+        }, function() {
+            that.npmInstall(socketIoPackages, {
+                'saveDev': true,
+                'saveExact': true
+            }, done);
+        });
+
     },
 
     end: function() {
