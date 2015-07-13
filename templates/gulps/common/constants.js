@@ -57,7 +57,7 @@ module.exports = function() {
             './' + clientFolder + '/scripts/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
             '!./' + clientFolder + '/scripts/lbServices.js',
-            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', './test/**/*.js'
+            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './test/**/*.js'
         ],
         fonts: {
             src: <%= fonts %>, // you can also add a specific src_appname
@@ -146,6 +146,7 @@ module.exports = function() {
             autoUpdate: 'on',
             iconWatermark: 'on'
         },
+        bundleName: 'bundle.js',
         moduleManager: 'browserify' // or webpack
     };
 
