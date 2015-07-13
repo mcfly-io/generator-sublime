@@ -568,9 +568,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }).value();
 
         var requiresSocketIo = function(packageString) {
-            return packageString.indexOf('browser-sync') >= 0 || packageString.indexOf('webpack-dev-server') >= 0;
-            // not actuall depending on socket.io@1.3.5
-            // || packageString.indexOf('karma') > 0;
+            return packageString.indexOf('browser-sync') >= 0 || packageString.indexOf('webpack-dev-server') >= 0 || packageString.indexOf('karma') >= 0;
         };
         var socketIoPackages = _.remove(packagesToInstall, requiresSocketIo);
 
