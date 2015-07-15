@@ -41,7 +41,7 @@ gulp.task('font', 'Copy fonts.', function(done) {
     return gmux.createAndRunTasks(gulp, taskFont, taskname, global.options.target, global.options.mode, constants, done);
 });
 
-var taskStyle = function(constants) {
+var taskStyle = function(constants, done) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www/' + constants.style.dest : dest + '/' + constants.style.dest;
 
@@ -61,7 +61,7 @@ var taskStyle = function(constants) {
         .pipe(less())
         .pipe(concat('less.css'));
 
-    return es.concat(lessFiles, sassFiles)
+    es.concat(lessFiles, sassFiles)
         .pipe(order(['less.css', 'sass.css']))
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -70,16 +70,17 @@ var taskStyle = function(constants) {
         .pipe($.size({
             title: 'css files',
             showFiles: true
-        }));
+        }))
+        .pipe(es.wait(done));
 };
 
-gulp.task('style', 'Generates a bundle for style files.', ['font'], function() {
+gulp.task('style', 'Generates a bundle for style files.', ['font'], function(done) {
     var taskname = 'style';
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
-    gmux.createAndRunTasks(gulp, taskStyle, taskname, global.options.target, global.options.mode, constants);
+    gmux.createAndRunTasks(gulp, taskStyle, taskname, global.options.target, global.options.mode, constants, done);
 });
 
 var taskStyleWatch = function(constants) {
