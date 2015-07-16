@@ -57,7 +57,8 @@ var taskBrowsersyncstart = function(constants) {
     if (helper.isMobile(constants)) {
         gutil.log('Launching ' + platform + ' emulator');
         exec('ionic emulate ' + platform + ' --livereload', {
-            cwd: constants.dist.distFolder
+            cwd: constants.dist.distFolder,
+            maxBuffer: constants.maxBuffer
         }, helper.execHandler);
     }
 };
@@ -95,7 +96,8 @@ var taskCordovaRun = function(constants) {
     var platform = global.options.platform || constants.cordova.platform;
     gutil.log('ionic run ' + platform);
     exec('ionic run ' + platform, {
-        cwd: constants.dist.distFolder
+        cwd: constants.dist.distFolder,
+        maxBuffer: constants.maxBuffer
     }, helper.execHandler);
 };
 

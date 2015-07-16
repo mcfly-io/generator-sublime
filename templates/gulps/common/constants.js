@@ -33,6 +33,7 @@ module.exports = function() {
     var defaultTarget = 'app'; // the name of the app that corresponds to index.html
     var constants = {
         cwd: cwd,
+        maxBuffer: 1024 * 500,
         appname: getAppname(),
         defaultTarget: defaultTarget,
         targetName: '{{targetName}}',

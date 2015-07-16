@@ -61,7 +61,8 @@ gulp.task('changelog:script', false, function(done) {
 
     gulp.src('')
         .pipe(exec('node ./gulp_tasks/common/changelog-script.js ' + version + ' ' + from, {
-            pipeStdout: true
+            pipeStdout: true,
+            maxBuffer: constants.maxBuffer
         }))
         .pipe(concat('updates.md'))
         .pipe(helper.addSrc('CHANGELOG.md'))
