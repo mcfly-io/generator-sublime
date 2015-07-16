@@ -51,7 +51,8 @@ var taskSentryDeleteAllErrors = function(constants) {
         ' https://app.getsentry.com/api/0/groups/';
 
     exec(curlList, {
-        cwd: constants.cwd
+        cwd: constants.cwd,
+        maxBuffer: 1024 * 500
     }, function(err, stdout, stderr) {
         execHandler(err, stdout, stderr, 'list sentry error aggregates in project ' + chalk.yellow(target), curlList);
         if (!stdout) {
@@ -61,7 +62,8 @@ var taskSentryDeleteAllErrors = function(constants) {
             .forEach(function(agg) {
                 var curl = curlDeleteGroup + agg.id + '/';
                 exec(curl, {
-                    cwd: constants.cwd
+                    cwd: constants.cwd,
+                    maxBuffer: 1024 * 500
                 }, function(err, stdout, stderr) {
                     execHandler(err, stdout, stderr, 'delete group ' + chalk.green(agg.id) + ' in project ' + chalk.yellow(target), curl);
                 });
@@ -112,19 +114,23 @@ var taskSentry = function(constants, done) {
         ' -H "Content-Type: multipart/form-data"';
 
     exec(curlClear, {
-        cwd: constants.cwd
+        cwd: constants.cwd,
+        maxBuffer: 1024 * 500
     }, function(err, stdout, stderr) {
         execHandler(err, stdout, stderr, 'clear release ' + chalk.yellow(releaseName), curlClear);
         exec(curlRelease, {
-            cwd: constants.cwd
+            cwd: constants.cwd,
+            maxBuffer: 1024 * 500
         }, function(err, stdout, stderr) {
             execHandler(err, stdout, stderr, 'create release ' + chalk.yellow(releaseName), curlRelease);
             exec(curlSrcmap, {
-                cwd: constants.cwd
+                cwd: constants.cwd,
+                maxBuffer: 1024 * 500
             }, function(err, stdout, stderr) {
                 execHandler(err, stdout, stderr, 'upload sourcemap ' + chalk.green(srcmapPath) + ' for release ' + chalk.yellow(releaseName), curlSrcmap);
                 exec(curlBundle, {
-                    cwd: constants.cwd
+                    cwd: constants.cwd,
+                    maxBuffer: 1024 * 500
                 }, function(err, stdout, stderr) {
                     execHandler(err, stdout, stderr, 'upload bundle ' + chalk.green(bundlePath) + ' for release ' + chalk.yellow(releaseName), curlBundle);
                     done();
