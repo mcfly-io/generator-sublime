@@ -183,10 +183,10 @@ var taskCordovaIcon = function(constants) {
         return;
     }
     exec('./bin/cordova-generate-icons ' + constants.cordova.icon + ' ' + constants.cordova.src, {
-        maxBuffer: 1024 * 500
+        maxBuffer: constants.maxBuffer
     }, helper.execHandler);
     exec('./bin/cordova-generate-splashes ' + constants.cordova.splash + ' "' + constants.cordova.iconBackground + '" ' + constants.cordova.src, {
-        maxBuffer: 1024 * 500
+        maxBuffer: constants.maxBuffer
     }, helper.execHandler);
 };
 
@@ -235,7 +235,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
                 .then(function() {
                     exec('curl https://app.testfairy.com/api/upload -F api_key=\'' + constants.testfairy.api_key + '\' -F file=@\'' + file.path + '\' -F metrics=' + metrics + '  -F testers_groups=' + testersGroups + ' -F max-duration=' + maxDuration + ' -F auto-update=' + autoUpdate + ' -F icon-watermark=' + iconWatermark + ' ', {
                         cwd: constants.dist.distFolder,
-                        maxBuffer: 1024 * 500
+                        maxBuffer: constants.maxBuffer
                     }, function(err, stdout, stderr) {
                         if (!err) {
                             gutil.log(gutil.colors.green('Sucessfully uploaded ') + gutil.colors.cyan(file.path) + gutil.colors.green(' to testfairy.'));
@@ -260,7 +260,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
         .on('end', function() {
             exec('cordova platform add ios && cordova platform add android', {
                 cwd: constants.dist.distFolder,
-                maxBuffer: 1024 * 500
+                maxBuffer: constants.maxBuffer
             }, function(err, stdout, stderr) {
                 helper.execHandler(err, stdout, stderr, {
                     stderrIsNotError: true
@@ -268,7 +268,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
                 gutil.log(stdout);
                 exec('cordova build ios --device && cordova build android --device', {
                     cwd: constants.dist.distFolder,
-                    maxBuffer: 1024 * 500
+                    maxBuffer: constants.maxBuffer
                 }, function(err, stdout, stderr) {
                     helper.execHandler(err, stdout, stderr, {
                         stderrIsNotError: true
@@ -279,7 +279,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
 
                     exec('/usr/bin/xcrun -sdk iphoneos PackageApplication "$(pwd)/' + appname + '.app" -o "$(pwd)/' + appname + '.ipa"', {
                         cwd: constants.dist.distFolder + '/platforms/ios/build/device',
-                        maxBuffer: 1024 * 500
+                        maxBuffer: constants.maxBuffer
                     }, function(err, stdout, stderr) {
                         helper.execHandler(err, stdout, stderr);
 
@@ -310,7 +310,7 @@ var taskCordovaAllPlatform = function(constants) {
         .on('end', function() {
             exec('cordova platform add ios && cordova platform add android', {
                 cwd: constants.dist.distFolder,
-                maxBuffer: 1024 * 500
+                maxBuffer: constants.maxBuffer
             }, function(err, stdout, stderr) {
                 if (err) {
                     gutil.log(gutil.colors.red(err.message));
@@ -318,12 +318,12 @@ var taskCordovaAllPlatform = function(constants) {
                 gutil.log(stdout);
                 exec('cordova build ios --device && cordova build android --device', {
                     cwd: constants.dist.distFolder,
-                    maxBuffer: 1024 * 500
+                    maxBuffer: constants.maxBuffer
                 }, function(err, stdout, stderr) {
                     helper.execHandler(err, stdout, stderr);
                     exec('/usr/bin/xcrun -sdk iphoneos PackageApplication "$(pwd)/' + appname + '.app" -o "$(pwd)/' + appname + '.ipa"', {
                         cwd: constants.dist.distFolder + '/platforms/ios/build/device',
-                        maxBuffer: 1024 * 500
+                        maxBuffer: constants.maxBuffer
                     }, function(err, stdout, stderr) {
                         helper.execHandler(err, stdout, stderr);
                     });

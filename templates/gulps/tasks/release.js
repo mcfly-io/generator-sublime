@@ -113,7 +113,7 @@ gulp.task('tag', false, ['commit'], function(cb) {
 
 gulp.task('push', false, ['tag'], function(cb) {
     exec('git push origin master  && git push origin master --tags', {
-        maxBuffer: 1024 * 500
+        maxBuffer: constants.maxBuffer
     }, function(err) {
         if (err) {
             throw new Error(err);

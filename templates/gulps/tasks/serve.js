@@ -58,7 +58,7 @@ var taskBrowsersyncstart = function(constants) {
         gutil.log('Launching ' + platform + ' emulator');
         exec('ionic emulate ' + platform + ' --livereload', {
             cwd: constants.dist.distFolder,
-            maxBuffer: 1024 * 500
+            maxBuffer: constants.maxBuffer
         }, helper.execHandler);
     }
 };
@@ -97,7 +97,7 @@ var taskCordovaRun = function(constants) {
     gutil.log('ionic run ' + platform);
     exec('ionic run ' + platform, {
         cwd: constants.dist.distFolder,
-        maxBuffer: 1024 * 500
+        maxBuffer: constants.maxBuffer
     }, helper.execHandler);
 };
 
