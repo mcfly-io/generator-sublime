@@ -1,30 +1,24 @@
 language: node_js
 sudo: false
 node_js:
-  - 0.12
+- 0.12
 
 cache:
-   directories:
-     - node_modules
+  directories:
+  - node_modules
 
 before_script:
-#  - mkdir -p shippable/codecoverage
-  - npm install -g gulp
-  - npm install -g codeclimate-test-reporter
+- npm install -g gulp
+- npm install -g codeclimate-test-reporter
 
 after_success:
-#  - npm run coverage
-#  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
-#  - mocha test -R mocha-lcov-reporter
-#  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
-#  - cat ./coverage/lcov.info | codeclimate
-  - CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate < ./coverage/lcov.info
+- CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate < ./coverage/lcov.info
 
 deploy:
   provider: npm
   email: thaiat@ipelia.com
-  api_key: $NPM_API_KEY
+  api_key:
+    secure: h2lG324rO3owAreT56ZHuE5EVVKvzQVGESxXPMdb/gbGbnGeYztcgX1F7swqaUu/fV0FJIhg0pbG956TnaYb9kplq3Pc9sl4jQBMxlOZgMNlYcg0ooq8Bcktc49Di2ToF5hhvoLacHCXhG2zEJNqSZDlYp7z+NgFsyXaqaQ3D7c=
   on:
     tags: true
-    all_branches: true
     repo: mcfly-io/generator-sublime
