@@ -55,6 +55,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'bundle-collapser': '1.2.0',
             'chai': '3.0.0',
             'chalk': '1.1.0',
+            'codeclimate-test-reporter': 'latest',
             'conventional-changelog': '0.0.17',
             'cssify': '0.7.0',
             'deamdify': '0.1.1',
@@ -340,6 +341,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
             var npmPackages = [
                 'chalk',
+                'codeclimate-test-reporter',
                 'event-stream',
                 'gulp',
                 'gulp-help',

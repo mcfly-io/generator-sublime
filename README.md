@@ -6,7 +6,7 @@
 
 > Yeoman generator for scaffolding the standard configuration root files like .gitignore, .jshintrc, .jscsrc etc...
 
-[![NPM](https://nodei.co/npm/generator-sublime.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-sublime)
+[![NPM](https://nodei.co/npm/generator-sublime.png?downloads=false&downloadRank=false&stars=false)](https://nodei.co/npm/generator-sublime)
 
 ## Usage
 
