@@ -91,7 +91,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
-            'gulp-sass': '2.0.3',
+            'gulp-sass': '2.0.4',
             'gulp-size': '1.2.3',
             'gulp-sourcemaps': '1.5.2',
             'gulp-tap': '0.1.3',
