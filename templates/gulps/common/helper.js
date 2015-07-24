@@ -196,11 +196,11 @@ var getEnvifyVars = function(constants) {
 var getBanner = function() {
     var packageJson = readJsonFile('./package.json');
     return _.template(['/**',
-        ' * <%= pkg.name %> - <%= pkg.description %>',
-        ' * @date <%= new Date() %>',
-        ' * @version v<%= pkg.version %>',
-        ' * @link <%= pkg.homepage %>',
-        ' * @license <%= pkg.license %>',
+        ' * <%%= pkg.name %> - <%%= pkg.description %>',
+        ' * @date <%%= new Date() %>',
+        ' * @version v<%%= pkg.version %>',
+        ' * @link <%%= pkg.homepage %>',
+        ' * @license <%%= pkg.license %>',
         ' */',
         ''
     ].join('\n'))({
