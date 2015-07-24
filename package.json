@@ -51,6 +51,7 @@
   "devDependencies": {
     "babel-eslint": "^3.1.23",
     "chai": "3.0.0",
+    "codeclimate-test-reporter": "^0.1.0",
     "conventional-changelog": "0.0.17",
     "del": "1.2.0",
     "eslint-plugin-nodeca": "^1.0.3",

@@ -9,16 +9,14 @@ cache:
 
 before_script:
 - npm install -g gulp
-- npm install -g codeclimate-test-reporter
 
 after_success:
-- CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate < ./coverage/lcov.info
+- CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < ./coverage/lcov.info
 
 deploy:
   provider: npm
   email: thaiat@ipelia.com
-  api_key:
-    secure: h2lG324rO3owAreT56ZHuE5EVVKvzQVGESxXPMdb/gbGbnGeYztcgX1F7swqaUu/fV0FJIhg0pbG956TnaYb9kplq3Pc9sl4jQBMxlOZgMNlYcg0ooq8Bcktc49Di2ToF5hhvoLacHCXhG2zEJNqSZDlYp7z+NgFsyXaqaQ3D7c=
+  api_key: $NPM_API_KEY
   on:
     tags: true
     repo: mcfly-io/generator-sublime
