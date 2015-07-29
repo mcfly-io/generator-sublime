@@ -41,6 +41,8 @@ gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
 });
 
 gulp.task('karma', 'Runs karma unit tests.', function() {
+    // passing the args to karma
+    process.env.ARGS = JSON.stringify(args);
     return gulp.src(['no need to supply files because everything is in config file'])
         .pipe(karma({
             configFile: 'karma.conf.js',
