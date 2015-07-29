@@ -149,7 +149,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
             'watchify': '3.2.3',
-            'webpack': '1.10.1',
+            'webpack': '1.10.5',
             'webpack-dev-server': '1.10.1',
             'yargs': '3.14.0'
         };
