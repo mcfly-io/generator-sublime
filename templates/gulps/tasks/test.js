@@ -6,7 +6,8 @@ var $ = require('gulp-load-plugins')();
 var mocha = $.mocha;
 var istanbul = $.istanbul;
 var karma = $.karma;
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
+var bs = browserSync;
 //var plumber = $.plumber;
 var gmux = require('gulp-mux');
 var gutil = require('gulp-util');
@@ -67,7 +68,7 @@ gulp.task('webdriver-update', false, $.protractor.webdriver_update);
 var taskE2EServe = function(constants, done) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
-    browserSync({
+    bs = browserSync.init({
         logLevel: 'silent',
         notify: false,
         open: false,
@@ -86,14 +87,15 @@ var taskE2ERun = function(constants, done) {
         }))
         .on('error', function(err) {
             // Make sure failed tests cause gulp to exit non-zero
-            browserSync.exit();
+            bs.cleanup();
             throw err;
         })
         .on('end', function() {
             // Close connect server to and gulp connect task
-            browserSync.exit();
+            bs.cleanup();
             done();
         });
+    gulp.on('stop', process.exit);
 };
 
 gulp.task('e2e:run', false, function(done) {
