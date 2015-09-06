@@ -37,7 +37,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'changelog',
             'test',
             'style',
-            'dist'
+            'dist',
+            'graph'
         ];
 
         this.npmPackagesVersion = {
@@ -62,18 +63,22 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'del': '1.2.0',
             'envify': '3.4.0',
             'eslint-plugin-nodeca': '1.0.3',
+            'esprima': '^2.4.1',
             'event-stream': '3.3.1',
             'exorcist': '0.4.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.4',
             'github-username': '2.0.0',
+            'graphviz': '0.0.8',
             'growly': '1.2.0',
             'gulp': '3.9.0',
             'gulp-autoprefixer': '2.3.1',
             'gulp-bump': '0.3.1',
             'gulp-concat': '2.6.0',
+            'gulp-debug': '^2.0.1',
             'gulp-eslint': '0.15.0',
             'gulp-exec': '2.1.1',
+            'gulp-file': '0.2.0',
             'gulp-git': '1.2.4',
             'gulp-help': '1.6.0',
             'gulp-if': '1.2.5',
@@ -91,6 +96,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
+            'gulp-replace': '0.5.4',
             'gulp-sass': '2.0.4',
             'gulp-size': '1.2.3',
             'gulp-sourcemaps': '1.5.2',
@@ -533,6 +539,19 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-tap',
                     'inquirer'
                     //'imagemin-pngquant',
+                ]);
+            }
+
+            if (this.graph) {
+                this.template('tasks/graph.js', gulpFolder + '/tasks/graph.js');
+                npmPackages = npmPackages.concat([
+                    'esprima',
+                    'graphviz',
+                    'gulp-replace',
+                    'gulp-debug',
+                    'gulp-tap',
+                    'gulp-file',
+                    'lodash'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
