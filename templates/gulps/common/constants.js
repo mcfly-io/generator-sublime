@@ -148,7 +148,11 @@ module.exports = function() {
             iconWatermark: 'on'
         },
         bundleName: 'bundle.js',
-        moduleManager: 'browserify' // or webpack
+        moduleManager: 'browserify', // or webpack
+        graph: {
+            graphvizbin: '/usr/local/bin',
+            outputName: 'graph-dependency.png'
+        }
     };
 
     return constants;

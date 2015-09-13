@@ -20,7 +20,8 @@ describe('sublime:gulps', function() {
             'changelog',
             'test',
             'style',
-            'dist'
+            'dist',
+            'graph'
         ];
 
         before(function() {
@@ -133,6 +134,13 @@ describe('sublime:gulps', function() {
             }, ['dist']);
         });
 
+        it('with option graph should scaffold graph.js', function(done) {
+            projectFiles.call(this, function() {
+                assert.file('gulp_tasks/tasks/graph.js');
+                done();
+            }, ['graph']);
+        });
+
         var checkOption = function(ctx, option, done) {
             var opts = {
                 'skip-install': true,
@@ -184,6 +192,10 @@ describe('sublime:gulps', function() {
 
         it('should success with option dist', function(done) {
             checkOption(this, 'dist', done);
+        });
+
+        it('should success with option graph', function(done) {
+            checkOption(this, 'graph', done);
         });
     });
 

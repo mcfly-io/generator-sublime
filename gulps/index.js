@@ -37,7 +37,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'changelog',
             'test',
             'style',
-            'dist'
+            'dist',
+            'graph'
         ];
 
         this.npmPackagesVersion = {
@@ -62,11 +63,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'del': '1.2.0',
             'envify': '3.4.0',
             'eslint-plugin-nodeca': '1.0.3',
+            'esprima': '^2.4.1',
             'event-stream': '3.3.1',
             'exorcist': '0.4.0',
             'glob-to-regexp': '0.0.1',
             'github': '0.2.4',
             'github-username': '2.0.0',
+            'graphviz': '0.0.8',
             'growly': '1.2.0',
             'gulp': '3.9.0',
             'gulp-autoprefixer': '2.3.1',
@@ -533,6 +536,15 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-tap',
                     'inquirer'
                     //'imagemin-pngquant',
+                ]);
+            }
+
+            if (this.graph) {
+                this.template('tasks/graph.js', gulpFolder + '/tasks/graph.js');
+                npmPackages = npmPackages.concat([
+                    'esprima',
+                    'graphviz',
+                    'inquirer'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
