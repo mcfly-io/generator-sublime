@@ -151,8 +151,7 @@ module.exports = function() {
         moduleManager: 'browserify', // or webpack
         graph: {
             graphvizbin: '/usr/local/bin',
-            outputName: 'test.png',
-            outputFolder: './dist/test.dot'
+            outputName: 'graph-dependency.png'
         }
     };
 

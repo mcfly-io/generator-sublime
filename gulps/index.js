@@ -75,10 +75,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-autoprefixer': '2.3.1',
             'gulp-bump': '0.3.1',
             'gulp-concat': '2.6.0',
-            'gulp-debug': '^2.0.1',
             'gulp-eslint': '0.15.0',
             'gulp-exec': '2.1.1',
-            'gulp-file': '0.2.0',
             'gulp-git': '1.2.4',
             'gulp-help': '1.6.0',
             'gulp-if': '1.2.5',
@@ -96,7 +94,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
-            'gulp-replace': '0.5.4',
             'gulp-sass': '2.0.4',
             'gulp-size': '1.2.3',
             'gulp-sourcemaps': '1.5.2',
@@ -547,11 +544,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'esprima',
                     'graphviz',
-                    'gulp-replace',
-                    'gulp-debug',
-                    'gulp-tap',
-                    'gulp-file',
-                    'lodash'
+                    'inquirer'
                 ]);
             }
             this.npmPackages = _.uniq(npmPackages);
