@@ -27,7 +27,6 @@ var constants = require('../common/constants')();
  * - or -
  * gulp bump --ver=1.2.3
  * @param {function} cb - The gulp callback
- * @returns {void}
  */
 gulp.task('bump', false, function(cb) {
     var bumpType = 'patch';
