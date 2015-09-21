@@ -82,7 +82,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-if': '1.2.5',
             'gulp-imagemin': '2.3.0', // may have some issue with installation on node 10
             'gulp-istanbul': '0.10.0',
-            'gulp-jscs': '1.6.0',
+            'gulp-jscs': '2.0.0',
             'gulp-jshint': '1.11.2',
             'gulp-karma': '0.0.4',
             'gulp-less': '3.0.3',

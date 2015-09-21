@@ -96,12 +96,9 @@ module.exports = function() {
 
     /**
      * Instantiate a simple, dummy generator
-     *
      * @private
-     *
      * @param {Class} [baseClass] - The base class of the generator, defaults to require('yeoman-generator').base
      * @param {Object} [methods] - An object haskey of methods that should exist on the returned generator, default to a single 'test' method
-     *
      * @returns {Generator} - An instance of the generator
      */
     var createGenerator = function(baseClass, methods) {
