@@ -146,7 +146,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'stream-combiner': '0.2.2',
             //'streamqueue': '1.1.0',
             'strip-json-comments': '1.0.2',
-            'transform-loader': '0.2.2',
+            'transform-loader': '0.2.3',
             'uglifyify': '3.0.1',
             'vinyl-buffer': '1.0.0',
             'vinyl-source-stream': '1.1.0',
