@@ -13,7 +13,7 @@ var getRepository = function() {
         } else {
             repository = packageJson.repository.url.replace('.git', '');
         }
-    } catch(err) {}
+    } catch (err) {}
     return repository;
 };
 
@@ -23,7 +23,7 @@ var getAppname = function() {
         var helper = require('./helper');
         var packageJson = helper.readJsonFile('./package.json');
         appname = packageJson.name;
-    } catch(err) {}
+    } catch (err) {}
     return appname;
 };
 

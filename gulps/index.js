@@ -42,7 +42,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
-            'babel-eslint': '3.1.23',
+            'babel-eslint': '4.1.3',
             'babel': '5.6.14',
             'babel-core': '5.6.15',
             'babel-loader': '5.2.2',
@@ -75,7 +75,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-autoprefixer': '2.3.1',
             'gulp-bump': '0.3.1',
             'gulp-concat': '2.6.0',
-            'gulp-eslint': '0.15.0',
+            'gulp-eslint': '1.0.0',
             'gulp-exec': '2.1.1',
             'gulp-git': '1.2.4',
             'gulp-help': '1.6.0',
