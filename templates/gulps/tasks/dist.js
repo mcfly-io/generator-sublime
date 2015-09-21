@@ -102,6 +102,10 @@ var taskImageCordova = function(constants) {
             gulp.src(constants.cordova.src + '/resources/android/**/*')
                 .pipe(gulp.dest(constants.dist.distFolder + '/platforms/android/res'));
         }
+        if (fs.existsSync(constants.dist.distFolder + '/platforms/blackberry10')) {
+            gulp.src(constants.cordova.src + '/resources/blackberry10/**/*')
+                .pipe(gulp.dest(constants.dist.distFolder + '/platforms/blackberry10/platform_www'));
+        }
     }
 };
 
