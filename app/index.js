@@ -133,7 +133,7 @@ var SublimeGenerator = Class.extend({
                 type: 'confirm',
                 name: 'NpmPublish',
                 message: 'Would you like travis to publish your package on npm ?',
-                default: true,
+                default: false,
                 when: function(answers) {
                     var values = answers.Files;
                     return _.contains(values, 'TravisYml');
@@ -142,12 +142,12 @@ var SublimeGenerator = Class.extend({
                 type: 'confirm',
                 name: 'CodioStartup',
                 message: 'Do you need a codio startup.sh file ?',
-                default: true
+                default: false
             }, {
                 type: 'confirm',
                 name: 'Gitconfig',
                 message: 'Do you need a git-config.sh file ?',
-                default: true
+                default: false
             }];
 
             this.prompt(prompts, function(answers) {
