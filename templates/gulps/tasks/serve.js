@@ -21,6 +21,7 @@ var taskBrowsersyncstart = function(constants) {
     if (!_.isUndefined(args.browser)) {
         open = args.browser;
     }
+    bs = browserSync.create();
     //var version = helper.readJsonFile('./package.json').version;
     //var target = constants.targetName;
     //var releaseName = target + '-v' + version;
@@ -51,7 +52,17 @@ var taskBrowsersyncstart = function(constants) {
 
     //config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
 
-    browserSync(config);
+    bs.watch(constants.style.watchFolder, function() {
+        gulp.start('style', done);
+    });
+    bs.watch(constants.html.src, function() {
+        gulp.start('html');
+    });
+    bs.watch(gmux.sanitizeWatchFolders(constants.images.src), function() {
+        gulp.start('image');
+    });
+
+    bs.init(config);
 
     var platform = global.options.platform || constants.cordova.platform;
     if (helper.isMobile(constants)) {
@@ -65,7 +76,7 @@ var taskBrowsersyncstart = function(constants) {
 
 var taskBrowsersync = function(constants) {
     runSequence(
-        [constants.moduleManager === 'webpack' ? 'webpack:watch' : 'watchify'<% if (style) { %>, 'style', 'style:watch', 'image', 'image:watch', 'html', 'angular:i18n', 'html:watch'<% } %>],
+        [constants.moduleManager === 'webpack' ? 'webpack:watch' : 'watchify'<% if (style) { %>, 'font', 'angular:i18n'<% } %>],
         'browsersyncstart'
     );
 };

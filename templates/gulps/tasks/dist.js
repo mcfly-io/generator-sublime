@@ -118,20 +118,6 @@ gulp.task('html', false, function() {
     return gmux.createAndRunTasks(gulp, taskHtml, taskname, global.options.target, global.options.mode, constants);
 });
 
-var taskHtmlWatch = function(constants) {
-    gulp.watch(constants.html.src, ['html']);
-};
-
-gulp.task('html:watch', false, function() {
-
-    var taskname = 'html:watch';
-    gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
-        global.options = gmux.targets.askForSingleTarget(taskname);
-    }
-    gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
-});
-
 var taskAngulari18n = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
@@ -147,20 +133,6 @@ gulp.task('angular:i18n', false, function() {
         global.options = gmux.targets.askForSingleTarget(taskname);
     }
     gmux.createAndRunTasks(gulp, taskAngulari18n, taskname, global.options.target, global.options.mode, constants);
-});
-
-var taskImageWatch = function(constants) {
-    gulp.watch(gmux.sanitizeWatchFolders(constants.images.src), ['image']);
-};
-
-gulp.task('image:watch', false, function() {
-
-    var taskname = 'image:watch';
-    gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
-        global.options = gmux.targets.askForSingleTarget(taskname);
-    }
-    gmux.createAndRunTasks(gulp, taskImageWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
 gulp.task('image', false, ['image:cordova'], function() {
@@ -204,7 +176,7 @@ gulp.task('cordova:icon', 'Generate the cordova icons and splashes.', function()
 });
 
 gulp.task('dist', 'Distribute the application.', function(done) {
-    return runSequence('html', 'image', 'angular:i18n', constants.moduleManager === 'webpack' ? 'webpack:run' : 'browserify', 'style', done);
+    return runSequence('html', 'image', 'angular:i18n', constants.moduleManager === 'webpack' ? 'webpack:run' : 'browserify', 'style', 'font', done);
 });
 
 gulp.task('clean:all', 'Clean distribution folder for all targets and modes.', function() {

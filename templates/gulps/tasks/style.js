@@ -6,7 +6,6 @@ var sass = $.sass;
 var less = $.less;
 //var sourcemaps = $.sourcemaps;
 var autoprefixer = $.autoprefixer;
-// var rename = $.rename;
 var concat = $.concat;
 var order = $.order;
 var minifycss = require('gulp-minify-css');
@@ -47,14 +46,12 @@ var taskStyle = function(constants, done) {
 
     var sassFiles = gulp.src(constants.style.sass.src)
         .pipe(sass({
-            errLogToConsole: false,
-            onError: function(err) {
-                gutil.beep();
-                gutil.log(gutil.colors.red('Sass failed'));
-                gutil.log(gutil.colors.red(err.message));
-                gutil.log(gutil.colors.red(err.file + ':' + err.line + ':' + err.column));
-            }
-        }))
+            errLogToConsole: false
+        }).on('error', sass.logError))
+        .on('error', function(err) {
+            gutil.beep();
+            gutil.log(gutil.colors.red('Sass failed'));
+        })
         .pipe(concat('sass.css'));
 
     var lessFiles = gulp.src(constants.style.less.src)
@@ -74,25 +71,11 @@ var taskStyle = function(constants, done) {
         .pipe(es.wait(done));
 };
 
-gulp.task('style', 'Generates a bundle for style files.', ['font'], function(done) {
+gulp.task('style', 'Generates a bundle for style files.', function(done) {
     var taskname = 'style';
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
     }
     gmux.createAndRunTasks(gulp, taskStyle, taskname, global.options.target, global.options.mode, constants, done);
-});
-
-var taskStyleWatch = function(constants) {
-    gulp.watch(constants.style.watchFolder, ['style']);
-};
-
-gulp.task('style:watch', 'Watch changes for style files.', function() {
-
-    var taskname = 'style:watch';
-    gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
-        global.options = gmux.targets.askForSingleTarget(taskname);
-    }
-    gmux.createAndRunTasks(gulp, taskStyleWatch, taskname, global.options.target, global.options.mode, constants);
 });

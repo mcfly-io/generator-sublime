@@ -94,8 +94,8 @@ describe('sublime:gulps', function() {
             projectFiles.call(this, done, ['lint']);
         });
 
-        it('with option serve should scaffold serve.js', function(done) {
-            projectFiles.call(this, done, ['serve']);
+        it('with option serve should scaffold serve.js, dist.js and style.js', function(done) {
+            projectFiles.call(this, done, ['serve', 'dist', 'style']);
         });
 
         it('with option browserify should scaffold browserify.js', function(done) {

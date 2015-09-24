@@ -507,7 +507,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
 
-            if (this.style) {
+            if (this.style || this.serve) {
                 this.template('tasks/style.js', gulpFolder + '/tasks/style.js');
                 npmPackages = npmPackages.concat([
                     'event-stream',
@@ -524,7 +524,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
 
-            if (this.dist) {
+            if (this.dist || this.serve) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
                 npmPackages = npmPackages.concat([
@@ -599,31 +599,31 @@ var GulpsGenerator = yeoman.generators.Base.extend({
     end: function() {
         this.log('');
         this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
-        if (this.lint) {
-            this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
-        }
-        if (this.serve) {
-            //this.log('Run the command ' + chalk.yellow('gulp serve') + ' to launch a live reload server.');
-            this.log('Run the command ' + chalk.yellow('gulp browsersync') + ' to launch a browsersync server.');
-        }
-        if (this.browserify) {
-            this.log('Run the command ' + chalk.yellow('gulp browserify') + ' to create a browserify bundle.');
-        }
-        if (this.release) {
-            this.log('Run the command ' + chalk.yellow('gulp release') + ' to increment version and publish to npm.');
-        }
-        if (this.changelog) {
-            this.log('Run the command ' + chalk.yellow('gulp changelog') + ' to create a CHANGELOG.md file.');
-        }
-        if (this.test) {
-            this.log('Run the command ' + chalk.yellow('gulp test') + ' to run the tests.');
-        }
-        if (this.dist) {
-            this.log('Run the command ' + chalk.yellow('gulp dist') + ' to distribute the application.');
-        }
-        if (this.style) {
-            this.log('Run the command ' + chalk.yellow('gulp style') + ' to compile style files.');
-        }
+        // if (this.lint) {
+        //     this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
+        // }
+        // if (this.serve) {
+        //     //this.log('Run the command ' + chalk.yellow('gulp serve') + ' to launch a live reload server.');
+        //     this.log('Run the command ' + chalk.yellow('gulp browsersync') + ' to launch a browsersync server.');
+        // }
+        // if (this.browserify) {
+        //     this.log('Run the command ' + chalk.yellow('gulp browserify') + ' to create a browserify bundle.');
+        // }
+        // if (this.release) {
+        //     this.log('Run the command ' + chalk.yellow('gulp release') + ' to increment version and publish to npm.');
+        // }
+        // if (this.changelog) {
+        //     this.log('Run the command ' + chalk.yellow('gulp changelog') + ' to create a CHANGELOG.md file.');
+        // }
+        // if (this.test) {
+        //     this.log('Run the command ' + chalk.yellow('gulp test') + ' to run the tests.');
+        // }
+        // if (this.dist) {
+        //     this.log('Run the command ' + chalk.yellow('gulp dist') + ' to distribute the application.');
+        // }
+        // if (this.style) {
+        //     this.log('Run the command ' + chalk.yellow('gulp style') + ' to compile style files.');
+        // }
     }
 
 });
