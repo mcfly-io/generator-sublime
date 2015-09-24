@@ -1,10 +1,9 @@
 'use strict';
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var $ = require('gulp-load-plugins')();
-var mocha = $.mocha;
-var istanbul = $.istanbul;
-//var plumber = $.plumber;
+var mocha = require('gulp-mocha');
+var istanbul = require('gulp-istanbul');
+//var plumber = require('gulp-plumber');
 var constants = require('../common/constants')();
 
 gulp.task('mocha', 'Runs mocha unit tests', function() {

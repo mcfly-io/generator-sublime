@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
 var changelog = require('conventional-changelog');
 var argv = require('yargs').argv;
 var fs = require('fs');
@@ -9,10 +8,10 @@ var q = require('q');
 var pkg = require('../../package.json');
 var path = require('path');
 var gutil = require('gulp-util');
-var exec = $.exec;
-var concat = $.concat;
+var exec = require('gulp-exec');
+var concat = require('gulp-concat');
 var helper = require('../common/helper');
-var order = $.order;
+var order = require('gulp-order');
 var constants = require('../common/constants')();
 
 var repository = constants.repository;

@@ -2,9 +2,9 @@
 'use strict';
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var $ = require('gulp-load-plugins')();
-var mocha = $.mocha;
-var istanbul = $.istanbul;
+var mocha = require('gulp-mocha');
+var istanbul = require('gulp-istanbul');
+var protractor = require('gulp-protractor');
 var browserSync = require('browser-sync').create();
 var bs = browserSync;
 var gmux = require('gulp-mux');
@@ -56,8 +56,8 @@ gulp.task('unit', 'Runs all unit tests.', function(done) {
     );
 });
 
-gulp.task('webdriver-update', false, $.protractor.webdriver_update);
-//gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
+gulp.task('webdriver-update', false, protractor.webdriver_update);
+//gulp.task('webdriver-standalone', protractor.webdriver_standalone);
 
 var taskE2EServe = function(constants, done) {
     var dest = constants.dist.distFolder;
@@ -76,7 +76,7 @@ var taskE2EServe = function(constants, done) {
 
 var taskE2ERun = function(constants, done) {
     gulp.src(constants.e2e.src)
-        .pipe($.protractor.protractor({
+        .pipe(protractor.protractor({
             configFile: constants.e2e.configFile
         }))
         .on('error', function(err) {

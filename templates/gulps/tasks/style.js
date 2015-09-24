@@ -1,19 +1,19 @@
 'use strict';
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
 var es = require('event-stream');
-var sass = $.sass;
-var less = $.less;
-//var sourcemaps = $.sourcemaps;
-var autoprefixer = $.autoprefixer;
-var concat = $.concat;
-var order = $.order;
+var sass = require('gulp-sass');
+var less = require('gulp-less');
+//var sourcemaps = require('gulp-sourcemaps');
+var autoprefixer = require('gulp-autoprefixer');
+var concat = require('gulp-concat');
+var order = require('gulp-order');
+var size = require('gulp-size');
 var minifycss = require('gulp-minify-css');
 var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var gmux = require('gulp-mux');
-var gutil = $.util;
+var gutil = require('gulp-util');
 
 var taskFont = function(constants) {
 
@@ -26,7 +26,7 @@ var taskFont = function(constants) {
     }
     return gulp.src(srcFont)
         .pipe(gulp.dest(dest))
-        .pipe($.size({
+        .pipe(size({
             title: 'font:' + constants.targetName
         }));
 };
@@ -64,7 +64,7 @@ var taskStyle = function(constants, done) {
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(gulpif(constants.mode === 'prod', minifycss()))
         .pipe(gulp.dest(dest))
-        .pipe($.size({
+        .pipe(size({
             title: 'css files',
             showFiles: true
         }))

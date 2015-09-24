@@ -1,11 +1,10 @@
 /*eslint handle-callback-err:0,consistent-return:0, new-cap:0*/
 'use strict';
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var rename = $.rename;
-var tap = $.tap;
+var rename = require('gulp-rename');
+var tap = require('gulp-tap');
 var Q = require('q');
-var imagemin = $.imagemin;
+var imagemin = require('gulp-imagemin');
 var del = require('del');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;

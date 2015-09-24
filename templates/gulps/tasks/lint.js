@@ -1,17 +1,16 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
 var map = require('map-stream');
 var combine = require('stream-combiner');
 var chalk = require('chalk');
 var growly = require('growly');
 var _ = require('lodash');
-var jshint = $.jshint;
-var jscs = $.jscs;
-var eslint = $.eslint;
-var gutil = $.util;
-var plumber = $.plumber;
+var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
+var eslint = require('gulp-eslint');
+var gutil = require('gulp-util');
+var plumber = require('gulp-plumber');
 var constants = require('../common/constants')();
 
 var notifyGrowly = constants.growly.notify;

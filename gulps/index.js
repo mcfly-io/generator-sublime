@@ -85,7 +85,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-jscs': '2.0.0',
             'gulp-jshint': '1.11.2',
             'gulp-less': '3.0.3',
-            'gulp-load-plugins': '1.0.0-rc.1',
             'gulp-minify-css': '1.2.1',
             'gulp-mocha': '2.1.3',
             'gulp-mux': '', // always take latest version as this is our package
@@ -348,7 +347,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'gulp',
                 'gulp-help',
                 'gulp-if',
-                'gulp-load-plugins',
                 'gulp-mux',
                 'gulp-util',
                 'lodash',
