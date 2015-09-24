@@ -18,7 +18,7 @@ var taskBrowsersyncstart = function(constants) {
     if (!_.isUndefined(args.browser)) {
         open = args.browser;
     }
-    bs = browserSync.create();
+    var bs = browserSync.create();
     //var version = helper.readJsonFile('./package.json').version;
     //var target = constants.targetName;
     //var releaseName = target + '-v' + version;
@@ -50,7 +50,7 @@ var taskBrowsersyncstart = function(constants) {
     //config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
 
     bs.watch(constants.style.watchFolder, function() {
-        gulp.start('style', done);
+        gulp.start('style');
     });
     bs.watch(constants.html.src, function() {
         gulp.start('html');
