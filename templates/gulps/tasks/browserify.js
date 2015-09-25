@@ -75,7 +75,8 @@ var browserifyShare = function(shouldWatch, constants, done) {
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: mode === 'prod' ? false : true
+        fullPaths: mode === 'prod' ? false : true,
+        require: ['fs']
     });
 
     if (shouldWatch) {
@@ -84,7 +85,10 @@ var browserifyShare = function(shouldWatch, constants, done) {
     if (mode === 'prod') {
         b.transform({
             'global': true,
-            'exts': ['.js']
+            'exts': ['.js'],
+            'ignore': [
+                '**/node_modules/xlsx/**/*'
+            ]
         }, 'uglifyify');
 
         // convert bundle paths to IDSs to save bytes in browserify bundles
