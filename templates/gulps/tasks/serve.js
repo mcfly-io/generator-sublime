@@ -49,13 +49,21 @@ var taskBrowsersyncstart = function(constants) {
 
     //config.server.routes['/' + sourceMapDest + '/' + sourceMap] = sourceMapDest + '/' + sourceMap;
 
-    bs.watch(constants.style.watchFolder, function() {
+    bs.watch(constants.style.watchFolder, {
+        ignoreInitial: true
+    }, function() {
         gulp.start('style');
     });
-    bs.watch(constants.html.src, function() {
+
+    bs.watch(constants.html.src, {
+        ignoreInitial: true
+    }, function() {
         gulp.start('html');
     });
-    bs.watch(gmux.sanitizeWatchFolders(constants.images.src), function() {
+
+    bs.watch(constants.images.src, {
+        ignoreInitial: true
+    }, function() {
         gulp.start('image');
     });
 
