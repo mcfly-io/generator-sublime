@@ -73,7 +73,7 @@ var taskBrowsersyncstart = function(constants) {
 
 var taskBrowsersync = function(constants) {
     runSequence(
-        [constants.moduleManager === 'webpack' ? 'webpack:watch' : 'watchify', 'font', 'angular:i18n'],
+        [constants.moduleManager === 'webpack' ? 'webpack:watch' : 'watchify', 'style', 'image', 'html', 'font', 'angular:i18n'],
         'browsersyncstart'
     );
 };

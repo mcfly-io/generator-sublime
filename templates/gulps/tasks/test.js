@@ -39,6 +39,7 @@ gulp.task('mocha', 'Runs mocha unit tests.', function(done) {
 });
 
 gulp.task('karma', 'Runs karma unit tests.', function(done) {
+    global.args = args;
     new KarmaServer({
         configFile: path.resolve('karma.conf.js'),
         singleRun: true,
