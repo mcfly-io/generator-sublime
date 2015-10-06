@@ -125,7 +125,7 @@ gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
 
 gulp.task('e2e', 'Runs e2e tests.', function(done) {
     runSequence(
-        ['webdriver-update', 'dist'],
+        ['webdriver-update', args.skipDist ? 'wait' : 'dist'],
         'e2e:serve',
         'e2e:run',
         done
