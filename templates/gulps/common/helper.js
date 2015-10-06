@@ -172,7 +172,8 @@ var getEnvifyVars = function(constants) {
         SENTRY_MODE: mode,
         SENTRY_NORMALIZED_URL: resolveSentryNormalizedUrl(constants),
         SENTRY_BUNDLE_NAME: bundleName,
-        TARGET: target
+        TARGET: target,
+        PROTRACTOR: process.env.PROTRACTOR
     };
     if (isMobile(constants)) {
         var srcxml = './' + constants.clientFolder + '/config' + constants.targetSuffix + '.xml';

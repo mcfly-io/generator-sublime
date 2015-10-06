@@ -72,7 +72,8 @@ var taskBrowsersyncstart = function(constants) {
     var platform = global.options.platform || constants.cordova.platform;
     if (helper.isMobile(constants)) {
         gutil.log('Launching ' + platform + ' emulator');
-        exec('ionic emulate ' + platform + ' --livereload', {
+        //exec('ionic emulate ' + platform + ' --livereload', {
+        exec('ionic emulate ' + platform, {
             cwd: constants.dist.distFolder,
             maxBuffer: constants.maxBuffer
         }, helper.execHandler);

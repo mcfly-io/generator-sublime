@@ -71,7 +71,8 @@ module.exports = function() {
             src: [
                 './' + clientFolder + '/images/{{targetName}}/**/*', './' + clientFolder + '/images/*.*',
                 './' + clientFolder + '/icons/{{targetName}}/**/*', './' + clientFolder + '/icons/*.*'
-            ]
+            ],
+            minify: true
         },
         style: {
             watchFolder: ['./' + clientFolder + '/styles/**/*.scss', './' + clientFolder + '/styles/**/*.less'],

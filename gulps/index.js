@@ -85,7 +85,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-jscs': '3.0.0',
             'gulp-jshint': '1.11.2',
             'gulp-less': '3.0.3',
-            'gulp-minify-css': '1.2.1',
+            'gulp-minify-css': '1.2.0',
             'gulp-mocha': '2.1.3',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
@@ -134,7 +134,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'moment': '2.10.6',
             'node-jsxml': '0.6.0',
             'open': '0.0.5',
-            'protractor': '2.2.0',
+            'protractor': '2.3.0',
             'protractor-jasmine2-screenshot-reporter': '0.1.7', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
             'q': '1.4.1',
             'require-dir': '0.3.0',

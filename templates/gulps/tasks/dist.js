@@ -15,6 +15,7 @@ var helper = require('../common/helper');
 var fs = require('fs');
 var XML = require('node-jsxml').XML;
 var gutil = require('gulp-util');
+var gulpif = require('gulp-if');
 var inquirer = require('inquirer');
 
 var taskClean = function(constants) {
@@ -76,7 +77,7 @@ var taskImage = function(constants) {
     gulp.src(constants.images.src, {
             base: constants.clientFolder
         })
-        .pipe(imagemin())
+        .pipe(gulpif(constants.mode === 'prod' && constants.images.minify === true, imagemin()))
         .pipe(gulp.dest(dest));
 
 };
