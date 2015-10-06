@@ -95,6 +95,7 @@ var taskE2ERun = function(constants, done) {
 
 gulp.task('e2e:run', false, function(done) {
     var taskname = 'e2e:run';
+    process.env.PROTRACTOR = true;
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
         global.options = gmux.targets.askForSingleTarget(taskname);
