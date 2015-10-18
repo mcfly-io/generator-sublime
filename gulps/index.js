@@ -103,6 +103,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html-loader': '0.3.0',
             'html2js-browserify': '1.1.0',
+            'ionic-app-lib': '0.5.1',
+            'ionic-platform-web-client': '0.2.0',
             'inquirer': '0.11.0',
             //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10. UPDATED: it is now a dependency of gulp-imagemin
             'isparta': '3.1.0',
@@ -348,6 +350,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             var npmPackages = [
+                // 'bluebird',
                 'chalk',
                 'codeclimate-test-reporter',
                 'event-stream',
@@ -359,6 +362,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'lodash',
                 'node-jsxml',
                 'moment',
+                'q',
                 'require-dir',
                 'run-sequence',
                 'strip-json-comments'
@@ -466,7 +470,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-if',
                     'gulp-tap',
                     'inquirer',
-                    'q',
                     'yargs'
                 ]);
             }
@@ -480,7 +483,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-exec',
                     'gulp-concat',
                     'gulp-order',
-                    'q',
                     'yargs'
                 ]);
             }
@@ -549,6 +551,18 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-tap',
                     'inquirer'
                     //'imagemin-pngquant',
+                ]);
+            }
+
+            if (this.ionic) {
+                this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
+                this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
+                npmPackages = npmPackages.concat([
+                    'bluebird',
+                    'inquirer',
+                    'ionic-app-lib',
+                    'ionic-platform-web-client',
+                    'mkdirp'
                 ]);
             }
 

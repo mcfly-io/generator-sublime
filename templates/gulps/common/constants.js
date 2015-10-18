@@ -107,6 +107,11 @@ module.exports = function() {
             auth: ''
         },
         ionic: {
+            ionicPlatformInstaller: 'npm', // or 'bower'
+            ionicPlatformModule: 'install-platform-web-client',
+            ionicPlatformBundleSrc: 'dist',
+            ionicPlatformBundleFiles: ['ionic.io.bundle.js', 'ionic.io.bundle.min.js'],
+            ionicPlatformBundleDest: 'lib/ionic-platform-web-client/dist',
             app: {
                 app_id: '',
                 api_key: '',
