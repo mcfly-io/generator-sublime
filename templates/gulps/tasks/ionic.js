@@ -50,7 +50,6 @@ gulp.task('ionic:ensurelogin', false, function() {
                     type: 'input',
                     message: 'Please enter your GitHub email',
                     name: 'email',
-                    default: 'dev@yoobic.com',
                     validate: function(input) {
                         return /^[A-z0-9!#$%&'*+\/=?\^_{|}~\-]+(?:\.[A-z0-9!#$%&'*+\/=?\^_{|}~\-]+)*@(?:[A-z0-9](?:[A-z0-9\-]*[A-z0-9])?\.)+[A-z0-9](?:[A-z0-9\-]*[A-z0-9])?$/.test(input);
                     }
@@ -83,7 +82,11 @@ var taskIonicProject = function(constants) {
     return Promise.resolve(ionicLib.project.load(constants.dist.distFolder));
 };
 
-gulp.task('ionic:project', 'Create the project from the constants', ['ionic:ensurelogin'], function(done) {
+/*
+ * Create an ionic.project config from the constants
+ */
+
+gulp.task('ionic:project', false, ['ionic:ensurelogin'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -103,7 +106,7 @@ var taskIonicPlatformCopy = function(constants) {
         return Promise.resolve(null);
     }
 
-    var ionicPlatformSrc = constants.ionic.ionicPlatformBundleFiles.map(function (fileName) {
+    var ionicPlatformSrc = constants.ionic.ionicPlatformBundleFiles.map(function(fileName) {
         return path.join('.',
             constants.ionic.ionicPlatformInstaller === 'npm' ? 'node_modules' : 'bower_components',
             constants.ionic.ionicPlatformModule,
@@ -117,7 +120,7 @@ var taskIonicPlatformCopy = function(constants) {
     return gulp.src(ionicPlatformSrc).pipe(gulp.dest(ionicPlatformDest));
 };
 
-gulp.task('ionic:platformcopy', 'Upload the app to ionic.io platform', ['ionic:project'], function(done) {
+gulp.task('ionic:platformcopy', false, ['ionic:project'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -150,7 +153,11 @@ var taskIonicConfigBuild = function(constants) {
         .then(helper.execHandlerAsync);
 };
 
-gulp.task('ionic:configbuild', 'Build the config info into the ionic platform library', ['ionic:platformcopy'], function(done) {
+/*
+ * Build the config info into the ionic.io.bundle.min.js
+ */
+
+gulp.task('ionic:configbuild', false, ['ionic:platformcopy'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -193,7 +200,11 @@ var taskIonicUpload = function(constants) {
         .then(helper.execHandlerAsync);
 };
 
-gulp.task('ionic:upload', 'Upload the app to ionic.io platform', ['ionic:configbuild'], function(done) {
+/*
+ * Upload the app to ionic.io platform
+ */
+
+gulp.task('ionic:upload', false, ['ionic:configbuild'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -208,6 +219,6 @@ gulp.task('ionic:upload', 'Upload the app to ionic.io platform', ['ionic:configb
     return gmux.createAndRunTasks(gulp, taskIonicUpload, taskname, global.options.target, global.options.mode, constants, done);
 });
 
-gulp.task('ionic:deploy', null, function(done) {
+gulp.task('ionic:deploy', false, function(done) {
     runSequence('dist', 'ionic:upload');
 });

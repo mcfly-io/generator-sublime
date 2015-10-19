@@ -544,6 +544,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if (this.dist || this.serve) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
+                // this.template('tasks/ionic.js', gulpFolder + '/tasks/ionic.js');
                 npmPackages = npmPackages.concat([
                     'del',
                     'gulp-rename',
@@ -554,9 +555,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 ]);
             }
 
-            if (this.ionic) {
-                this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
-                this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
+            if (this.dist && this.ionic) {
+                this.template('tasks/ionic.js', gulpFolder + '/tasks/ionic.js');
                 npmPackages = npmPackages.concat([
                     'bluebird',
                     'inquirer',
