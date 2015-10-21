@@ -15,8 +15,12 @@ var taskBrowsersyncstart = function(constants) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
     var open = constants.serve.open;
+    var https = constants.serve.https || false;
     if (!_.isUndefined(args.browser)) {
         open = args.browser;
+    }
+    if (!_.isUndefined(args.https)) {
+        https = args.https;
     }
     var bs = browserSync.create();
     //var version = helper.readJsonFile('./package.json').version;
@@ -39,6 +43,7 @@ var taskBrowsersyncstart = function(constants) {
         },
         host: constants.serve.host,
         port: constants.serve.port,
+        https: https,
         logLevel: 'info', // info, debug , silent
         open: open,
         browser: constants.serve.browser, //['google chrome'], // ['google chrome', 'firefox'],

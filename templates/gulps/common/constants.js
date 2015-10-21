@@ -116,6 +116,7 @@ module.exports = function() {
         serve: {
             host: 'localhost', //'0.0.0.0',
             port: 5000,
+            https: false,
             open: true,
             browser: ['google chrome'], // ['google chrome', 'firefox'],
             localtunnel: false, // true, false or '<%= appname %>'
