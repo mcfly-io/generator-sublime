@@ -78,9 +78,10 @@ var taskSentry = function(constants, done) {
     var appname = constants.appname;
     var slug = (appname + '-' + target).toLowerCase();
     var releaseName = target + '-v' + version;
-    var srcmapPath = path.join(constants.exorcist.dest, releaseName + constants.exorcist.mapExtension);
+    var sourceMap = releaseName + constants.exorcist.mapExtension;
+    var sourceMapPath = path.join(constants.exorcist.dest, sourceMap);
     var normalizedURL = helper.resolveSentryNormalizedUrl(constants);
-    var srcmapURL = normalizedURL + '/' + srcmapPath;
+    var sourceMapURL = normalizedURL + '/' + sourceMap;
     var bundleName = constants.bundleName || 'bundle.js';
     var bundleDest = constants.dist.distFolder;
     bundleDest = helper.isMobile(constants) ? bundleDest + '/www' : bundleDest;
@@ -102,8 +103,8 @@ var taskSentry = function(constants, done) {
     var curlSrcmap = 'curl ' + sentryURL + '/' + slug + '/releases/' + releaseName + '/files/' +
         ' -X POST' +
         ' -u ' + constants.sentry.auth +
-        ' -F file=@' + srcmapPath +
-        ' -F name=' + srcmapURL +
+        ' -F file=@' + sourceMapPath +
+        ' -F name=' + sourceMapURL +
         ' -H "Content-Type: multipart/form-data"';
 
     var curlBundle = 'curl ' + sentryURL + '/' + slug + '/releases/' + releaseName + '/files/' +
@@ -127,7 +128,7 @@ var taskSentry = function(constants, done) {
                 cwd: constants.cwd,
                 maxBuffer: constants.maxBuffer
             }, function(err, stdout, stderr) {
-                execHandler(err, stdout, stderr, 'upload sourcemap ' + chalk.green(srcmapPath) + ' for release ' + chalk.yellow(releaseName), curlSrcmap);
+                execHandler(err, stdout, stderr, 'upload sourcemap ' + chalk.green(sourceMapPath) + ' for release ' + chalk.yellow(releaseName), curlSrcmap);
                 exec(curlBundle, {
                     cwd: constants.cwd,
                     maxBuffer: constants.maxBuffer
