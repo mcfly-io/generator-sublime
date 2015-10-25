@@ -128,29 +128,12 @@ describe('sublime:gulps', function() {
             projectFiles.call(this, done, ['style']);
         });
 
-        describe('with option dist', function() {
-            it('should scaffold dist.js and sentry.js, but not ionic.js', function(done) {
-                projectFiles.call(this, function() {
-                    assert.file('gulp_tasks/tasks/sentry.js');
-                    assert.noFile('gulp_tasks/tasks/ionic.js');
-                    done();
-                }, ['dist']);
-            });
-
-            it('should scaffold dist.js, sentry.js, & ionic.js when ionic framework', function(done) {
-                this.runGen.withOptions({
-                        'skip-install': true,
-                        'ionic': true,
-                        'famous': false
-                    })
-                    .withPrompts({
-                        Tasks: ['dist']
-                    })
-                    .on('end', function() {
-                        assert.file('gulp_tasks/tasks/ionic.js');
-                        done();
-                    });
-            });
+        it('with option dist should scaffold dist.js and sentry.js and ionic.js', function(done) {
+            projectFiles.call(this, function() {
+                assert.file('gulp_tasks/tasks/sentry.js');
+                assert.file('gulp_tasks/tasks/ionic.js');
+                done();
+            }, ['dist']);
         });
 
         it('with option graph should scaffold graph.js', function(done) {

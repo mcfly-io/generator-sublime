@@ -1,74 +1,32 @@
 'use strict';
 
 var gulp = require('gulp');
-// var Q = require('q');
 global.Promise = require('bluebird');
-// var exec = require('child_process').exec;
-var execAsync = Promise.promisify(require('child_process').exec);
 var gmux = require('gulp-mux');
 var runSequence = require('run-sequence');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var gutil = require('gulp-util');
-var promptAsync = Promise.promisify(require('inquirer').prompt);
+var replace = require('gulp-replace');
 var ionicLib = require('ionic-app-lib');
 var path = require('path');
-var mkdirp = require('mkdirp');
+var mkdirp = require('mkdirp').sync;
 
-var ionicLogin = function(result) {
-    if (result) {
-        return ionicLib.login.resquestLogIn(result.email, result.password, true /* saveCookies */ );
-    }
-    return null;
-};
-
-var returnJarOrLogin = function(result) {
-    if (result.jar) {
-        return Promise.resolve(result.jar);
-    }
-    return promptAsync(result.questions)
-        .then(function(answers) {
-            // only resolving what we need
-            return {
-                email: answers.email || result.email,
-                password: answers.password
-            };
-        })
-        .then(ionicLogin);
+var ensureLogin = function() {
+    return Promise.resolve()
+        .then(ionicLib.login.retrieveLogin)
+        .catch(function(err) {
+            throw new Error(gutil.colors.red('Not login found, please run \`ionic login\` to continue.'));
+        });
 };
 
 gulp.task('ionic:ensurelogin', false, function() {
-    return Promise.resolve()
-        .then(ionicLib.login.retrieveLogin())
-        .fail(function catchErrorAsNull() {
-            return null;
-        })
-        .then(function returnJarWithQuestions(result) {
-            return {
-                jar: result,
-                questions: [{
-                    type: 'input',
-                    message: 'Please enter your GitHub email',
-                    name: 'email',
-                    validate: function(input) {
-                        return /^[A-z0-9!#$%&'*+\/=?\^_{|}~\-]+(?:\.[A-z0-9!#$%&'*+\/=?\^_{|}~\-]+)*@(?:[A-z0-9](?:[A-z0-9\-]*[A-z0-9])?\.)+[A-z0-9](?:[A-z0-9\-]*[A-z0-9])?$/.test(input);
-                    }
-                }, {
-                    type: 'password',
-                    message: 'Please enter your GitHub password',
-                    name: 'password',
-                    validate: function(input) {
-                        return input !== '';
-                    }
-                }]
-            };
-        })
-        .then(returnJarOrLogin)
-        .fail(function(err) {
-            gutil.log(gutil.colors.red('Ionic Login failed! ') + 'Error message: ' + gutil.colors.yellow(err.message));
-            return null;
-        });
+    return ensureLogin();
 });
+
+/*
+ * Create an ionic.project config from the constants
+ */
 
 var taskIonicProject = function(constants) {
     if (!helper.isMobile(constants)) {
@@ -79,12 +37,8 @@ var taskIonicProject = function(constants) {
 
     ionicLib.project.wrap(constants.dist.distFolder, ionicProjectData).save();
 
-    return Promise.resolve(ionicLib.project.load(constants.dist.distFolder));
+    return Promise.resolve(ionicProjectData);
 };
-
-/*
- * Create an ionic.project config from the constants
- */
 
 gulp.task('ionic:project', false, ['ionic:ensurelogin'], function(done) {
     if (global.options) {
@@ -95,8 +49,8 @@ gulp.task('ionic:project', false, ['ionic:ensurelogin'], function(done) {
     var taskname = 'ionic:project';
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
-        global.options = gmux.targets.askForMultipleTargets(taskname);
-        // global.options = gmux.targets.askForSingleTarget(taskname);
+        // global.options = gmux.targets.askForMultipleTargets(taskname);
+        global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskIonicProject, taskname, global.options.target, global.options.mode, constants, done);
 });
@@ -106,21 +60,38 @@ var taskIonicPlatformCopy = function(constants) {
         return Promise.resolve(null);
     }
 
-    var ionicPlatformSrc = constants.ionic.ionicPlatformBundleFiles.map(function(fileName) {
+    var ionicPlatform = constants.ionic.ionicPlatform;
+
+    var ionicPlatformSrc = ionicPlatform.bundleFiles.map(function(fileName) {
         return path.join('.',
-            constants.ionic.ionicPlatformInstaller === 'npm' ? 'node_modules' : 'bower_components',
-            constants.ionic.ionicPlatformModule,
-            constants.ionic.ionicPlatformBundleSrc,
+            ionicPlatform.installer,
+            ionicPlatform.moduleName,
+            ionicPlatform.bundleSrc,
             fileName);
     });
 
-    var ionicPlatformDest = path.join(constants.dist.distFolder, 'www', constants.ionic.ionicPlatformBundleDest);
+    var ionicPlatformDest = path.join(constants.dist.distFolder, 'www', ionicPlatform.bundleDest);
+
     gutil.log('Copying ' + gutil.colors.cyan(ionicPlatformSrc) + ' to ' + gutil.colors.cyan(ionicPlatformDest));
     mkdirp(ionicPlatformDest);
-    return gulp.src(ionicPlatformSrc).pipe(gulp.dest(ionicPlatformDest));
+
+    // The following is based on http://blog.samuelbrown.io/2015/10/08/upgrading-ionic-io-services-tips-and-tricks/
+    return taskIonicProject(constants)
+        .then(function(configData) {
+            var replacementString = 'var settings = ' + JSON.stringify(configData) + '; ' + ionicPlatform.settingsReplaceString;
+            return gulp.src(ionicPlatformSrc)
+                .pipe(replace(new RegExp('(' + ionicPlatform.settingsReplaceStart + ')(.*?)(' + ionicPlatform.settingsReplaceEnd + ')', 'g'), '$1' + replacementString + '$3'))
+                // .pipe(gulp.dest(ionicPlatformDest));
+                .pipe(gulp.dest('client/scripts/'));
+        });
+
 };
 
-gulp.task('ionic:platformcopy', false, ['ionic:project'], function(done) {
+/*
+ * Copy the platform bundle over from npm to the ionic project and insert the correct app_id and api_key config information.
+ */
+
+gulp.task('ionic:platformcopy', false, ['ionic:ensurelogin'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -129,47 +100,10 @@ gulp.task('ionic:platformcopy', false, ['ionic:project'], function(done) {
     var taskname = 'ionic:platformcopy';
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
-        global.options = gmux.targets.askForMultipleTargets(taskname);
-        // global.options = gmux.targets.askForSingleTarget(taskname);
+        // global.options = gmux.targets.askForMultipleTargets(taskname);
+        global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskIonicPlatformCopy, taskname, global.options.target, global.options.mode, constants, done);
-});
-
-var taskIonicConfigBuild = function(constants) {
-    if (!helper.isMobile(constants)) {
-        return Promise.resolve(null);
-    }
-    gutil.log('Asking ionic to inject the config factory');
-
-    return execAsync('ionic config set disable_modifications true', {
-            cwd: constants.dist.distFolder
-        })
-        .then(helper.execHandlerAsync)
-        .then(function() {
-            return execAsync('ionic config build', {
-                cwd: constants.dist.distFolder
-            });
-        })
-        .then(helper.execHandlerAsync);
-};
-
-/*
- * Build the config info into the ionic.io.bundle.min.js
- */
-
-gulp.task('ionic:configbuild', false, ['ionic:platformcopy'], function(done) {
-    if (global.options) {
-        if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
-            gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
-        }
-    }
-    var taskname = 'ionic:configbuild';
-    gmux.targets.setClientFolder(constants.clientFolder);
-    if (global.options === null) {
-        global.options = gmux.targets.askForMultipleTargets(taskname);
-        // global.options = gmux.targets.askForSingleTarget(taskname);
-    }
-    return gmux.createAndRunTasks(gulp, taskIonicConfigBuild, taskname, global.options.target, global.options.mode, constants, done);
 });
 
 var taskIonicUpload = function(constants) {
@@ -179,32 +113,29 @@ var taskIonicUpload = function(constants) {
     var version = helper.readJsonFile('./package.json').version;
 
     var args = require('yargs').alias('n', 'note').alias('d', 'deploy').argv;
-    var note = args.note || '';
+    var note = args.note ? 'v' + version + ': ' + args.note : 'v' + version;
     var deploy = args.deploy || '';
-    gutil.log('Uploading to apps.ionic.io with the note: "' + gutil.colors.yellow('v' + version + ': ' + note) + '".');
+    gutil.log('Uploading to apps.ionic.io with the note: "' + gutil.colors.yellow(note) + '".');
     if (deploy) {
         gutil.log('Deploying to channel "' + gutil.colors.yellow(deploy) + '".');
     }
     if (constants.ionic[constants.targetName].app_id) {
         gutil.log('See this update at ' + gutil.colors.blue('https://apps.ionic.io/app/' + constants.ionic[constants.targetName].app_id + '/deploy') + '.');
     }
-    var uploadCmd = 'ionic upload --note "v' + version + ': ' + note + '"';
-    if (deploy) {
-        uploadCmd = uploadCmd + '--deploy=' + deploy;
-    }
-    gutil.log(uploadCmd);
 
-    return execAsync(uploadCmd, {
-            cwd: constants.dist.distFolder
-        })
-        .then(helper.execHandlerAsync);
+    var doUpload = function(jar) {
+        return ionicLib.upload.doUpload(constants.dist.distFolder, jar, note, deploy);
+    };
+
+    return ensureLogin()
+        .then(doUpload);
 };
 
 /*
  * Upload the app to ionic.io platform
  */
 
-gulp.task('ionic:upload', false, ['ionic:configbuild'], function(done) {
+gulp.task('ionic:upload', false, ['ionic:project'], function(done) {
     if (global.options) {
         if (!constants.ionic || !constants.ionic[global.options.target] || !constants.ionic[global.options.target].app_id || constants.ionic[global.options.target].app_id.length <= 0) {
             gutil.log(gutil.colors.yellow('The ionic.' + global.options.target + '.app_id is missing or empty in gulp_tasks/common/constants.js. This will upload a new app to apps.ionic.io. Please record the reported app_id as ionic.' + global.options.target + '.app_id in gulp_tasks/common/constants.js'));
@@ -213,12 +144,12 @@ gulp.task('ionic:upload', false, ['ionic:configbuild'], function(done) {
     var taskname = 'ionic:upload';
     gmux.targets.setClientFolder(constants.clientFolder);
     if (global.options === null) {
-        global.options = gmux.targets.askForMultipleTargets(taskname);
-        // global.options = gmux.targets.askForSingleTarget(taskname);
+        // global.options = gmux.targets.askForMultipleTargets(taskname);
+        global.options = gmux.targets.askForSingleTarget(taskname);
     }
     return gmux.createAndRunTasks(gulp, taskIonicUpload, taskname, global.options.target, global.options.mode, constants, done);
 });
 
-gulp.task('ionic:deploy', false, function(done) {
+gulp.task('ionic:deploy', false, function() {
     runSequence('dist', 'ionic:upload');
 });

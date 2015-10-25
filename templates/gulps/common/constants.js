@@ -100,19 +100,24 @@ module.exports = function() {
         },
         sentry: {
             targetKeys: {
-                app: ''
+                app: '' // fill in your sentry.com DSN here, without the part between the colon (:) and the at-symbol (@)
             },
             normalizedURL: true, // true, false, or an url. When true it will default to 'http://localhost:' + serve.port
             organizationName: '',
             auth: ''
         },
         ionic: {
-            ionicPlatformInstaller: 'npm', // or 'bower'
-            ionicPlatformModule: 'install-platform-web-client',
-            ionicPlatformBundleSrc: 'dist',
-            ionicPlatformBundleFiles: ['ionic.io.bundle.js', 'ionic.io.bundle.min.js'],
-            ionicPlatformBundleDest: 'lib/ionic-platform-web-client/dist',
-            app: {
+            ionicPlatform: {
+                installer: 'node_modules', // or 'bower_components'
+                moduleName: 'ionic-platform-web-client',
+                bundleSrc: 'dist',
+                bundleFiles: ['ionic.io.bundle.js', 'ionic.io.bundle.min.js'],
+                bundleDest: 'lib/ionic-platform-web-client/dist',
+                settingsReplaceStart: '\\\"IONIC_SETTINGS_STRING_START\\\";',
+                settingsReplaceEnd: '\\\"IONIC_SETTINGS_STRING_END\\\"',
+                settingsReplaceString: 'return { get: function(setting) { if (settings[setting]) { return settings[setting]; } return null; } };'
+            },
+            app: {  // fill in this object with your ionic.io platform details
                 app_id: '',
                 api_key: '',
                 name: ''
