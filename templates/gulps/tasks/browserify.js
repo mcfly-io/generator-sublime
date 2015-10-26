@@ -1,6 +1,7 @@
 'use strict';
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var argv = require('yargs').argv;
 var source = require('vinyl-source-stream');
 var transform = require('vinyl-transform');
 var exorcist = require('exorcist');
@@ -95,6 +96,13 @@ var browserifyShare = function(shouldWatch, constants, done) {
         b.plugin(collapse);
     }
     b.transform(envify(envifyVars));
+    if (argv.coverage) {
+        b.transform(require('browserify-istanbul')({
+            instrumenter: require('isparta'),
+            ignore: ['**/*.test.js', '**/*.html', '**/bower_components/**', '**/node_modules/**', '**/client/scripts/lbServices.js'],
+            defaultIgnore: true
+        }));
+    }
     b.on('update', function() {
         bundleShare(b, dest, bundleName, mode, sourceMap);
     });
