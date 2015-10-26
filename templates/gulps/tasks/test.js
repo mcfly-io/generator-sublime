@@ -64,14 +64,17 @@ var taskE2EServe = function(constants, done) {
     var dest = constants.dist.distFolder;
     dest = helper.isMobile(constants) ? dest + '/www' : dest;
     bs = browserSync.init({
+        ui: false,
+        minify: false,
+        ghostMode: false,
+        codeSync: false,
         logLevel: 'silent',
         notify: false,
         open: false,
         port: constants.e2e.port,
         server: {
             baseDir: [dest]
-        },
-        ui: false
+        }
     }, done);
 };
 
@@ -124,6 +127,7 @@ gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
 });
 
 gulp.task('e2e', 'Runs e2e tests.', function(done) {
+    process.env.PROTRACTOR = true;
     runSequence(
         ['webdriver-update', args.skipDist ? 'wait' : 'dist'],
         'e2e:serve',

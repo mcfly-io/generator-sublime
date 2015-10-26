@@ -133,7 +133,7 @@ module.exports = function() {
             timeout: 5000
         },
         e2e: {
-            src: ['./test/e2e/{{targetName}}/**/*test.js'],
+            src: ['./test/e2e/{{targetName}}/tests.protractor.js'],
             port: 5555,
             configFile: 'protractor.conf.js'
         },
