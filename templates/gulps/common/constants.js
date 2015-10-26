@@ -58,7 +58,7 @@ module.exports = function() {
             './' + clientFolder + '/scripts/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
             '!./' + clientFolder + '/scripts/lbServices.js',
-            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './test/**/*.js'
+            './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './protractor/**/*.js', './test/**/*.js'
         ],
         fonts: {
             src: <%= fonts %>, // you can also add a specific src_appname
@@ -116,6 +116,7 @@ module.exports = function() {
         serve: {
             host: 'localhost', //'0.0.0.0',
             port: 5000,
+            https: false,
             open: true,
             browser: ['google chrome'], // ['google chrome', 'firefox'],
             localtunnel: false, // true, false or '<%= appname %>'
@@ -132,7 +133,7 @@ module.exports = function() {
             timeout: 5000
         },
         e2e: {
-            src: ['./test/e2e/{{targetName}}/**/*test.js'],
+            src: ['./test/e2e/{{targetName}}/tests.protractor.js'],
             port: 5555,
             configFile: 'protractor.conf.js'
         },

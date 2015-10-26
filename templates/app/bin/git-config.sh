@@ -62,6 +62,9 @@ git config --global alias.ready-root 'rebase -i --root'
 # sync : sync master
 git config --global alias.sync '!git pull --rebase --prune $@ && git submodule update --init --recursive'
 
+# bsync : sync with origin master while staying in your feature branch
+git config --global alias.bsync '!git pull --rebase=preserve --prune origin master && git submodule update --init --recursive'
+
 # Add a remote upstream
 git config --global alias.upstream '!f() { git remote add upstream https://github.com/$1.git; }; f'
 
