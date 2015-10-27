@@ -85,7 +85,16 @@ var webpackShare = function(shouldWatch, constants, done) {
             }
         }));
     }
-
+    if (require('yargs').argv.coverage) {
+        webpackConfig.cache = true;
+        webpackConfig.devtool = 'eval'; //'inline-source-map';
+        webpackConfig.module.preLoaders = webpackConfig.module.preLoaders || [];
+        webpackConfig.module.preLoaders.push({
+            test: /\.js$/,
+            exclude: /\.webpack\.js|node_modules|bower_components|\.test\.js/,
+            loader: 'istanbul-instrumenter'
+        });
+    }
     // webpackConfig.plugins.push(new webpack.DefinePlugin({
     //     'process.env': Object.keys(envifyVars).reduce(function(o, k) {
     //         o[k] = JSON.stringify(envifyVars[k]);
