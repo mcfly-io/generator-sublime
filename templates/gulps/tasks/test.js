@@ -82,7 +82,7 @@ var taskE2ERun = function(constants, done) {
     gulp.src(constants.e2e.src)
         .pipe(gProtractor.protractor({
             configFile: constants.e2e.configFile,
-            args: ['--coverage', '--target=' + constants.targetName]
+            args: ['--coverage=' + require('yargs').argv.coverage, '--target=' + constants.targetName]
         }))
         .on('error', function(err) {
             // Make sure failed tests cause gulp to exit non-zero
@@ -116,6 +116,28 @@ gulp.task('e2e:serve', false, function(done) {
     return gmux.createAndRunTasks(gulp, taskE2EServe, taskname, global.options.target, global.options.mode, constants, done);
 });
 
+var taskE2E = function(constants, done) {
+    process.env.PROTRACTOR = true;
+    args = require('yargs').default('coverage', true).argv;
+    runSequence(
+        ['webdriver-update', args.skipDist ? 'wait' : 'dist'],
+        'e2e:serve',
+        'e2e:run',
+        done
+    );
+
+};
+
+gulp.task('e2e', 'Runs e2e tests.', function(done) {
+    var taskname = 'e2e';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if (global.options === null) {
+        global.options = gmux.targets.askForSingleTarget(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskE2E, taskname, global.options.target, global.options.mode, constants, done);
+
+});
+
 gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
     global.webpackQuiet = true;
     runSequence(
@@ -123,16 +145,6 @@ gulp.task('test', 'Runs all the tests (unit and e2e).', function(done) {
         'karma',
         'mocha',
         'e2e',
-        done
-    );
-});
-
-gulp.task('e2e', 'Runs e2e tests.', function(done) {
-    process.env.PROTRACTOR = true;
-    runSequence(
-        ['webdriver-update', args.skipDist ? 'wait' : 'dist'],
-        'e2e:serve',
-        'e2e:run',
         done
     );
 });

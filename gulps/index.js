@@ -50,9 +50,9 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'babelify': '6.4.0',
             'brfs': '1.4.1',
             'browser-sync': '2.9.11',
-            'browserify': '11.2.0',
+            'browserify': '12.0.0',
             'browserify-istanbul': '0.2.1',
-            'browserify-shim': '3.8.10',
+            'browserify-shim': '3.8.11',
             'bundle-collapser': '1.2.1',
             'chai': '3.4.0',
             'chalk': '1.1.1',
@@ -72,7 +72,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'graphviz': '0.0.8',
             'growly': '1.2.0',
             'gulp': '3.9.0',
-            'gulp-autoprefixer': '3.0.2',
+            'gulp-autoprefixer': '3.1.0',
             'gulp-bump': '1.0.0',
             'gulp-concat': '2.6.0',
             'gulp-eslint': '1.0.0',
@@ -106,7 +106,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'istanbul': '0.4.0',
             'istanbul-instrumenter-loader': '0.1.3',
 
-            'jadeify': '4.4.0', // cannot accept browserify >= 7.0.0
+            //'jadeify': '4.4.0', // cannot accept browserify >= 7.0.0
 
             'jasmine-reporters': '2.0.7',
             'jasmine-spec-reporter': '2.4.0',
@@ -133,6 +133,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'mocha-lcov-reporter': '1.0.0',
             'moment': '2.10.6',
             'node-jsxml': '0.6.0',
+            'node-sass': '3.4.1',
             'open': '0.0.5',
             'protractor': '2.5.1',
             'protractor-istanbul-plugin': '2.0.0',
@@ -151,10 +152,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'vinyl-buffer': '1.0.0',
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
-            'watchify': '3.4.0',
+            'watchify': '3.5.0',
             'webpack': '1.12.2',
-            'webpack-dev-server': '1.11.0',
-            'yargs': '3.25.0'
+            'webpack-dev-server': '1.12.1',
+            'yargs': '3.29.0'
         };
 
         this.option('clientFolder', {
@@ -408,7 +409,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'html2js-browserify',
                     'isparta',
                     'istanbul',
-                    'jadeify',
+                    //'jadeify',
                     'mkdirp',
                     'uglifyify',
                     'vinyl-buffer',
@@ -439,9 +440,10 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma-webpack',
                     'less',
                     'less-loader',
+                    'node-sass',
                     'sass-loader',
                     'transform-loader',
-                    'jadeify',
+                    //'jadeify',
                     'mkdirp',
                     'vinyl-buffer',
                     'vinyl-source-stream',
@@ -522,7 +524,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
-                    'jshint-stylish'
+                    'jshint-stylish',
+                    'node-sass'
                 ]);
             }
 
