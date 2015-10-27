@@ -82,7 +82,7 @@ var taskE2ERun = function(constants, done) {
     gulp.src(constants.e2e.src)
         .pipe(gProtractor.protractor({
             configFile: constants.e2e.configFile,
-            args: ['--coverage', '--target=' + constants.targetName]
+            args: ['--coverage=' + require('yargs').argv.coverage, '--target=' + constants.targetName]
         }))
         .on('error', function(err) {
             // Make sure failed tests cause gulp to exit non-zero
