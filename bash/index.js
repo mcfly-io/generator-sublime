@@ -23,7 +23,7 @@ var BashGenerator = yeoman.generators.Base.extend({
 
     end: function() {
         this.log('');
-        this.log(chalk.green('Woot!') + ' the file ' + this.name + ' was created successfully.');
+        this.log(chalk.green('Woot generator-sublime:bash!') + ' the file ' + this.name + ' was created successfully.');
 
     }
 

@@ -53,6 +53,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'browser-sync': '2.9.11',
             'browserify': '12.0.0',
             'browserify-istanbul': '0.2.1',
+            'browserify-resolutions': '1.0.6',
             'browserify-shim': '3.8.11',
             'bundle-collapser': '1.2.1',
             'chai': '3.4.0',
@@ -400,6 +401,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'browser-sync',
                     'browserify',
                     'browserify-istanbul',
+                    'browserify-resolutions',
                     'browserify-shim',
                     'bundle-collapser',
                     'babelify',
@@ -486,6 +488,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 this.template('tasks/csv.js', gulpFolder + '/tasks/csv.js');
                 npmPackages = npmPackages.concat([
                     'bluebird',
+                    'browserify-resolutions',
                     'browser-sync',
                     'chai',
                     'fast-csv',
@@ -608,7 +611,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
     end: function() {
         this.log('');
-        this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
+        this.log(chalk.green('Woot generator-sublime:gulps!') + ' It appears that everything installed correctly.');
         // if (this.lint) {
         //     this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
         // }

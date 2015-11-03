@@ -8,6 +8,7 @@ var path = require('path');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
+var resolutions = require('browserify-resolutions');
 var envify = require('envify/custom');
 var chalk = require('chalk');
 var gmux = require('gulp-mux');
@@ -78,7 +79,7 @@ var browserifyShare = function(shouldWatch, constants, done) {
         fullPaths: mode === 'prod' ? false : true,
         require: ['fs']
     });
-
+    b.plugin(resolutions, '*');
     if (shouldWatch) {
         b = watchify(b);
     }
