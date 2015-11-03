@@ -138,6 +138,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'node-jsxml': '0.6.0',
             'node-sass': '3.4.1',
             'open': '0.0.5',
+            'phantomjs': '1.9.18',
             'protractor': '2.5.1',
             'protractor-istanbul-plugin': '2.0.0',
             'protractor-jasmine2-screenshot-reporter': '0.1.7', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
@@ -510,6 +511,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma-sourcemap-loader',
                     'mocha',
                     'mocha-lcov-reporter',
+                    'phantomjs',
                     'protractor',
                     'protractor-istanbul-plugin',
                     'protractor-jasmine2-screenshot-reporter',
