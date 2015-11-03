@@ -117,9 +117,10 @@ describe('sublime:gulps', function() {
             }, ['changelog']);
         });
 
-        it('with option test should scaffold test.js and lint.js', function(done) {
+        it('with option test should scaffold test.js, lint.js and csv.js', function(done) {
             projectFiles.call(this, function() {
                 assert.file('gulp_tasks/tasks/lint.js');
+                assert.file('gulp_tasks/tasks/csv.js');
                 done();
             }, ['test'], false);
         });

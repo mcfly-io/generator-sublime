@@ -48,6 +48,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'babel-loader': '5.3.2',
             'babel-runtime': '5.8.29',
             'babelify': '6.4.0',
+            'bluebird': '3.0.5',
             'brfs': '1.4.1',
             'browser-sync': '2.9.11',
             'browserify': '12.0.0',
@@ -61,6 +62,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'cssify': '0.7.0',
             'deamdify': '0.1.1',
             'del': '2.0.2',
+            'fast-csv': '0.6.0',
             'envify': '3.4.0',
             'eslint-plugin-nodeca': '1.0.3',
             'esprima': '^2.4.1',
@@ -481,9 +483,12 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
             if (this.test) {
                 this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
+                this.template('tasks/csv.js', gulpFolder + '/tasks/csv.js');
                 npmPackages = npmPackages.concat([
+                    'bluebird',
                     'browser-sync',
                     'chai',
+                    'fast-csv',
                     'gulp-mocha',
                     'gulp-istanbul',
                     'gulp-plumber',
