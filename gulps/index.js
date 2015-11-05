@@ -48,10 +48,12 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'babel-loader': '5.3.2',
             'babel-runtime': '5.8.29',
             'babelify': '6.4.0',
+            'bluebird': '3.0.5',
             'brfs': '1.4.1',
             'browser-sync': '2.9.11',
             'browserify': '12.0.0',
             'browserify-istanbul': '0.2.1',
+            'browserify-resolutions': '1.0.6',
             'browserify-shim': '3.8.11',
             'bundle-collapser': '1.2.1',
             'chai': '3.4.0',
@@ -61,6 +63,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'cssify': '0.7.0',
             'deamdify': '0.1.1',
             'del': '2.0.2',
+            'fast-csv': '0.6.0',
             'envify': '3.4.0',
             'eslint-plugin-nodeca': '1.0.3',
             'esprima': '^2.4.1',
@@ -135,6 +138,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'node-jsxml': '0.6.0',
             'node-sass': '3.4.1',
             'open': '0.0.5',
+            'phantomjs': '1.9.18',
             'protractor': '2.5.1',
             'protractor-istanbul-plugin': '2.0.0',
             'protractor-jasmine2-screenshot-reporter': '0.1.7', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
@@ -398,6 +402,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'browser-sync',
                     'browserify',
                     'browserify-istanbul',
+                    'browserify-resolutions',
                     'browserify-shim',
                     'bundle-collapser',
                     'babelify',
@@ -481,9 +486,13 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
             if (this.test) {
                 this.template('tasks/test.js', gulpFolder + '/tasks/test.js');
+                this.template('tasks/csv.js', gulpFolder + '/tasks/csv.js');
                 npmPackages = npmPackages.concat([
+                    'bluebird',
+                    'browserify-resolutions',
                     'browser-sync',
                     'chai',
+                    'fast-csv',
                     'gulp-mocha',
                     'gulp-istanbul',
                     'gulp-plumber',
@@ -502,6 +511,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma-sourcemap-loader',
                     'mocha',
                     'mocha-lcov-reporter',
+                    'phantomjs',
                     'protractor',
                     'protractor-istanbul-plugin',
                     'protractor-jasmine2-screenshot-reporter',
@@ -603,7 +613,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
     end: function() {
         this.log('');
-        this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
+        this.log(chalk.green('Woot generator-sublime:gulps!') + ' It appears that everything installed correctly.');
         // if (this.lint) {
         //     this.log('Run the command ' + chalk.yellow('gulp lint') + ' to lint your files.');
         // }

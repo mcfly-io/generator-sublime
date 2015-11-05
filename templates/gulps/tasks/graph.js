@@ -101,11 +101,13 @@ gulp.task('graph', 'Generate a dependency graph', function(done) {
 
         });
         _.forEach(modules, function(module) {
-            var filename = './' + constants.clientFolder + '/scripts/' + module + '/index.js';
-            var content = fs.readFileSync(filename);
-            var JsonTree = esprima.parse(content.toString());
-            //var myTree = JSON.parse(JSON.stringify(JsonTree, null, 2));
-            createTreeModule(JsonTree, null, null, 0, module);
+            try {
+                var filename = './' + constants.clientFolder + '/scripts/' + module + '/index.js';
+                var content = fs.readFileSync(filename);
+                var JsonTree = esprima.parse(content.toString());
+                //var myTree = JSON.parse(JSON.stringify(JsonTree, null, 2));
+                createTreeModule(JsonTree, null, null, 0, module);
+            } catch (err) {}
         });
 
         g.output('png', constants.graph.outputName);

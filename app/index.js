@@ -268,9 +268,9 @@ var SublimeGenerator = Class.extend({
 
     end: function() {
         this.log('');
-        this.log(chalk.green('Woot!') + ' It appears that everything installed correctly.');
-        this.log('Run the command ' + chalk.yellow('yo sublime:bash path/to/bashfile.sh') + ' to create a new bash file.');
-        this.log('Run the command ' + chalk.yellow('yo sublime:gulps') + ' to scaffold gulp tasks.');
+        this.log(chalk.green('Woot generator-sublime:app!') + ' It appears that everything installed correctly.');
+        //this.log('Run the command ' + chalk.yellow('yo sublime:bash path/to/bashfile.sh') + ' to create a new bash file.');
+        //this.log('Run the command ' + chalk.yellow('yo sublime:gulps') + ' to scaffold gulp tasks.');
     }
 
 });
