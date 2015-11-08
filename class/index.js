@@ -48,7 +48,6 @@ module.exports = Base.extend({
      */
     checkCmd: function(cmd, exit) {
         exit = exit !== false;
-
         return new Promise(function(resolve, reject) {
 
             if (this.options['check-' + cmd] === false) {
@@ -69,7 +68,7 @@ module.exports = Base.extend({
                 resolve(true);
             }
 
-        });
+        }.bind(this));
 
     },
 
