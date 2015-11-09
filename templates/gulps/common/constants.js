@@ -111,7 +111,7 @@ module.exports = function() {
                 installer: 'node_modules', // or 'bower_components'
                 moduleName: 'ionic-platform-web-client',
                 bundleSrc: 'dist',
-                bundleFiles: ['ionic.io.bundle.js', 'ionic.io.bundle.min.js'],
+                bundleFiles: ['ionic.io.bundle', 'ionic.io.bundle.min'],
                 bundleDest: 'lib/ionic-platform-web-client/dist',
                 settingsReplaceStart: '\\\"IONIC_SETTINGS_STRING_START\\\";',
                 settingsReplaceEnd: '\\\"IONIC_SETTINGS_STRING_END\\\"',
@@ -120,7 +120,8 @@ module.exports = function() {
             app: {  // fill in this object with your ionic.io platform details
                 app_id: '',
                 api_key: '',
-                name: ''
+                name: '',
+                dev_push: true
             }
         },
         serve: {

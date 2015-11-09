@@ -63,6 +63,9 @@ var taskIonicPlatformCopy = function(constants) {
     var ionicPlatform = constants.ionic.ionicPlatform;
 
     var ionicPlatformSrc = ionicPlatform.bundleFiles.map(function(fileName) {
+
+        fileName = fileName + constants.targetSuffix + '.js';
+
         return path.join('.',
             ionicPlatform.installer,
             ionicPlatform.moduleName,
