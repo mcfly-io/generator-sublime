@@ -38,10 +38,10 @@
     "scaffold"
   ],
   "dependencies": {
+    "bluebird": "3.0.5",
     "chalk": "1.1.1",
     "github": "0.2.4",
     "lodash": "2.4.1",
-    "q": "1.4.1",
     "shelljs": "0.5.3",
     "strip-json-comments": "1.0.4",
     "update-notifier": "0.5.0",
@@ -82,6 +82,7 @@
     "mocha-lcov-reporter": "1.0.0",
     "mockery": "1.4.0",
     "node-jsxml": "0.6.0",
+    "q": "^1.4.1",
     "require-dir": "0.3.0",
     "run-sequence": "1.1.4",
     "sinon": "1.17.0",

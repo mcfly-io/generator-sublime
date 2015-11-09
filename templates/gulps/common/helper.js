@@ -1,6 +1,7 @@
 /*eslint new-cap:0*/
 'use strict';
 
+global.Promise = require('bluebird');
 var gulp = require('gulp');
 var fs = require('fs');
 var gutil = require('gulp-util');
@@ -9,8 +10,6 @@ var stripJsonComments = require('strip-json-comments');
 var _ = require('lodash');
 var path = require('path');
 var gmux = require('gulp-mux');
-var Q = require('q');
-// var Promise = require('bluebird');
 var exec = require('child_process').exec;
 var inquirer = require('inquirer');
 var moment = require('moment');
@@ -143,7 +142,7 @@ var findIOSFile = function(dest, appname) {
 };
 
 var checkFileAge = function(file) {
-    return Q.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var stats = fs.statSync(file.fullPath);
         var age = moment().diff(stats.mtime);
 

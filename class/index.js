@@ -1,10 +1,10 @@
 'use strict';
+global.Promise = require('bluebird');
 var yeoman = require('yeoman-generator');
 var updateNotifier = require('update-notifier');
 var Base = yeoman.generators.Base;
 var shell = require('shelljs');
 var chalk = require('chalk');
-var Q = require('q');
 
 /**
  * The `Class` generator has several helpers method to help with creating a new generator.
@@ -49,27 +49,28 @@ module.exports = Base.extend({
     checkCmd: function(cmd, exit) {
         exit = exit !== false;
 
-        var deferred = Q.defer();
+        return new Promise(function(resolve, reject) {
 
-        if (this.options['check-' + cmd] === false) {
-            deferred.resolve(undefined);
-        }
-
-        if (!this.utils.shell.which(cmd)) {
-            this.log(chalk.red.bold('(ERROR)') + ' It looks like you do not have ' + cmd + ' installed...');
-            if (exit === true) {
-                deferred.reject(new Error(cmd + ' is missing'));
-                this.utils.shell.exit(1);
-            } else {
-                deferred.resolve(false);
+            if (this.options['check-' + cmd] === false) {
+                resolve(undefined);
             }
 
-        } else {
-            this.log(chalk.gray(cmd + ' is installed, continuing...\n'));
-            deferred.resolve(true);
-        }
+            if (!this.utils.shell.which(cmd)) {
+                this.log(chalk.red.bold('(ERROR)') + ' It looks like you do not have ' + cmd + ' installed...');
+                if (exit === true) {
+                    reject(new Error(cmd + ' is missing'));
+                    this.utils.shell.exit(1);
+                } else {
+                    resolve(false);
+                }
 
-        return deferred.promise;
+            } else {
+                this.log(chalk.gray(cmd + ' is installed, continuing...\n'));
+                resolve(true);
+            }
+
+        });
+
     },
 
     /**
