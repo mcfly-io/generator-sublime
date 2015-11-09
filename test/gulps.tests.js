@@ -128,9 +128,10 @@ describe('sublime:gulps', function() {
             projectFiles.call(this, done, ['style']);
         });
 
-        it('with option dist should scaffold dist.js and sentry.js', function(done) {
+        it('with option dist should scaffold dist.js and sentry.js and ionic.js', function(done) {
             projectFiles.call(this, function() {
                 assert.file('gulp_tasks/tasks/sentry.js');
+                assert.file('gulp_tasks/tasks/ionic.js');
                 done();
             }, ['dist']);
         });

@@ -95,6 +95,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-plumber': '1.0.1',
             'gulp-protractor': '1.0.0',
             'gulp-rename': '1.2.2',
+            'gulp-replace': '0.5.4',
             'gulp-sass': '2.0.4',
             'gulp-size': '2.0.0',
             'gulp-sourcemaps': '1.6.0',
@@ -103,6 +104,8 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html-loader': '0.3.0',
             'html2js-browserify': '1.1.0',
+            'ionic-app-lib': '0.6.3',
+            'ionic-platform-web-client': '0.2.1',
             'inquirer': '0.11.0',
             //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10. UPDATED: it is now a dependency of gulp-imagemin
             'isparta': '3.1.0',
@@ -348,6 +351,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             var npmPackages = [
+                // 'bluebird',
                 'chalk',
                 'codeclimate-test-reporter',
                 'event-stream',
@@ -359,6 +363,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'lodash',
                 'node-jsxml',
                 'moment',
+                'q',
                 'require-dir',
                 'run-sequence',
                 'strip-json-comments'
@@ -466,7 +471,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-if',
                     'gulp-tap',
                     'inquirer',
-                    'q',
                     'yargs'
                 ]);
             }
@@ -480,7 +484,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'gulp-exec',
                     'gulp-concat',
                     'gulp-order',
-                    'q',
                     'yargs'
                 ]);
             }
@@ -542,12 +545,18 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             if (this.dist || this.serve) {
                 this.template('tasks/dist.js', gulpFolder + '/tasks/dist.js');
                 this.template('tasks/sentry.js', gulpFolder + '/tasks/sentry.js');
+                this.template('tasks/ionic.js', gulpFolder + '/tasks/ionic.js');
                 npmPackages = npmPackages.concat([
+                    'bluebird',
                     'del',
                     'gulp-rename',
                     'gulp-imagemin',
+                    'gulp-replace',
                     'gulp-tap',
-                    'inquirer'
+                    'ionic-app-lib',
+                    'ionic-platform-web-client',
+                    'inquirer',
+                    'mkdirp'
                     //'imagemin-pngquant',
                 ]);
             }
