@@ -54,7 +54,7 @@ module.exports = function() {
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './protractor/**/*.js', './test/**/*.js'
         ],
         fonts: {
-            src: <%= fonts %>, // you can also add a specific src_appname
+            src: <%- fonts %>, // you can also add a specific src_appname
             dest: 'fonts'
         },
         html: {

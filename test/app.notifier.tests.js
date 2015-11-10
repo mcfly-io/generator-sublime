@@ -1,11 +1,11 @@
 'use strict';
 var path = require('path');
 var helpers = require('yeoman-generator').test;
-var mockery = require('mockery');
 var testHelper = require('./testHelper')();
 var os = require('os');
 
 var generator = '../app';
+require('./helpers/globals');
 
 describe('sublime:app notifier', function() {
 
@@ -18,15 +18,15 @@ describe('sublime:app notifier', function() {
 
         notifierCallback = sinon.spy();
         exitCallback = sinon.spy();
-        testHelper.endMock(mockery);
-        testHelper.startMock(mockery);
-        mockery.registerMock('github', testHelper.githubMock);
-        mockery.registerMock('child_process', testHelper.childProcessMock);
-        mockery.registerMock('npm', testHelper.npmMock);
-        mockery.registerMock('shelljs', testHelper.shelljsMock.call(this, exitCallback));
-        mockery.registerMock('update-notifier', testHelper.updateNotifierMock.bind(this, {
-            latest: '100.0.0'
-        }, notifierCallback));
+        //testHelper.endMock(mockery);
+        //testHelper.startMock(mockery);
+        //mockery.registerMock('github', testHelper.githubMock);
+        //mockery.registerMock('child_process', testHelper.childProcessMock);
+        //mockery.registerMock('npm', testHelper.npmMock);
+        // mockery.registerMock('shelljs', testHelper.shelljsMock.call(this, exitCallback));
+        // mockery.registerMock('update-notifier', testHelper.updateNotifierMock.bind(this, {
+        //     latest: '100.0.0'
+        // }, notifierCallback));
 
         defaultOptions = {
             'skip-welcome-message': true,
@@ -35,7 +35,13 @@ describe('sublime:app notifier', function() {
 
         this.runGen = helpers.run(path.join(__dirname, generator))
             .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
-            .withOptions(defaultOptions);
+            .withOptions(defaultOptions)
+            .on('ready', function(generator) {
+                generator.utils.shell = testHelper.shelljsMock.call(this, exitCallback);
+                generator.utils.updateNotifier = testHelper.updateNotifierMock.bind(this, {
+                    latest: '100.0.0'
+                }, notifierCallback);
+            });
 
     });
 
@@ -51,7 +57,5 @@ describe('sublime:app notifier', function() {
 
     });
 
-    after(function() {
-        testHelper.endMock(mockery);
-    });
+    after(function() {});
 });

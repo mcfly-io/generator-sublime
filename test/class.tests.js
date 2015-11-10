@@ -3,6 +3,7 @@
 var testHelper = require('./testHelper')();
 var chalk = require('chalk');
 var Class = require('../class');
+require('./helpers/globals');
 
 describe('generator:class', function() {
     var generator;

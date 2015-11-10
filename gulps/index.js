@@ -1,6 +1,6 @@
 'use strict';
 var path = require('path');
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 var _ = require('lodash');
 var chalk = require('chalk');
 
@@ -23,11 +23,11 @@ var sortObject = function(object) {
     return sortedObj;
 };
 
-var GulpsGenerator = yeoman.generators.Base.extend({
+var GulpsGenerator = generators.Base.extend({
 
     constructor: function() {
 
-        yeoman.generators.Base.apply(this, arguments);
+        generators.Base.apply(this, arguments);
         this.allTasks = [
             'lint',
             'serve',
@@ -201,7 +201,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         }.bind(this));
 
         this.appname = this.appname || path.basename(process.cwd());
-        this.appname = this._.slugify(this._.humanize(this.appname));
+        this.appname = _.snakeCase(this.appname);
     },
 
     initializing: function() {
@@ -210,7 +210,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         var pkgDest = {};
         try {
-            pkgDest = this.dest.readJSON('package.json');
+            pkgDest = this.readJsonFile(this.destinationPath('package.json'));
         } catch (e) {}
 
         this.pkgDest = pkgDest;

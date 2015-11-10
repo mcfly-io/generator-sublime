@@ -1,11 +1,13 @@
 'use strict';
 global.Promise = require('bluebird');
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 var updateNotifier = require('update-notifier');
-var Base = yeoman.generators.Base;
+var yosay = require('yosay');
+var Base = generators.Base;
 var shell = require('shelljs');
 var chalk = require('chalk');
-
+var fs = require('fs');
+var stripJsonComments = require('strip-json-comments');
 /**
  * The `Class` generator has several helpers method to help with creating a new generator.
  *
@@ -30,6 +32,7 @@ module.exports = Base.extend({
         this.utils.shell = shell;
         this.utils.updateNotifier = updateNotifier;
         this.utils.chalk = chalk;
+        this.utils.yosay = yosay;
     },
 
     createOptions: function() {
@@ -100,8 +103,7 @@ module.exports = Base.extend({
 
     notifyUpdate: function(pkg) {
         var notifier = this.utils.updateNotifier({
-            packageName: pkg.name,
-            packageVersion: pkg.version,
+            pkg: pkg,
             updateCheckInterval: 1
         });
         if (notifier.update) {

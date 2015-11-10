@@ -6,6 +6,7 @@ var testHelper = require('./testHelper')();
 var mockery = require('mockery');
 var os = require('os');
 var _ = require('lodash');
+require('./helpers/globals');
 
 var generator = '../gulps';
 describe('sublime:gulps', function() {
@@ -40,9 +41,9 @@ describe('sublime:gulps', function() {
                 .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
                 .withOptions(defaultOptions)
                 .on('ready', function(generator) {
-                    helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
+                    generator.npmInstall = function(packages, options, cb) {
                         cb();
-                    });
+                    };
 
                 });
             done();
@@ -58,7 +59,7 @@ describe('sublime:gulps', function() {
             // always tranform the argument into an array
             expectedTasks = expectedTasks ? [].concat(expectedTasks) : [];
 
-            this.runGen.withPrompt({
+            this.runGen.withPrompts({
                 'Tasks': expectedTasks
             }).on('end', function() {
 
@@ -217,10 +218,9 @@ describe('sublime:gulps', function() {
                     clientFolder: 'www'
                 })
                 .on('ready', function(generator) {
-                    helpers.stub(generator, 'npmInstall', function(packages, options, cb) {
+                    generator.npmInstall = function(packages, options, cb) {
                         cb();
-                    });
-
+                    };
                 });
             done();
 
@@ -239,6 +239,8 @@ describe('sublime:gulps', function() {
                     assert.file('gulp_tasks/common/constants.js');
                     var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
                     // make sure the file is not cached by node as we are requiring it
+                    //var body = testHelper.readJsonFile(constantPath);
+                    //var constants = testHelper.readJsonFile('gulp_tasks/common/constants.js');
                     delete require.cache[require.resolve(constantPath)];
                     var constants = require(constantPath)();
 
