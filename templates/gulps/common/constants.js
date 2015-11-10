@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 var getRepository = function() {
     var repository = '<%= Repository %>';
     try {
@@ -42,11 +40,6 @@ module.exports = function() {
         clientFolder: clientFolder,
         repository: getRepository(),
         versionFiles: ['./package.json', './bower.json', './' + clientFolder + '/config*.xml'],
-        growly: {
-            notify: false,
-            successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
-            failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
-        },
         cordova: {
             src: './' + clientFolder + '/cordova/{{targetName}}',
             icon: './' + clientFolder + '/icons/{{targetName}}/icon.png',

@@ -73,7 +73,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'github': '0.2.4',
             'github-username': '2.0.0',
             'graphviz': '0.0.8',
-            'growly': '1.2.0',
             'gulp': '3.9.0',
             'gulp-autoprefixer': '3.1.0',
             'gulp-bump': '1.0.0',
@@ -122,7 +121,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'karma': '0.13.14',
             'karma-browserify': '4.4.0',
             'karma-coverage': '0.5.3', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
-            'karma-growl-reporter': '0.1.1',
             'karma-jasmine': '0.3.6',
             'karma-mocha-reporter': '1.1.1',
             'karma-phantomjs-launcher': '0.2.1',
@@ -380,7 +378,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'babel-eslint',
                     'eslint-plugin-nodeca',
-                    'growly',
                     'gulp-eslint',
                     'gulp-jshint',
                     'gulp-jscs',
@@ -505,7 +502,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma',
                     'karma-browserify',
                     'karma-coverage',
-                    'karma-growl-reporter',
                     'karma-jasmine',
                     'karma-mocha-reporter',
                     'karma-phantomjs-launcher',
