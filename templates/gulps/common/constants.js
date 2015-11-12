@@ -1,7 +1,5 @@
 'use strict';
 
-var path = require('path');
-
 var getRepository = function() {
     var repository = '<%= Repository %>';
     try {
@@ -42,11 +40,6 @@ module.exports = function() {
         clientFolder: clientFolder,
         repository: getRepository(),
         versionFiles: ['./package.json', './bower.json', './' + clientFolder + '/config*.xml'],
-        growly: {
-            notify: false,
-            successIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/success.png'),
-            failedIcon: path.join(cwd, 'node_modules/karma-growl-reporter/images/failed.png')
-        },
         cordova: {
             src: './' + clientFolder + '/cordova/{{targetName}}',
             icon: './' + clientFolder + '/icons/{{targetName}}/icon.png',
@@ -61,7 +54,7 @@ module.exports = function() {
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './protractor/**/*.js', './test/**/*.js'
         ],
         fonts: {
-            src: <%= fonts %>, // you can also add a specific src_appname
+            src: <%- fonts %>, // you can also add a specific src_appname
             dest: 'fonts'
         },
         html: {
@@ -165,7 +158,7 @@ module.exports = function() {
         graph: {
             graphvizbin: '/usr/local/bin',
             outputName: 'graph-dependency.png'
-        }, 
+        },
         csv: {
             dir : './test/assets'
         }

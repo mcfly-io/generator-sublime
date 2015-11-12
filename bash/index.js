@@ -1,12 +1,12 @@
 'use strict';
 var path = require('path');
 var chalk = require('chalk');
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 
-var BashGenerator = yeoman.generators.Base.extend({
+var BashGenerator = generators.Base.extend({
 
     constructor: function() {
-        yeoman.generators.Base.apply(this, arguments);
+        generators.Base.apply(this, arguments);
         this.argument('name', {
             type: String,
             required: true

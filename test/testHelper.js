@@ -89,8 +89,8 @@ module.exports = function() {
     var startMock = function(mockery) {
         endMock(mockery);
         mockery.enable({
-            warnOnUnregistered: false,
-            useCleanCache: true
+            warnOnUnregistered: false
+            //useCleanCache: true
         });
     };
 

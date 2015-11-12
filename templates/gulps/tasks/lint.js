@@ -4,7 +4,6 @@ var gulp = require('gulp');
 var map = require('map-stream');
 var combine = require('stream-combiner');
 var chalk = require('chalk');
-var growly = require('growly');
 var _ = require('lodash');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
@@ -12,8 +11,6 @@ var eslint = require('gulp-eslint');
 var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
 var constants = require('../common/constants')();
-
-var notifyGrowly = constants.growly.notify;
 
 gulp.task('jshint', false, function() {
     var hasError = false;
@@ -34,24 +31,12 @@ gulp.task('jshint', false, function() {
         .pipe(jshint.reporter('fail'))
         .on('error', function() {
             gutil.log(chalk.red('Jshint failed'));
-            if (notifyGrowly) {
-                growly.notify('One or more jshint error', {
-                    title: 'FAILED - JsHint',
-                    icon: constants.growly.failedIcon
-                });
-            }
             throw new Error('jshint failed');
         })
         .pipe(map(function() {
             if (!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All Jshint files passed'));
-                if (notifyGrowly) {
-                    growly.notify('All files passed', {
-                        title: 'PASSED - JsHint',
-                        icon: constants.growly.successIcon
-                    });
-                }
             }
 
         }));
@@ -68,24 +53,12 @@ gulp.task('jscs', false, function() {
 
         gutil.log(err.toString());
         gutil.log(chalk.red('Jscs failed'));
-        if (notifyGrowly) {
-            growly.notify('One or more jscs error', {
-                title: 'FAILED - Jscs',
-                icon: constants.growly.failedIcon
-            });
-        }
         throw new Error('jscs failed');
     });
 
     combined.on('end', function() {
         if (!hasError) {
             gutil.log(chalk.green('All Jscs files passed'));
-            if (notifyGrowly) {
-                growly.notify('All files passed', {
-                    title: 'PASSED - Jscs',
-                    icon: constants.growly.successIcon
-                });
-            }
         }
     });
 
@@ -109,21 +82,9 @@ gulp.task('eslint', false, function() {
             if (!hasError && !hasShown) {
                 hasShown = true;
                 gutil.log(chalk.green('All EsLint files passed'));
-                if (notifyGrowly) {
-                    growly.notify('All files passed', {
-                        title: 'PASSED - EsLint',
-                        icon: constants.growly.successIcon
-                    });
-                }
 
             } else {
                 gutil.log(chalk.red('EsLint failed'));
-                if (notifyGrowly) {
-                    growly.notify('One or more eslint error', {
-                        title: 'FAILED - EsLint',
-                        icon: constants.growly.failedIcon
-                    });
-                }
                 throw new Error('eslint failed');
             }
 
@@ -148,12 +109,6 @@ gulp.task('static', false, function() {
                 status.errs.push(err);
                 if (!status.hasShown) {
                     status.hasShown = true;
-                    if (notifyGrowly) {
-                        growly.notify('One or more lint error', {
-                            title: 'FAILED - lint',
-                            icon: constants.growly.failedIcon
-                        });
-                    }
                     this.emit('end');
                 }
             }
@@ -174,12 +129,6 @@ gulp.task('static', false, function() {
 
             } else {
                 gutil.log(chalk.green('All lint files passed'));
-                if (notifyGrowly) {
-                    growly.notify('All files passed', {
-                        title: 'PASSED - lint',
-                        icon: constants.growly.successIcon
-                    });
-                }
             }
         });
 

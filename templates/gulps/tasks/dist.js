@@ -1,9 +1,9 @@
 /*eslint handle-callback-err:0,consistent-return:0, new-cap:0*/
 'use strict';
+global.Promise = require('bluebird');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
 var tap = require('gulp-tap');
-var Q = require('q');
 var imagemin = require('gulp-imagemin');
 var del = require('del');
 var exec = require('child_process').exec;
@@ -201,7 +201,7 @@ var taskCordovaTestFairyPlatform = function(constants) {
         var autoUpdate = '\'' + constants.testfairy.autoUpdate + '\'';
         var iconWatermark = '\'' + constants.testfairy.iconWatermark + '\'';
 
-        return Q.Promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
             if (!(file && file.path)) {
                 gutil.log(gutil.colors.red('Error: Binary for ') + gutil.colors.yellow(platform) + gutil.colors.red(' was not created.'));
                 reject(new Error('No binary'));

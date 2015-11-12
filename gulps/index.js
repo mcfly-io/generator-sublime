@@ -1,6 +1,6 @@
 'use strict';
 var path = require('path');
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 var _ = require('lodash');
 var chalk = require('chalk');
 
@@ -23,11 +23,11 @@ var sortObject = function(object) {
     return sortedObj;
 };
 
-var GulpsGenerator = yeoman.generators.Base.extend({
+var GulpsGenerator = generators.Base.extend({
 
     constructor: function() {
 
-        yeoman.generators.Base.apply(this, arguments);
+        generators.Base.apply(this, arguments);
         this.allTasks = [
             'lint',
             'serve',
@@ -73,7 +73,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'github': '0.2.4',
             'github-username': '2.0.0',
             'graphviz': '0.0.8',
-            'growly': '1.2.0',
             'gulp': '3.9.0',
             'gulp-autoprefixer': '3.1.0',
             'gulp-bump': '1.0.0',
@@ -122,7 +121,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'karma': '0.13.14',
             'karma-browserify': '4.4.0',
             'karma-coverage': '0.5.3', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
-            'karma-growl-reporter': '0.1.1',
             'karma-jasmine': '0.3.6',
             'karma-mocha-reporter': '1.1.1',
             'karma-phantomjs-launcher': '0.2.1',
@@ -145,7 +143,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             'protractor': '2.5.1',
             'protractor-istanbul-plugin': '2.0.0',
             'protractor-jasmine2-screenshot-reporter': '0.1.7', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
-            'q': '1.4.1',
             'require-dir': '0.3.0',
             'rimraf': '2.4.3',
             'run-sequence': '1.1.4',
@@ -204,7 +201,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
         }.bind(this));
 
         this.appname = this.appname || path.basename(process.cwd());
-        this.appname = this._.slugify(this._.humanize(this.appname));
+        this.appname = _.snakeCase(this.appname);
     },
 
     initializing: function() {
@@ -213,7 +210,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
 
         var pkgDest = {};
         try {
-            pkgDest = this.dest.readJSON('package.json');
+            pkgDest = this.readJsonFile(this.destinationPath('package.json'));
         } catch (e) {}
 
         this.pkgDest = pkgDest;
@@ -351,7 +348,7 @@ var GulpsGenerator = yeoman.generators.Base.extend({
             }
 
             var npmPackages = [
-                // 'bluebird',
+                'bluebird',
                 'chalk',
                 'codeclimate-test-reporter',
                 'event-stream',
@@ -363,7 +360,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 'lodash',
                 'node-jsxml',
                 'moment',
-                'q',
                 'require-dir',
                 'run-sequence',
                 'strip-json-comments'
@@ -382,7 +378,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                 npmPackages = npmPackages.concat([
                     'babel-eslint',
                     'eslint-plugin-nodeca',
-                    'growly',
                     'gulp-eslint',
                     'gulp-jshint',
                     'gulp-jscs',
@@ -507,7 +502,6 @@ var GulpsGenerator = yeoman.generators.Base.extend({
                     'karma',
                     'karma-browserify',
                     'karma-coverage',
-                    'karma-growl-reporter',
                     'karma-jasmine',
                     'karma-mocha-reporter',
                     'karma-phantomjs-launcher',

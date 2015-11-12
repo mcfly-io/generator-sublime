@@ -1,6 +1,5 @@
 'use strict';
 var path = require('path');
-var yosay = require('yosay');
 var _ = require('lodash');
 var chalk = require('chalk');
 var GitHubApi = require('github');
@@ -55,7 +54,7 @@ var SublimeGenerator = Class.extend({
             defaults: true
         });
 
-        this.appnameFolder = _.slugify(this.appname);
+        this.appnameFolder = _.snakeCase(this.appname);
         this.travisOptions = travisOptions;
     },
 
@@ -66,7 +65,7 @@ var SublimeGenerator = Class.extend({
 
         var pkgDest = {};
         try {
-            pkgDest = this.dest.readJSON('package.json');
+            pkgDest = this.readJsonFile(this.destinationPath('package.json'));
         } catch (e) {}
 
         this.pkgDest = pkgDest;
@@ -89,7 +88,7 @@ var SublimeGenerator = Class.extend({
         welcome: function() {
             // Have Yeoman greet the user.
             if (!this.options['skip-welcome-message']) {
-                this.log(yosay('Welcome to the marvelous Sublime generator!'));
+                this.log(this.utils.yosay('Welcome to the marvelous Sublime generator!'));
             }
         },
 
@@ -100,7 +99,7 @@ var SublimeGenerator = Class.extend({
             var choices = this.allFiles.map(function(file) {
                 return {
                     name: file === '.settings' ? '.settings (codio)' : file,
-                    value: this._.classify(file),
+                    value: _.capitalize(_.camelCase(file)),
                     checked: true
                 };
             }.bind(this));
@@ -248,7 +247,7 @@ var SublimeGenerator = Class.extend({
             }
             if (this.TravisYml) {
                 var nodeVersion = this.options.nodeVersion;
-                this.shortNodeVersion = _.first(nodeVersion.split('.'), 2).join('.');
+                this.shortNodeVersion = _.take(nodeVersion.split('.'), 2).join('.');
                 this.template('_travis.yml', '.travis.yml');
                 this.template('_codeclimate.yml', '.codeclimate.yml');
             }

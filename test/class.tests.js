@@ -3,6 +3,7 @@
 var testHelper = require('./testHelper')();
 var chalk = require('chalk');
 var Class = require('../class');
+require('./helpers/globals');
 
 describe('generator:class', function() {
     var generator;
@@ -126,7 +127,7 @@ describe('generator:class', function() {
             });
     });
 
-    it('#notifyUpdate() should exit when there is a new version', function(done) {
+    it('#notifyUpdate() should not exit when there is a new version', function(done) {
         var notifierCallback = sinon.spy();
         generator.utils.shell = {
             exit: sinon.stub()
@@ -139,7 +140,7 @@ describe('generator:class', function() {
             version: '1.0.0'
         });
         assert(notifierCallback.calledOnce);
-        assert(generator.utils.shell.exit.calledWith(1));
+        assert(generator.utils.shell.exit.notCalled);
         done();
 
     });

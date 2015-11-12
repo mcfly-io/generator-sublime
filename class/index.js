@@ -1,11 +1,13 @@
 'use strict';
-var yeoman = require('yeoman-generator');
+global.Promise = require('bluebird');
+var generators = require('yeoman-generator');
 var updateNotifier = require('update-notifier');
-var Base = yeoman.generators.Base;
+var yosay = require('yosay');
+var Base = generators.Base;
 var shell = require('shelljs');
 var chalk = require('chalk');
-var Q = require('q');
-
+var fs = require('fs');
+var stripJsonComments = require('strip-json-comments');
 /**
  * The `Class` generator has several helpers method to help with creating a new generator.
  *
@@ -30,6 +32,7 @@ module.exports = Base.extend({
         this.utils.shell = shell;
         this.utils.updateNotifier = updateNotifier;
         this.utils.chalk = chalk;
+        this.utils.yosay = yosay;
     },
 
     createOptions: function() {
@@ -48,28 +51,28 @@ module.exports = Base.extend({
      */
     checkCmd: function(cmd, exit) {
         exit = exit !== false;
+        return new Promise(function(resolve, reject) {
 
-        var deferred = Q.defer();
-
-        if (this.options['check-' + cmd] === false) {
-            deferred.resolve(undefined);
-        }
-
-        if (!this.utils.shell.which(cmd)) {
-            this.log(chalk.red.bold('(ERROR)') + ' It looks like you do not have ' + cmd + ' installed...');
-            if (exit === true) {
-                deferred.reject(new Error(cmd + ' is missing'));
-                this.utils.shell.exit(1);
-            } else {
-                deferred.resolve(false);
+            if (this.options['check-' + cmd] === false) {
+                resolve(undefined);
             }
 
-        } else {
-            this.log(chalk.gray(cmd + ' is installed, continuing...\n'));
-            deferred.resolve(true);
-        }
+            if (!this.utils.shell.which(cmd)) {
+                this.log(chalk.red.bold('(ERROR)') + ' It looks like you do not have ' + cmd + ' installed...');
+                if (exit === true) {
+                    reject(new Error(cmd + ' is missing'));
+                    this.utils.shell.exit(1);
+                } else {
+                    resolve(false);
+                }
 
-        return deferred.promise;
+            } else {
+                this.log(chalk.gray(cmd + ' is installed, continuing...\n'));
+                resolve(true);
+            }
+
+        }.bind(this));
+
     },
 
     /**
@@ -99,15 +102,15 @@ module.exports = Base.extend({
     },
 
     notifyUpdate: function(pkg) {
+
         var notifier = this.utils.updateNotifier({
-            packageName: pkg.name,
-            packageVersion: pkg.version,
+            pkg: pkg,
             updateCheckInterval: 1
         });
         if (notifier.update) {
             if (notifier.update.latest !== pkg.version) {
                 notifier.notify();
-                this.utils.shell.exit(1);
+                //this.utils.shell.exit(1);
             }
         }
     }

@@ -1,6 +1,7 @@
 /*eslint new-cap:0*/
 'use strict';
 
+global.Promise = require('bluebird');
 var gulp = require('gulp');
 var fs = require('fs');
 var gutil = require('gulp-util');
@@ -9,9 +10,6 @@ var stripJsonComments = require('strip-json-comments');
 var _ = require('lodash');
 var path = require('path');
 var gmux = require('gulp-mux');
-var Q = require('q');
-// var Promise = require('bluebird');
-var exec = require('child_process').exec;
 var inquirer = require('inquirer');
 var moment = require('moment');
 var es = require('event-stream');
@@ -55,27 +53,6 @@ var execHandler = function(err, stdout, stderr, opts) {
             throw err;
         }
     }
-};
-
-/**
- * A generic async handler for a promisified require('child_process').exec
- * @param  {Object} err - The error object
- * @param  {String} stdout - The stdout string
- * @param  {String} stderr - The stderr string
- * @param  {Object} [opts] - The optional options object
- * @param  {Boolean} [opts.throwOnError=false] - Ask execHandler to throw
- * @param  {Boolean} [opts.stderrIsNotError=false] - Don't treat stderr as error info.
- */
-var execHandlerAsync = function(err, stdout) {
-    if (err) {
-        gutil.log(chalk.red('An error occured executing a command line action'));
-        gutil.log(chalk.red(err));
-        throw err;
-    }
-    if (stdout) {
-        gutil.log(stdout);
-    }
-    return stdout;
 };
 
 var readTextFile = function(filename) {
@@ -143,7 +120,7 @@ var findIOSFile = function(dest, appname) {
 };
 
 var checkFileAge = function(file) {
-    return Q.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         var stats = fs.statSync(file.fullPath);
         var age = moment().diff(stats.mtime);
 

@@ -4,7 +4,7 @@ var path = require('path');
 var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
 var os = require('os');
-
+require('./helpers/globals');
 describe('sublime:bash', function() {
 
     var testFile = 'test/bar.sh';
