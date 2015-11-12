@@ -8,15 +8,18 @@ var constants = require('../common/constants')();
 var helper = require('../common/helper');
 var gutil = require('gulp-util');
 var replace = require('gulp-replace');
+var rename = require('gulp-rename');
 var ionicLib = require('ionic-app-lib');
 var path = require('path');
-var mkdirp = require('mkdirp').sync;
 
 var ensureLogin = function() {
     return Promise.resolve()
         .then(ionicLib.login.retrieveLogin)
-        .catch(function(err) {
-            throw new Error(gutil.colors.red('Not login found, please run \`ionic login\` to continue.'));
+        .then(function(jar) {
+            if (!jar) {
+                throw new Error(gutil.colors.red('Not login found, please run \`ionic login\` to continue.'));
+            }
+            return jar;
         });
 };
 
@@ -63,9 +66,6 @@ var taskIonicPlatformCopy = function(constants) {
     var ionicPlatform = constants.ionic.ionicPlatform;
 
     var ionicPlatformSrc = ionicPlatform.bundleFiles.map(function(fileName) {
-
-        fileName = fileName + constants.targetSuffix + '.js';
-
         return path.join('.',
             ionicPlatform.installer,
             ionicPlatform.moduleName,
@@ -73,10 +73,9 @@ var taskIonicPlatformCopy = function(constants) {
             fileName);
     });
 
-    var ionicPlatformDest = path.join(constants.dist.distFolder, 'www', ionicPlatform.bundleDest);
+    var ionicPlatformDest = path.join(ionicPlatform.bundleDest);
 
     gutil.log('Copying ' + gutil.colors.cyan(ionicPlatformSrc) + ' to ' + gutil.colors.cyan(ionicPlatformDest));
-    mkdirp(ionicPlatformDest);
 
     // The following is based on http://blog.samuelbrown.io/2015/10/08/upgrading-ionic-io-services-tips-and-tricks/
     return taskIonicProject(constants)
@@ -84,10 +83,11 @@ var taskIonicPlatformCopy = function(constants) {
             var replacementString = 'var settings = ' + JSON.stringify(configData) + '; ' + ionicPlatform.settingsReplaceString;
             return gulp.src(ionicPlatformSrc)
                 .pipe(replace(new RegExp('(' + ionicPlatform.settingsReplaceStart + ')(.*?)(' + ionicPlatform.settingsReplaceEnd + ')', 'g'), '$1' + replacementString + '$3'))
-                // .pipe(gulp.dest(ionicPlatformDest));
-                .pipe(gulp.dest('client/scripts/'));
+                .pipe(rename(function(path){
+                    path.basename += constants.targetSuffix;
+                }))
+                .pipe(gulp.dest(ionicPlatformDest));
         });
-
 };
 
 /*
