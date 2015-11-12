@@ -29,7 +29,11 @@ describe('sublime:gulps npm', function() {
             .withOptions(defaultOptions)
             .on('ready', function(generator) {
                 generator.npmInstall = function(packages, options, cb) {
-                    cb(error);
+                    if (cb) {
+                        cb(error);
+                    } else {
+                        throw error;
+                    }
                 };
                 done();
             });

@@ -33,19 +33,13 @@ describe('sublime:gulps', function() {
         beforeEach(function(done) {
 
             var defaultOptions = {
-                'skip-install': false,
+                'skip-install': true,
                 'clientFolder': 'www'
             };
 
             this.runGen = helpers.run(path.join(__dirname, generator))
                 .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
-                .withOptions(defaultOptions)
-                .on('ready', function(generator) {
-                    generator.npmInstall = function(packages, options, cb) {
-                        cb();
-                    };
-
-                });
+                .withOptions(defaultOptions);
             done();
 
         });
@@ -215,12 +209,8 @@ describe('sublime:gulps', function() {
             this.runGen = helpers.run(path.join(__dirname, generator))
                 .inDir(path.join(os.tmpdir(), testHelper.tempFolder))
                 .withOptions({
-                    clientFolder: 'www'
-                })
-                .on('ready', function(generator) {
-                    generator.npmInstall = function(packages, options, cb) {
-                        cb();
-                    };
+                    clientFolder: 'www',
+                    'skip-install': true
                 });
             done();
 
@@ -239,7 +229,6 @@ describe('sublime:gulps', function() {
                     assert.file('gulp_tasks/common/constants.js');
                     var constantPath = path.join(os.tmpdir(), testHelper.tempFolder, 'gulp_tasks/common/constants.js');
                     // make sure the file is not cached by node as we are requiring it
-                    //var body = testHelper.readJsonFile(constantPath);
                     //var constants = testHelper.readJsonFile('gulp_tasks/common/constants.js');
                     delete require.cache[require.resolve(constantPath)];
                     var constants = require(constantPath)();

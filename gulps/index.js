@@ -583,7 +583,7 @@ var GulpsGenerator = generators.Base.extend({
             return;
         }
         var that = this;
-        var done = this.async();
+        //var done = this.async();
         var packagesToInstall = _(this.npmPackages)
             .map(function(p) {
                 var version = that.npmPackagesVersion[p];
@@ -609,7 +609,7 @@ var GulpsGenerator = generators.Base.extend({
             that.npmInstall(socketIoPackages, {
                 'saveDev': true,
                 'saveExact': true
-            }, done);
+            });
         });
 
     },
