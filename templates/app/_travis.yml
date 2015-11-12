@@ -27,5 +27,6 @@ deploy:
   on:
     tags: true
     all_branches: true
+    node: '<%=shortNodeVersion%>' # this should be quoted; otherwise, 0.10 would not work
     repo: <%=githubUser%>/<%=appnameFolder%>
 <% } %>

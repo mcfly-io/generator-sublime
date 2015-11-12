@@ -22,3 +22,4 @@ deploy:
   on:
     tags: true
     repo: mcfly-io/generator-sublime
+    node: '0.11' # this should be quoted; otherwise, 0.10 would not work
