@@ -3,7 +3,6 @@ var path = require('path');
 var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
 var os = require('os');
-
 var generator = '../app';
 require('./helpers/globals');
 
@@ -12,7 +11,7 @@ describe('sublime:app notifier', function() {
     var defaultOptions;
     var notifierCallback;
     var exitCallback;
-    before(function() {
+    before(function(done) {
 
         //shell = sinon.mock(require('shelljs'), 'exit');
 
@@ -41,6 +40,7 @@ describe('sublime:app notifier', function() {
                 generator.utils.updateNotifier = testHelper.updateNotifierMock.bind(this, {
                     latest: '100.0.0'
                 }, notifierCallback);
+                done();
             });
 
     });
@@ -48,12 +48,15 @@ describe('sublime:app notifier', function() {
     it('with obsolete version should notify', function(done) {
 
         this.runGen.withOptions({
-            'skip-welcome-message': true
-        }).on('end', function() {
-            assert.equal(notifierCallback.callCount, 1);
-            sinon.assert.called(exitCallback);
-            done();
-        });
+                'skip-welcome-message': true
+            })
+            .on('end', function() {
+                assert.equal(notifierCallback.callCount, 1);
+                assert.equal(exitCallback.callCount, 0);
+                //sinon.assert.called(exitCallback);
+                done();
+            })
+            .on('error', done);
 
     });
 

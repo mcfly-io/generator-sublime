@@ -3,10 +3,9 @@ var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
-//var plumber = require('gulp-plumber');
 var constants = require('../common/constants')();
 
-gulp.task('mocha', 'Runs mocha unit tests', function() {
+gulp.task('mocha', 'Runs mocha unit tests', function(done) {
     gulp.src(constants.mocha.libs)
         .pipe(istanbul({
             includeUntested: true
@@ -17,23 +16,20 @@ gulp.task('mocha', 'Runs mocha unit tests', function() {
                 //.pipe(plumber())
                 .pipe(mocha({
                     reporter: 'spec',
-                    globals: constants.mocha.globals,
+                    //globals: './test/helpers/global.js',
                     timeout: constants.mocha.timeout
                 }))
                 .pipe(istanbul.writeReports({
                     dir: './coverage/mocha',
                     reporters: ['lcov', 'json', 'text', 'text-summary', 'cobertura']
                 }))
-                .once('end', function() {
-                    process.exit();
-                });
+                .on('end', done);
         });
 });
 
 gulp.task('test', 'Lint, then run all unit tests', function(done) {
     runSequence(
-        'lint',
-        'mocha',
+        'lint', ['mocha'],
         done
     );
 });

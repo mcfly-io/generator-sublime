@@ -102,6 +102,7 @@ module.exports = Base.extend({
     },
 
     notifyUpdate: function(pkg) {
+
         var notifier = this.utils.updateNotifier({
             pkg: pkg,
             updateCheckInterval: 1
@@ -109,7 +110,7 @@ module.exports = Base.extend({
         if (notifier.update) {
             if (notifier.update.latest !== pkg.version) {
                 notifier.notify();
-                this.utils.shell.exit(1);
+                //this.utils.shell.exit(1);
             }
         }
     }

@@ -3,7 +3,7 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 var testHelper = require('./testHelper')();
-var mockery = require('mockery');
+//var mockery = require('mockery');
 var os = require('os');
 var _ = require('lodash');
 require('./helpers/globals');
@@ -26,8 +26,8 @@ describe('sublime:gulps', function() {
         ];
 
         before(function() {
-            testHelper.startMock(mockery);
-            mockery.registerMock('child_process', testHelper.childProcessMock);
+            //testHelper.startMock(mockery);
+            //mockery.registerMock('child_process', testHelper.childProcessMock);
         });
 
         beforeEach(function(done) {
@@ -51,7 +51,7 @@ describe('sublime:gulps', function() {
         });
 
         after(function() {
-            testHelper.endMock(mockery);
+            //testHelper.endMock(mockery);
         });
 
         var projectFiles = function(done, expectedTasks, assertNoFile) {

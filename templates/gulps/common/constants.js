@@ -158,7 +158,7 @@ module.exports = function() {
         graph: {
             graphvizbin: '/usr/local/bin',
             outputName: 'graph-dependency.png'
-        }, 
+        },
         csv: {
             dir : './test/assets'
         }
