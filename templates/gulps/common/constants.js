@@ -104,8 +104,8 @@ module.exports = function() {
                 installer: 'node_modules', // or 'bower_components'
                 moduleName: 'ionic-platform-web-client',
                 bundleSrc: 'dist',
-                bundleFiles: ['ionic.io.bundle', 'ionic.io.bundle.min'],
-                bundleDest: 'lib/ionic-platform-web-client/dist',
+                bundleFiles: ['ionic.io.bundle.js', 'ionic.io.bundle.min.js'],
+                bundleDest: './' + clientFolder + '/scripts/',
                 settingsReplaceStart: '\\\"IONIC_SETTINGS_STRING_START\\\";',
                 settingsReplaceEnd: '\\\"IONIC_SETTINGS_STRING_END\\\"',
                 settingsReplaceString: 'return { get: function(setting) { if (settings[setting]) { return settings[setting]; } return null; } };'
@@ -114,7 +114,8 @@ module.exports = function() {
                 app_id: '',
                 api_key: '',
                 name: '',
-                dev_push: true
+                dev_push: true,
+                gcm_key: ''
             }
         },
         serve: {

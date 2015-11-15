@@ -545,6 +545,7 @@ var GulpsGenerator = generators.Base.extend({
                     'del',
                     'gulp-rename',
                     'gulp-imagemin',
+                    'gulp-rename',
                     'gulp-replace',
                     'gulp-tap',
                     'ionic-app-lib',
