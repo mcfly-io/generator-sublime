@@ -118,7 +118,7 @@ var GulpsGenerator = generators.Base.extend({
 
             'jshint-stylish': '2.1.0',
 
-            'karma': '0.13.15',
+            'karma': '0.13.22',
             'karma-browserify': '4.4.0',
             'karma-coverage': '0.5.3', // version 0.2.7 had an issue — github.com/karma-runner/karma-coverage/issues/119, fixed in 0.4.1
             'karma-jasmine': '0.3.6',
