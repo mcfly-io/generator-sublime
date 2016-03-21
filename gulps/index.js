@@ -44,7 +44,7 @@ var GulpsGenerator = generators.Base.extend({
         this.npmPackagesVersion = {
             'babel': '5.8.29',
             'babel-core': '5.8.33',
-            'babel-eslint': '4.1.5',
+            'babel-eslint': '5.0.0',
             'babel-loader': '5.3.3',
             'babel-runtime': '5.8.29',
             'babelify': '6.4.0',
@@ -73,7 +73,7 @@ var GulpsGenerator = generators.Base.extend({
             'github': '0.2.4',
             'github-username': '2.1.0',
             'graphviz': '0.0.8',
-            'gulp': '3.9.0',
+            'gulp': '3.9.1',
             'gulp-autoprefixer': '3.1.0',
             'gulp-bump': '1.0.0',
             'gulp-concat': '2.6.0',
