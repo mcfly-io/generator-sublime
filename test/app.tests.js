@@ -11,7 +11,7 @@ var generator = '../app';
 var allFiles = [
     '.jshintrc',
     '.jscsrc',
-    '.eslintrc',
+    '.eslintrc.json',
     '.tern-project',
     '.jsbeautifyrc',
     '.gitignore',
@@ -129,8 +129,8 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, ['.jscsrc']);
     });
 
-    it('with Files anwser Eslintrc should only create .eslintrc file', function(done) {
-        projectFiles.call(this, done, ['.eslintrc', '.eslintignore']);
+    it('with Files anwser EslintrcJson should only create .eslintrc.json file', function(done) {
+        projectFiles.call(this, done, ['.eslintrc.json', '.eslintignore']);
     });
 
     it('with Files anwser TernProject should only create .tern-project file', function(done) {
@@ -210,7 +210,7 @@ describe('sublime:app', function() {
             .on('end', function() {
                 var jshintrc = testHelper.readJsonFile('.jshintrc');
                 var jscsrc = testHelper.readJsonFile('.jscsrc');
-                var eslintrc = testHelper.readJsonFile('.eslintrc');
+                var eslintrc = testHelper.readJsonFile('.eslintrc.json');
                 var jsbeautifyrc = testHelper.readJsonFile('.jsbeautifyrc');
                 var settings = testHelper.readTextFile('.settings');
                 assert.equal(jshintrc.indent, indent);

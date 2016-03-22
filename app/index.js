@@ -73,7 +73,7 @@ var SublimeGenerator = Class.extend({
         this.allFiles = [
             '.jshintrc',
             '.jscsrc',
-            '.eslintrc',
+            '.eslintrc.json',
             '.tern-project',
             '.jsbeautifyrc',
             '.gitignore',
@@ -226,8 +226,8 @@ var SublimeGenerator = Class.extend({
             if (this.Jscsrc) {
                 this.template('_jscsrc', '.jscsrc');
             }
-            if (this.Eslintrc) {
-                this.template('_eslintrc', '.eslintrc');
+            if (this.EslintrcJson) {
+                this.template('_eslintrc.json', '.eslintrc.json');
                 this.template('_eslintignore', '.eslintignore');
             }
             if (this.TernProject) {
