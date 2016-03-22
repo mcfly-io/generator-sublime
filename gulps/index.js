@@ -93,7 +93,7 @@ var GulpsGenerator = generators.Base.extend({
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
             'gulp-plumber': '1.1.0',
-            'gulp-protractor': '1.0.0',
+            'gulp-protractor': '2.2.0',
             'gulp-rename': '1.2.2',
             'gulp-replace': '0.5.4',
             'gulp-sass': '2.2.0',
@@ -141,9 +141,9 @@ var GulpsGenerator = generators.Base.extend({
             'node-sass': '3.4.2',
             'open': '0.0.5',
             'phantomjs': '2.1.3',
-            'protractor': '2.5.1',
+            'protractor': '3.2.1',
             'protractor-istanbul-plugin': '2.0.0',
-            'protractor-jasmine2-screenshot-reporter': '0.1.7', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
+            'protractor-jasmine2-screenshot-reporter': '0.3.0', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
             'require-dir': '0.3.0',
             'rimraf': '2.5.2',
             'run-sequence': '1.1.5',
