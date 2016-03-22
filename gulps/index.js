@@ -54,7 +54,7 @@ var GulpsGenerator = generators.Base.extend({
             'browserify': '13.0.0',
             'browserify-istanbul': '2.0.0',
             'browserify-resolutions': '1.0.6',
-            'browserify-shim': '3.8.11',
+            'browserify-shim': '3.8.12',
             'bundle-collapser': '1.2.1',
             'chai': '3.5.0',
             'chalk': '1.1.1',
