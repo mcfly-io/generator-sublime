@@ -158,8 +158,8 @@ var GulpsGenerator = generators.Base.extend({
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
             'watchify': '3.7.0',
-            'webpack': '1.12.6',
-            'webpack-dev-server': '1.12.1',
+            'webpack': '1.12.14',
+            'webpack-dev-server': '1.14.1',
             'yargs': '4.3.2'
         };
 
