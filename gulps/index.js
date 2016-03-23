@@ -42,15 +42,17 @@ var GulpsGenerator = generators.Base.extend({
         ];
 
         this.npmPackagesVersion = {
-            'babel': '5.8.29',
-            'babel-core': '5.8.33',
+            'babel': '6.5.2',
+            'babel-core': '6.7.4',
             'babel-eslint': '5.0.0',
-            'babel-loader': '5.3.3',
-            'babel-runtime': '5.8.29',
-            'babelify': '6.4.0',
+            'babel-loader': '6.2.4',
+            'babel-preset-es2015': '6.6.0',
+            'babel-register': '6.7.2',
+            'babel-runtime': '6.6.1',
+            'babelify': '7.2.0',
             'bluebird': '3.3.4',
             'brfs': '1.4.3',
-            'browser-sync': '2.11.1',
+            'browser-sync': '2.11.2',
             'browserify': '13.0.0',
             'browserify-istanbul': '2.0.0',
             'browserify-resolutions': '1.0.6',
@@ -85,7 +87,7 @@ var GulpsGenerator = generators.Base.extend({
             'gulp-if': '2.0.0',
             'gulp-imagemin': '2.4.0', // may have some issue with installation on node 10
             'gulp-istanbul': '0.10.3',
-            'gulp-jscs': '3.0.2',
+            // 'gulp-jscs': '3.0.2',
             'gulp-jshint': '2.0.0',
             'gulp-less': '3.0.5',
             'gulp-minify-css': '1.2.4',
@@ -104,8 +106,8 @@ var GulpsGenerator = generators.Base.extend({
             'gulp-webserver': '0.8.7',
             'html-loader': '0.4.3',
             'html2js-browserify': '1.1.0',
-            'ionic-app-lib': '0.6.4',
-            'ionic-platform-web-client': '0.2.1',
+            'ionic-app-lib': '2.0.0-beta.12',
+            'ionic-platform-web-client': '0.7.1',
             'inquirer': '0.12.0',
             //'imagemin-pngquant': '4.1.0', has some issue with installation on node 10. UPDATED: it is now a dependency of gulp-imagemin
             'isparta': '4.0.0',
@@ -140,7 +142,8 @@ var GulpsGenerator = generators.Base.extend({
             'node-jsxml': '0.7.0',
             'node-sass': '3.4.2',
             'open': '0.0.5',
-            'phantomjs': '2.1.3',
+            //'phantomjs': '2.1.3',
+            'phantomjs-prebuilt': '2.1.6',
             'protractor': '3.2.1',
             'protractor-istanbul-plugin': '2.0.0',
             'protractor-jasmine2-screenshot-reporter': '0.3.0', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
@@ -149,7 +152,7 @@ var GulpsGenerator = generators.Base.extend({
             'run-sequence': '1.1.5',
             'sass-loader': '3.2.0',
             'sinon': '1.17.3',
-            'stream-combiner': '0.2.2',
+            // 'stream-combiner': '0.2.2',
             //'streamqueue': '1.1.0',
             'strip-json-comments': '2.0.1',
             'transform-loader': '0.2.3',
@@ -158,8 +161,8 @@ var GulpsGenerator = generators.Base.extend({
             'vinyl-source-stream': '1.1.0',
             'vinyl-transform': '1.0.0',
             'watchify': '3.7.0',
-            'webpack': '1.12.6',
-            'webpack-dev-server': '1.12.1',
+            'webpack': '1.12.14',
+            'webpack-dev-server': '1.14.1',
             'yargs': '4.3.2'
         };
 
@@ -349,6 +352,8 @@ var GulpsGenerator = generators.Base.extend({
             }
 
             var npmPackages = [
+                'babel-preset-es2015',
+                'babel-register',
                 'bluebird',
                 'chalk',
                 'codeclimate-test-reporter',
@@ -382,11 +387,11 @@ var GulpsGenerator = generators.Base.extend({
                     'eslint-plugin-nodeca',
                     'gulp-eslint',
                     'gulp-jshint',
-                    'gulp-jscs',
+                    // 'gulp-jscs',
                     'gulp-plumber',
                     'jshint-stylish',
-                    'map-stream',
-                    'stream-combiner'
+                    'map-stream'
+                    // 'stream-combiner'
                 ]);
             }
             if (this.serve) {
@@ -510,7 +515,7 @@ var GulpsGenerator = generators.Base.extend({
                     'karma-sourcemap-loader',
                     'mocha',
                     'mocha-lcov-reporter',
-                    'phantomjs',
+                    'phantomjs-prebuilt',
                     'protractor',
                     'protractor-istanbul-plugin',
                     'protractor-jasmine2-screenshot-reporter',
