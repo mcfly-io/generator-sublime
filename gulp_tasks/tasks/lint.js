@@ -2,11 +2,11 @@
 
 var gulp = require('gulp');
 var map = require('map-stream');
-var combine = require('stream-combiner');
+// var combine = require('stream-combiner');
 var chalk = require('chalk');
 var _ = require('lodash');
 var jshint = require('gulp-jshint');
-var jscs = require('gulp-jscs');
+// var jscs = require('gulp-jscs');
 var eslint = require('gulp-eslint');
 var gutil = require('gulp-util');
 var plumber = require('gulp-plumber');
@@ -43,29 +43,29 @@ gulp.task('jshint', false, function() {
         }));
 });
 
-gulp.task('jscs', false, function() {
-    var hasError = false;
-    var combined = combine(
-        gulp.src(constants.lint),
-        jscs());
+// gulp.task('jscs', false, function() {
+//     var hasError = false;
+//     var combined = combine(
+//         gulp.src(constants.lint),
+//         jscs());
 
-    combined.on('error', function(err) {
-        hasError = true;
+//     combined.on('error', function(err) {
+//         hasError = true;
 
-        gutil.log(err.toString());
-        gutil.log(chalk.red('Jscs failed'));
+//         gutil.log(err.toString());
+//         gutil.log(chalk.red('Jscs failed'));
 
-        throw new Error('jscs failed');
-    });
+//         throw new Error('jscs failed');
+//     });
 
-    combined.on('end', function() {
-        if (!hasError) {
-            gutil.log(chalk.green('All Jscs files passed'));
+//     combined.on('end', function() {
+//         if (!hasError) {
+//             gutil.log(chalk.green('All Jscs files passed'));
 
-        }
-    });
+//         }
+//     });
 
-});
+// });
 
 gulp.task('eslint', false, function() {
     var hasError = false;
@@ -122,7 +122,7 @@ gulp.task('static', false, function() {
             lookup: true
         }))
         .pipe(jshint.reporter('jshint-stylish'))
-        .pipe(jscs())
+        // .pipe(jscs())
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(jshint.reporter('fail'))

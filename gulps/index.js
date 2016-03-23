@@ -85,7 +85,7 @@ var GulpsGenerator = generators.Base.extend({
             'gulp-if': '2.0.0',
             'gulp-imagemin': '2.4.0', // may have some issue with installation on node 10
             'gulp-istanbul': '0.10.3',
-            'gulp-jscs': '3.0.2',
+            // 'gulp-jscs': '3.0.2',
             'gulp-jshint': '2.0.0',
             'gulp-less': '3.0.5',
             'gulp-minify-css': '1.2.4',
@@ -149,7 +149,7 @@ var GulpsGenerator = generators.Base.extend({
             'run-sequence': '1.1.5',
             'sass-loader': '3.2.0',
             'sinon': '1.17.3',
-            'stream-combiner': '0.2.2',
+            // 'stream-combiner': '0.2.2',
             //'streamqueue': '1.1.0',
             'strip-json-comments': '2.0.1',
             'transform-loader': '0.2.3',
@@ -382,11 +382,11 @@ var GulpsGenerator = generators.Base.extend({
                     'eslint-plugin-nodeca',
                     'gulp-eslint',
                     'gulp-jshint',
-                    'gulp-jscs',
+                    // 'gulp-jscs',
                     'gulp-plumber',
                     'jshint-stylish',
-                    'map-stream',
-                    'stream-combiner'
+                    'map-stream'
+                    // 'stream-combiner'
                 ]);
             }
             if (this.serve) {
