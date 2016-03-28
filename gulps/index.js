@@ -90,7 +90,7 @@ var GulpsGenerator = generators.Base.extend({
             // 'gulp-jscs': '3.0.2',
             'gulp-jshint': '2.0.0',
             'gulp-less': '3.0.5',
-            'gulp-minify-css': '1.2.4',
+            'gulp-clean-css': '2.0.4',
             'gulp-mocha': '2.2.0',
             'gulp-mux': '', // always take latest version as this is our package
             'gulp-order': '1.1.1',
@@ -386,11 +386,11 @@ var GulpsGenerator = generators.Base.extend({
                     'babel-eslint',
                     'eslint-plugin-nodeca',
                     'gulp-eslint',
-                    'gulp-jshint',
+                    //'gulp-jshint',
                     // 'gulp-jscs',
-                    'gulp-plumber',
-                    'jshint-stylish',
-                    'map-stream'
+                    'gulp-plumber'
+                    //'jshint-stylish',
+                    //'map-stream'
                     // 'stream-combiner'
                 ]);
             }
@@ -533,12 +533,12 @@ var GulpsGenerator = generators.Base.extend({
                     'gulp-less',
                     'gulp-sourcemaps',
                     'gulp-autoprefixer',
-                    'gulp-minify-css',
+                    'gulp-clean-css',
                     'gulp-order',
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
-                    'jshint-stylish',
+                    //'jshint-stylish',
                     'node-sass'
                 ]);
             }

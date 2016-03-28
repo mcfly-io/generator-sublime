@@ -8,7 +8,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var order = require('gulp-order');
 var size = require('gulp-size');
-var minifycss = require('gulp-minify-css');
+var cleancss = require('gulp-clean-css');
 var gulpif = require('gulp-if');
 var constants = require('../common/constants')();
 var helper = require('../common/helper');
@@ -62,7 +62,7 @@ var taskStyle = function(constants, done) {
         .pipe(order(['less.css', 'sass.css']))
         .pipe(concat(constants.style.destName))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(gulpif(constants.mode === 'prod', minifycss()))
+        .pipe(gulpif(constants.mode === 'prod', cleancss()))
         .pipe(gulp.dest(dest))
         .pipe(size({
             title: 'css files',
