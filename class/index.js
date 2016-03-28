@@ -6,8 +6,8 @@ var yosay = require('yosay');
 var Base = generators.Base;
 var shell = require('shelljs');
 var chalk = require('chalk');
-var fs = require('fs');
-var stripJsonComments = require('strip-json-comments');
+//var fs = require('fs');
+//var stripJsonComments = require('strip-json-comments');
 /**
  * The `Class` generator has several helpers method to help with creating a new generator.
  *

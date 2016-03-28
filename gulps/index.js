@@ -386,11 +386,11 @@ var GulpsGenerator = generators.Base.extend({
                     'babel-eslint',
                     'eslint-plugin-nodeca',
                     'gulp-eslint',
-                    'gulp-jshint',
+                    //'gulp-jshint',
                     // 'gulp-jscs',
                     'gulp-plumber',
-                    'jshint-stylish',
-                    'map-stream'
+                    //'jshint-stylish',
+                    //'map-stream'
                     // 'stream-combiner'
                 ]);
             }
@@ -538,7 +538,7 @@ var GulpsGenerator = generators.Base.extend({
                     'gulp-rename',
                     'gulp-concat',
                     'gulp-size',
-                    'jshint-stylish',
+                    //'jshint-stylish',
                     'node-sass'
                 ]);
             }
