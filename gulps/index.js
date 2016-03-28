@@ -388,7 +388,7 @@ var GulpsGenerator = generators.Base.extend({
                     'gulp-eslint',
                     //'gulp-jshint',
                     // 'gulp-jscs',
-                    'gulp-plumber',
+                    'gulp-plumber'
                     //'jshint-stylish',
                     //'map-stream'
                     // 'stream-combiner'

@@ -71,16 +71,16 @@ var SublimeGenerator = Class.extend({
         this.pkgDest = pkgDest;
 
         this.allFiles = [
-            '.jshintrc',
-            '.jscsrc',
+            //'.jshintrc',
+            //'.jscsrc',
             '.eslintrc.json',
-            '.tern-project',
+            //'.tern-project',
             '.jsbeautifyrc',
             '.gitignore',
             '.travis.yml',
-            'shippable.yml',
-            'readme.md',
-            '.settings'
+            //'shippable.yml',
+            'readme.md'
+            //'.settings'
         ];
     },
 
@@ -105,49 +105,52 @@ var SublimeGenerator = Class.extend({
             }.bind(this));
 
             var prompts = [{
-                type: 'checkbox',
-                name: 'Files',
-                message: 'What files do you need ?',
-                choices: choices
+                    type: 'checkbox',
+                    name: 'Files',
+                    message: 'What files do you need ?',
+                    choices: choices
 
-            }, {
-                type: 'input',
-                name: 'Indent',
-                message: 'What indentation value would you like ?',
-                when: function(answers) {
-                    var values = answers.Files;
-                    return _.contains(values, 'Jshintrc') || _.contains(values, 'Jsbeautifyrc') || _.contains(values, 'Jscsrc') || _.contains(values, 'Settings');
-                },
-                validate: function(input) {
-                    var value = parseInt(input, 10);
-                    var isValid = value !== undefined && value >= 0 && value <= 10;
-                    if (!isValid) {
-                        return 'You must choose an integer value between 0 and 10';
+                }, {
+                    type: 'input',
+                    name: 'Indent',
+                    message: 'What indentation value would you like ?',
+                    when: function(answers) {
+                        var values = answers.Files;
+                        return _.contains(values, 'Jshintrc') || _.contains(values, 'Jsbeautifyrc') || _.contains(values, 'Jscsrc') || _.contains(values, 'Settings');
+                    },
+                    validate: function(input) {
+                        var value = parseInt(input, 10);
+                        var isValid = value !== undefined && value >= 0 && value <= 10;
+                        if (!isValid) {
+                            return 'You must choose an integer value between 0 and 10';
+                        }
+
+                        return true;
+                    },
+                    default: 4
+                }, {
+                    type: 'confirm',
+                    name: 'NpmPublish',
+                    message: 'Would you like travis to publish your package on npm ?',
+                    default: false,
+                    when: function(answers) {
+                        var values = answers.Files;
+                        return _.contains(values, 'TravisYml');
                     }
-
-                    return true;
                 },
-                default: 4
-            }, {
-                type: 'confirm',
-                name: 'NpmPublish',
-                message: 'Would you like travis to publish your package on npm ?',
-                default: false,
-                when: function(answers) {
-                    var values = answers.Files;
-                    return _.contains(values, 'TravisYml');
+                // {
+                //     type: 'confirm',
+                //     name: 'CodioStartup',
+                //     message: 'Do you need a codio startup.sh file ?',
+                //     default: false
+                // },
+                {
+                    type: 'confirm',
+                    name: 'Gitconfig',
+                    message: 'Do you need a git-config.sh file ?',
+                    default: false
                 }
-            }, {
-                type: 'confirm',
-                name: 'CodioStartup',
-                message: 'Do you need a codio startup.sh file ?',
-                default: false
-            }, {
-                type: 'confirm',
-                name: 'Gitconfig',
-                message: 'Do you need a git-config.sh file ?',
-                default: false
-            }];
+            ];
 
             this.prompt(prompts, function(answers) {
                 answers.Files = [].concat(answers.Files);
@@ -220,31 +223,31 @@ var SublimeGenerator = Class.extend({
 
             this.sourceRoot(path.join(__dirname, '../templates/app'));
 
-            if (this.Jshintrc) {
-                this.template('_jshintrc', '.jshintrc');
-            }
-            if (this.Jscsrc) {
-                this.template('_jscsrc', '.jscsrc');
-            }
+            // if (this.Jshintrc) {
+            //     this.template('_jshintrc', '.jshintrc');
+            // }
+            // if (this.Jscsrc) {
+            //     this.template('_jscsrc', '.jscsrc');
+            // }
             if (this.EslintrcJson) {
                 this.template('_eslintrc.json', '.eslintrc.json');
                 this.template('_eslintignore', '.eslintignore');
             }
-            if (this.TernProject) {
-                this.template('_tern-project', '.tern-project');
-            }
+            // if (this.TernProject) {
+            //     this.template('_tern-project', '.tern-project');
+            // }
             if (this.Jsbeautifyrc) {
                 this.template('_jsbeautifyrc', '.jsbeautifyrc');
             }
             if (this.Gitignore) {
                 this.template('_gitignore', '.gitignore');
             }
-            if (this.CodioStartup) {
-                this.template('startup.sh', 'startup.sh');
-            }
-            if (this.ShippableYml) {
-                this.template('shippable.yml', 'shippable.yml');
-            }
+            // if (this.CodioStartup) {
+            //     this.template('startup.sh', 'startup.sh');
+            // }
+            // if (this.ShippableYml) {
+            //     this.template('shippable.yml', 'shippable.yml');
+            // }
             if (this.TravisYml) {
                 var nodeVersion = this.options.nodeVersion;
                 this.shortNodeVersion = _.take(nodeVersion.split('.'), 2).join('.');
@@ -258,10 +261,10 @@ var SublimeGenerator = Class.extend({
             if (this.ReadmeMd) {
                 this.template('_README.md', 'readme.md');
             }
-            if (this.Settings) {
-                this.template('_settings', '.settings');
-                this.template('_codio', '.codio');
-            }
+            // if (this.Settings) {
+            //     this.template('_settings', '.settings');
+            //     this.template('_codio', '.codio');
+            // }
         }
     },
 

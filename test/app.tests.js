@@ -9,18 +9,18 @@ require('./helpers/globals');
 var generator = '../app';
 
 var allFiles = [
-    '.jshintrc',
-    '.jscsrc',
+    //'.jshintrc',
+    //'.jscsrc',
     '.eslintrc.json',
-    '.tern-project',
+    //'.tern-project',
     '.jsbeautifyrc',
     '.gitignore',
     '.travis.yml',
     '.codeclimate.yml',
-    'shippable.yml',
-    'readme.md',
-    '.settings',
-    '.codio'
+    //'shippable.yml',
+    'readme.md'
+    //'.settings',
+    //'.codio'
 ];
 
 var createOptionsFromFiles = function(_, files) {
@@ -121,29 +121,29 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, null);
     });
 
-    it('with Files answer Jshint should only create .jshintrc file', function(done) {
-        projectFiles.call(this, done, ['.jshintrc']);
-    });
+    // it('with Files answer Jshint should only create .jshintrc file', function(done) {
+    //     projectFiles.call(this, done, ['.jshintrc']);
+    // });
 
-    it('with Files anwser Jscsrc should only create .jscsrc file', function(done) {
-        projectFiles.call(this, done, ['.jscsrc']);
-    });
+    // it('with Files anwser Jscsrc should only create .jscsrc file', function(done) {
+    //     projectFiles.call(this, done, ['.jscsrc']);
+    // });
 
     it('with Files anwser EslintrcJson should only create .eslintrc.json file', function(done) {
         projectFiles.call(this, done, ['.eslintrc.json', '.eslintignore']);
     });
 
-    it('with Files anwser TernProject should only create .tern-project file', function(done) {
-        projectFiles.call(this, done, ['.tern-project']);
-    });
+    // it('with Files anwser TernProject should only create .tern-project file', function(done) {
+    //     projectFiles.call(this, done, ['.tern-project']);
+    // });
 
     it('with Files answer Gitignore should only create .gitignore file', function(done) {
         projectFiles.call(this, done, ['.gitignore']);
     });
 
-    it('with Files answer ShippableYml should only create shippable.yml file', function(done) {
-        projectFiles.call(this, done, ['shippable.yml']);
-    });
+    // it('with Files answer ShippableYml should only create shippable.yml file', function(done) {
+    //     projectFiles.call(this, done, ['shippable.yml']);
+    // });
 
     it('with Files anwser TravisYml should only create .travis.yml and .codeclimate.yml file', function(done) {
         projectFiles.call(this, done, ['.travis.yml', '.codeclimate.yml']);
@@ -188,9 +188,9 @@ describe('sublime:app', function() {
         projectFiles.call(this, done, ['readme.md']);
     });
 
-    it('with Files anwser Settings should only create .settings and .codio file', function(done) {
-        projectFiles.call(this, done, ['.settings', '.codio']);
-    });
+    // it('with Files anwser Settings should only create .settings and .codio file', function(done) {
+    //     projectFiles.call(this, done, ['.settings', '.codio']);
+    // });
 
     it('with Files anwser with all options should create all files', function(done) {
         projectFiles.call(this, done, allFiles);
@@ -208,62 +208,62 @@ describe('sublime:app', function() {
                 generator.email = '';
             })
             .on('end', function() {
-                var jshintrc = testHelper.readJsonFile('.jshintrc');
-                var jscsrc = testHelper.readJsonFile('.jscsrc');
+                //var jshintrc = testHelper.readJsonFile('.jshintrc');
+                //var jscsrc = testHelper.readJsonFile('.jscsrc');
                 var eslintrc = testHelper.readJsonFile('.eslintrc.json');
                 var jsbeautifyrc = testHelper.readJsonFile('.jsbeautifyrc');
-                var settings = testHelper.readTextFile('.settings');
-                assert.equal(jshintrc.indent, indent);
+                //var settings = testHelper.readTextFile('.settings');
+                //assert.equal(jshintrc.indent, indent);
                 assert.equal(eslintrc.rules.indent[1], indent);
                 assert.equal(eslintrc.rules['nodeca/indent'][2], indent);
-                assert.equal(jscsrc.validateIndentation, indent);
+                //assert.equal(jscsrc.validateIndentation, indent);
                 assert.equal(jsbeautifyrc.html.indent_size, indent);
                 assert.equal(jsbeautifyrc.css.indent_size, indent);
                 assert.equal(jsbeautifyrc.js.indent_size, indent);
-                assert(_.contains(settings, 'tab_size = ' + indent));
+                //assert(_.contains(settings, 'tab_size = ' + indent));
                 done();
             });
 
     });
 
-    it('with CodioStartup answser true should create startup.sh file', function(done) {
-        this.runGen.withPrompts({
-            'CodioStartup': true
-        }).on('end', function() {
-            assert.file('startup.sh');
-            done();
-        });
+    // it('with CodioStartup answser true should create startup.sh file', function(done) {
+    //     this.runGen.withPrompts({
+    //         'CodioStartup': true
+    //     }).on('end', function() {
+    //         assert.file('startup.sh');
+    //         done();
+    //     });
 
-    });
+    // });
 
-    it('with CodioStartup answser true should include correct version for node in startup.sh', function(done) {
+    // it('with CodioStartup answser true should include correct version for node in startup.sh', function(done) {
 
-        var nodeVersion = 'xxx';
-        this.runGen
-            .withOptions({
-                nodeVersion: nodeVersion
-            })
-            .withPrompts({
-                'CodioStartup': true
-            }).on('end', function() {
+    //     var nodeVersion = 'xxx';
+    //     this.runGen
+    //         .withOptions({
+    //             nodeVersion: nodeVersion
+    //         })
+    //         .withPrompts({
+    //             'CodioStartup': true
+    //         }).on('end', function() {
 
-                var body = testHelper.readTextFile('startup.sh');
-                assert.equal(body.indexOf('NODE_VERSION="' + nodeVersion + '"') > 0, true, 'Invalid version of node');
-                done();
-            });
+    //             var body = testHelper.readTextFile('startup.sh');
+    //             assert.equal(body.indexOf('NODE_VERSION="' + nodeVersion + '"') > 0, true, 'Invalid version of node');
+    //             done();
+    //         });
 
-    });
+    // });
 
-    it('with CodioStartup answser false should not create startup.sh file', function(done) {
+    // it('with CodioStartup answser false should not create startup.sh file', function(done) {
 
-        this.runGen.withPrompts({
-            'CodioStartup': false
-        }).on('end', function() {
-            assert.noFile('startup.sh');
-            done();
-        });
+    //     this.runGen.withPrompts({
+    //         'CodioStartup': false
+    //     }).on('end', function() {
+    //         assert.noFile('startup.sh');
+    //         done();
+    //     });
 
-    });
+    // });
 
     it('with Gitconfig answser true should create git-config.sh and validate-commit-msg.js file', function(done) {
 
@@ -287,29 +287,29 @@ describe('sublime:app', function() {
         });
     });
 
-    it('with CodioStartup and Gitconfig answser true should reference git-config.sh from startup.sh', function(done) {
+    // it('with CodioStartup and Gitconfig answser true should reference git-config.sh from startup.sh', function(done) {
 
-        this.runGen.withPrompts({
-            'CodioStartup': true,
-            'Gitconfig': true
-        }).on('end', function() {
-            var body = testHelper.readTextFile('startup.sh');
-            assert.equal(body.indexOf('git-config.sh') > 0, true);
-            done();
-        });
+    //     this.runGen.withPrompts({
+    //         'CodioStartup': true,
+    //         'Gitconfig': true
+    //     }).on('end', function() {
+    //         var body = testHelper.readTextFile('startup.sh');
+    //         assert.equal(body.indexOf('git-config.sh') > 0, true);
+    //         done();
+    //     });
 
-    });
+    // });
 
-    it('with CodioStartup answser true and Gitconfig anwser false should not reference git-config.sh from startup.sh', function(done) {
+    // it('with CodioStartup answser true and Gitconfig anwser false should not reference git-config.sh from startup.sh', function(done) {
 
-        this.runGen.withPrompts({
-            'CodioStartup': true,
-            'Gitconfig': false
-        }).on('end', function() {
-            var body = testHelper.readTextFile('startup.sh');
-            assert.equal(body.indexOf('git-config.sh') < 0, true);
-            done();
-        });
-    });
+    //     this.runGen.withPrompts({
+    //         'CodioStartup': true,
+    //         'Gitconfig': false
+    //     }).on('end', function() {
+    //         var body = testHelper.readTextFile('startup.sh');
+    //         assert.equal(body.indexOf('git-config.sh') < 0, true);
+    //         done();
+    //     });
+    // });
 
 });
