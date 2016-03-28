@@ -44,7 +44,7 @@ var GulpsGenerator = generators.Base.extend({
         this.npmPackagesVersion = {
             'babel': '6.5.2',
             'babel-core': '6.7.4',
-            'babel-eslint': '5.0.0',
+            'babel-eslint': '6.0.0',
             'babel-loader': '6.2.4',
             'babel-preset-es2015': '6.6.0',
             'babel-register': '6.7.2',
@@ -67,7 +67,7 @@ var GulpsGenerator = generators.Base.extend({
             'del': '2.2.0',
             'fast-csv': '1.0.0',
             'envify': '3.4.0',
-            'eslint': '2.4.0',
+            'eslint': '2.5.1',
             'eslint-plugin-nodeca': '1.0.3',
             'esprima': '^2.4.1',
             'event-stream': '3.3.2',
@@ -78,7 +78,7 @@ var GulpsGenerator = generators.Base.extend({
             'graphviz': '0.0.8',
             'gulp': '3.9.1',
             'gulp-autoprefixer': '3.1.0',
-            'gulp-bump': '2.0.1',
+            'gulp-bump': '2.1.0',
             'gulp-concat': '2.6.0',
             'gulp-eslint': '2.0.0',
             'gulp-exec': '2.1.2',
@@ -130,7 +130,7 @@ var GulpsGenerator = generators.Base.extend({
             'karma-sourcemap-loader': '0.3.7',
             'karma-webpack': '1.7.0',
             'less': '2.6.1',
-            'less-loader': '2.2.2',
+            'less-loader': '2.2.3',
 
             'lodash': '3.10.1',
 
@@ -143,8 +143,8 @@ var GulpsGenerator = generators.Base.extend({
             'node-sass': '3.4.2',
             'open': '0.0.5',
             //'phantomjs': '2.1.3',
-            'phantomjs-prebuilt': '2.1.6',
-            'protractor': '3.2.1',
+            'phantomjs-prebuilt': '2.1.7',
+            'protractor': '3.2.2',
             'protractor-istanbul-plugin': '2.0.0',
             'protractor-jasmine2-screenshot-reporter': '0.3.0', //'mping/protractor-html-screenshot-reporter' does not work anymore, // version 0.0.19 doesn't support Jasmine 2, using @mping's fork  — github.com/jintoppy/protractor-html-screenshot-reporter/issues/44
             'require-dir': '0.3.0',
