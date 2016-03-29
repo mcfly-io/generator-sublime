@@ -1,7 +1,9 @@
-node_modules/**
-bower_components/**
-dist/**
-coverage/**
-externals/**
-reports/**
-srcmaps/**
+node_modules/
+bower_components/
+dist/
+coverage/
+externals/
+reports/
+srcmaps/
+client/scripts/ionic.io.bundle.js
+client/scripts/ionic.io.bundle.min.js
