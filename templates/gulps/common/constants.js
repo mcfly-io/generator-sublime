@@ -51,6 +51,7 @@ module.exports = function() {
             './' + clientFolder + '/scripts/**/*.js',
             '!./' + clientFolder + '/scripts/bundle*.js',
             '!./' + clientFolder + '/scripts/lbServices.js',
+            '!./' + clientFolder + '/scripts/ionic.io.bundle*.js',
             './server/**/*.js', 'gulpfile.js', './gulp_tasks/**/*.js', 'karma.conf.js', 'webpack.config.js', 'protractor.conf.js', './protractor/**/*.js', './test/**/*.js'
         ],
         fonts: {
