@@ -99,8 +99,17 @@ var browserifyShare = function(shouldWatch, constants, done) {
     if (require('yargs').argv.coverage) {
         b.transform(require('browserify-istanbul')({
             instrumenter: require('isparta'),
-            ignore: ['**/*.test.js', '**/*.html', '**/bower_components/**', '**/node_modules/**', '**/client/scripts/lbServices.js'],
+            ignore: [
+                '**/*.test.js',
+                '**/*.html',
+                '**/bower_components/**',
+                '**/node_modules/**',
+                '**/' + constants.clientFolder + '/scripts/lbServices.js',
+                '**/' + constants.clientFolder + '/scripts/ionic.io.bundle*.js',
+                '**/' + constants.clientFolder + '/scripts/main' + constants.targetSuffix + '.js'
+            ],
             defaultIgnore: true
+
         }));
     }
     b.on('update', function() {
